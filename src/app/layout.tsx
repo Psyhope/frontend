@@ -4,7 +4,10 @@ import { Poppins } from 'next/font/google'
 import { GraphQLProvider } from '@/context/GraphQLContext'
 import RootStyleRegistry from '@/emotion'
 
-const poppins = Poppins({ subsets: ['latin'], weight: ["100", "200", "300", "400", "500", "600", "700", "800"] })
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
+})
 
 export const metadata = {
   title: 'Psyhope',
@@ -21,9 +24,7 @@ export default function RootLayout({
       <body className={poppins.className}>
         <RootStyleRegistry>
           <AuthProvider>
-            <GraphQLProvider>
-              {children}
-            </GraphQLProvider>
+            <GraphQLProvider>{children}</GraphQLProvider>
           </AuthProvider>
         </RootStyleRegistry>
       </body>

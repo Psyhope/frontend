@@ -8,7 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "compile": "graphql-codegen",
-    "watch": "graphql-codegen -w"
+    "watch": "graphql-codegen -w",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "test-all": "npm run format && npm run check-format && npm run check-lint && npm run check-types",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^3.7.15",
@@ -40,6 +46,15 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.1",
     "@graphql-codegen/client-preset": "^4.0.0",
+    "@tsconfig/next": "^1.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.0",
+    "next-stride": "^2.6.4",
+    "prettier": "^2.8.8",
     "typescript": "^5.1.3"
   }
 }
