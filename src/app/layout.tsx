@@ -3,6 +3,7 @@ import './globals.css'
 import { Poppins } from 'next/font/google'
 import { GraphQLProvider } from '@/context/GraphQLContext'
 import RootStyleRegistry from '@/emotion'
+import { Navbar } from '@elements'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -24,7 +25,12 @@ export default function RootLayout({
       <body className={poppins.className}>
         <RootStyleRegistry>
           <AuthProvider>
-            <GraphQLProvider>{children}</GraphQLProvider>
+            <GraphQLProvider>
+              <div className="bg-white min-h-screen text-black">
+                <Navbar />
+                {children}
+              </div>
+            </GraphQLProvider>
           </AuthProvider>
         </RootStyleRegistry>
       </body>
