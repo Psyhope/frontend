@@ -28,7 +28,7 @@ export default function RootLayout({
             <GraphQLProvider>
               <div className="bg-white min-h-screen text-black flex flex-col items-center justify-center">
                 <Navbar />
-                <div className="max-w-[1440px] w-full">{children}</div>
+                <div className="max-w-[1920px] w-full">{children}</div>
               </div>
             </GraphQLProvider>
           </AuthProvider>
