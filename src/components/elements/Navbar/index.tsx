@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
       <div>
         <Psyhope />
       </div>
-      <div className="flex gap-5 items-center">
+      <div className="gap-5 items-center hidden md:flex">
         <button className="flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] border-transparent px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]">
           <Home />
           Home

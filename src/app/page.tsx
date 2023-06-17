@@ -8,21 +8,21 @@ import Marquee from 'react-fast-marquee'
 
 export default function Home() {
   return (
-    <main className="min-h-screen pt-5">
+    <main className="min-h-screen md:pt-5">
       {/* Hero */}
-      <div className="px-10">
-        <div className="h-[419px] w-full bg-[#53389E] rounded-3xl p-10 flex">
-          <div className="w-3/5 h-full justify-center flex flex-col">
-            <p className="text-[#E9D7FE99] font-inter font-bold text-4xl">
+      <div className="md:px-10 p-5">
+        <div className="md:h-[419px] w-full bg-[#53389E] rounded-3xl md:p-10 p-5 flex flex-col-reverse md:flex-row">
+          <div className="md:w-3/5 w-full h-full justify-center flex flex-col">
+            <p className="text-[#E9D7FE99] font-inter font-bold lg:text-4xl md:text-2xl text-xl">
               Layanan Konseling UI
             </p>
-            <p className="text-[#F2F4F7] text-sm mt-3 mb-10 leading-relaxed">
+            <p className="text-[#F2F4F7] lg:text-sm text-xs mt-3 mb-10 leading-relaxed">
               Aliansi Departemen Adkesma BEM se-UI menyediakan layanan konseling
               sebaya yang diperuntukkan bagi mahasiswa program sarjana atau
               vokasi. Bersama teman sebaya, kamu dapat bercerita dengan aman dan
               nyaman.
             </p>
-            <div className="bg-[#D6BBFB] w-fit px-4 py-3 rounded-t-xl rounded-r-xl text-[#53389E] font-inter font-semibold">
+            <div className="bg-[#D6BBFB] w-fit px-4 py-3 rounded-t-xl rounded-r-xl text-[#53389E] font-inter font-semibold text-xs lg:text-base">
               <TypeAnimation
                 sequence={[
                   'Butuh teman bercerita? Yuk, curhat dengan konselor sebaya! 👇👇👇',
@@ -33,11 +33,11 @@ export default function Home() {
                 repeat={Infinity}
               />
             </div>
-            <button className="mt-2 py-3 font-semibold rounded-lg drop-shadow-lg active:drop-shadow-none px-4 bg-[#7F56D9] flex-none w-fit text-white">
+            <button className="mt-2 py-3 font-semibold rounded-lg drop-shadow-lg active:drop-shadow-none px-4 bg-[#7F56D9] flex-none w-fit text-white text-xs lg:text-base">
               Daftar Konseling Sekarang!
             </button>
           </div>
-          <div className="w-2/5 relative">
+          <div className="md:w-2/5 w-full h-32 md:h-auto relative">
             <Image
               src={HeroAssets}
               alt="Hero Assets"
