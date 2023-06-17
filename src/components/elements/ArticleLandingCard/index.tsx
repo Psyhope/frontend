@@ -1,10 +1,13 @@
 import Image from 'next/image'
 import React from 'react'
 import PlaceHolder from '../../../../public/assets/Placeholder.png'
+import { ArticleLandingCardProps } from './interface'
 
-export const ArticleLandingCard: React.FC = () => {
+export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
+  className,
+}) => {
   return (
-    <div className="w-[537px] h-[249px] flex rounded-lg">
+    <div className={`w-[537px] h-[249px] flex rounded-lg ${className}`}>
       <div className="w-1/3 relative rounded-lg">
         <Image
           alt="Placeholder"

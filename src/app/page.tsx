@@ -4,6 +4,7 @@ import HeroAssets from '../../public/assets/Hero Asset.svg'
 import ArticleBubble from '../../public/assets/Article Bubble.svg'
 import { TypeAnimation } from 'react-type-animation'
 import { ArticleLandingCard } from '@elements'
+import Marquee from 'react-fast-marquee'
 
 export default function Home() {
   return (
@@ -67,10 +68,16 @@ export default function Home() {
             kesehatan mental, serta cara mengatasi tantangan umum kesehatan
             mental.
           </p>
+          <button className="text-white font-inter font-semibold px-5 py-2 bg-[#7F56D9] text-sm rounded-lg drop-shadow-lg active:drop-shadow-none mt-5">
+            Lihat Artikel Lainnya
+          </button>
         </div>
         {/* Card */}
-        <div className="flex items-center justify-center mb-10">
-          <ArticleLandingCard />
+        <div className="flex items-center justify-center mb-5 mt-10 relative">
+          <Marquee autoFill pauseOnClick speed={20}>
+            <ArticleLandingCard className="mx-2" />
+            <ArticleLandingCard className="mx-2" />
+          </Marquee>
         </div>
       </div>
     </main>
