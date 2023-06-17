@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <div
-      className={`bg-[#FEFEF2] h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-10 sticky top-0 transition-all duration-1000 ${
+      className={`bg-[#FEFEF2] h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-10 sticky top-0 transition-all duration-1000 z-50 ${
         scroll ? 'md:top-1 md:scale-[0.99] lg:top-2' : 'top-0 scale-100'
       }`}
     >

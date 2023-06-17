@@ -1,8 +1,11 @@
+import Image from 'next/image'
+import HeroAssets from '../../public/assets/Hero Asset.svg'
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-20 pt-5">
       {/* Hero */}
-      <div className="h-[419px] w-full bg-[#53389E] rounded-3xl p-10">
+      <div className="h-[419px] w-full bg-[#53389E] rounded-3xl p-10 flex">
         <div className="w-3/5 h-full justify-center flex flex-col">
           <p className="text-[#E9D7FE99] font-inter font-bold text-4xl">
             Layanan Konseling UI
@@ -16,6 +19,14 @@ export default function Home() {
           <button className="py-3 font-semibold rounded-lg drop-shadow-lg active:drop-shadow-none px-4 bg-[#7F56D9] flex-none w-fit text-white">
             Daftar Konseling Sekarang!
           </button>
+        </div>
+        <div className="w-2/5 relative">
+          <Image
+            src={HeroAssets}
+            alt="Hero Assets"
+            fill
+            className="relative z-0"
+          />
         </div>
       </div>
     </main>
