@@ -48,11 +48,11 @@ export default function Home() {
         </div>
       </div>
       {/* Article */}
-      <div className="flex flex-col w-full mt-32">
+      <div className="flex flex-col w-full md:mt-32 mt-10">
         {/* Panel Title */}
         <div className="flex flex-col items-center justify-center">
           <div className="relative">
-            <p className="font-bold font-inter text-6xl text-[#53389E]">
+            <p className="font-bold font-inter lg:text-6xl md:text-4xl text-2xl text-center text-[#53389E]">
               Your Mind Matters: An Article
             </p>
             <Image
@@ -63,12 +63,12 @@ export default function Home() {
               height={88.76}
             />
           </div>
-          <p className="w-3/5 text-center text-[#7F56D9] font-inter font-medium mt-5">
+          <p className="md:w-3/5 w-4/5 text-center text-[#7F56D9] font-inter font-medium mt-5 text-xs md:text-sm lg:text-base">
             Artikel ini akan mengajari Anda tentang dasar-dasar psikologi dan
             kesehatan mental, serta cara mengatasi tantangan umum kesehatan
             mental.
           </p>
-          <button className="text-white font-inter font-semibold px-5 py-2 bg-[#7F56D9] text-sm rounded-lg drop-shadow-lg active:drop-shadow-none mt-5">
+          <button className="text-white font-inter font-semibold px-5 py-2 bg-[#7F56D9] md:text-sm text-xs rounded-lg drop-shadow-lg active:drop-shadow-none mt-5">
             Lihat Artikel Lainnya
           </button>
         </div>
