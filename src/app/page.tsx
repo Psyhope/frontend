@@ -2,9 +2,10 @@
 import Image from 'next/image'
 import HeroAssets from '../../public/assets/Hero Asset.svg'
 import ArticleBubble from '../../public/assets/Article Bubble.svg'
+import Nebula from '../../public/assets/Nebula.svg'
 import { TypeAnimation } from 'react-type-animation'
 import { ArticleLandingCard } from '@elements'
-import Marquee from 'react-fast-marquee'
+import { ChevronLeft, ChevronRight } from '@icons'
 
 export default function Home() {
   return (
@@ -73,11 +74,27 @@ export default function Home() {
           </button>
         </div>
         {/* Card */}
-        <div className="flex items-center justify-center mb-5 mt-10 relative">
-          <Marquee autoFill pauseOnClick speed={20}>
-            <ArticleLandingCard className="mx-2" />
-            <ArticleLandingCard className="mx-2" />
-          </Marquee>
+        <div className="relative">
+          <div className="h-48 bg-[#0085FF] w-full absolute -bottom-10"></div>
+          <div className="px-10">
+            <div className="mb-5 mt-5 relative overflow-x-auto scrollbar-hidden">
+              <div className="transition-transform -translate-x-0 flex">
+                <ArticleLandingCard className="mx-2 flex-none" />
+                <ArticleLandingCard className="mx-2 flex-none" />
+                <ArticleLandingCard className="mx-2 flex-none" />
+                <ArticleLandingCard className="mx-2 flex-none" />
+                <ArticleLandingCard className="mx-2 flex-none" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full flex items-center justify-center gap-5 mt-5 z-20">
+          <button className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center">
+            <ChevronLeft />
+          </button>
+          <button className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center">
+            <ChevronRight />
+          </button>
         </div>
       </div>
     </main>

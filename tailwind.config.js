@@ -11,6 +11,7 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        nebula: "url('/public/assets/Nebula.png')",
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
