@@ -8,6 +8,10 @@ import { ArticleLandingCard } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
 
 export default function Home() {
+  const scrollRight = () => {
+    const elem = document.getElementById('article')
+    elem?.scrollLeft
+  }
   return (
     <main className="min-h-screen md:pt-5">
       {/* Hero */}
@@ -76,8 +80,11 @@ export default function Home() {
         {/* Card */}
         <div className="relative">
           <div className="h-48 bg-[#0085FF] w-full absolute -bottom-10"></div>
-          <div className="px-10">
-            <div className="mb-5 mt-5 relative overflow-x-auto scrollbar-hidden">
+          <div className="md:px-10 px-2">
+            <div
+              className="mb-5 mt-5 relative overflow-x-auto scrollbar-hidden scroll-smooth"
+              id="article"
+            >
               <div className="transition-transform -translate-x-0 flex">
                 <ArticleLandingCard className="mx-2 flex-none" />
                 <ArticleLandingCard className="mx-2 flex-none" />
@@ -89,10 +96,22 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full flex items-center justify-center gap-5 mt-5 z-20">
-          <button className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center">
+          <button
+            className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center"
+            onClick={() => {
+              const element = document.getElementById('article')
+              element!.scrollLeft -= 400
+            }}
+          >
             <ChevronLeft />
           </button>
-          <button className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center">
+          <button
+            className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center"
+            onClick={() => {
+              const element = document.getElementById('article')
+              element!.scrollLeft += 400
+            }}
+          >
             <ChevronRight />
           </button>
         </div>
