@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { z } from 'zod'
 // import { useAuth } from "@/store/authStore";
 import { SyntheticEvent, useState } from 'react'
-import { useAuth } from '@/context/AuthContext'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
@@ -50,7 +50,7 @@ export default function LoginPage() {
           radius="md"
           size="md"
           label="Username"
-          classNames={{ input: 'bg-[#323645] mt-0.5' }}
+          classNames={{ input: 'mt-0.5' }}
           placeholder="Username"
           icon={<HiUser />}
           {...form.getInputProps('username')}
@@ -59,7 +59,7 @@ export default function LoginPage() {
           radius="md"
           size="md"
           label="Password"
-          classNames={{ input: 'bg-[#323645] mt-0.5' }}
+          classNames={{ input: 'mt-0.5' }}
           placeholder="Password"
           icon={<HiLockClosed />}
           {...form.getInputProps('password')}
@@ -74,12 +74,12 @@ export default function LoginPage() {
           Login
         </Button>
       </form>
-      <p className="mt-3 text-base opacity-80">
+      {/* <p className="mt-3 text-base opacity-80">
         Getting started? Register{' '}
         <Link href="/register" className="underline underline-offset-4">
           here
         </Link>
-      </p>
+      </p> */}
     </section>
   )
 }
