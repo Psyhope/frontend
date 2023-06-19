@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { OnBoardingFormInterface } from './interface'
+import { ONBOARDING_BANNER_TEXT, ONBOARDING_INSTAGRAM_TEXT, ONBOARDING_LINE_TEXT } from './const'
 
 export const OnBoardingModule: React.FC = () => {
   const {
@@ -24,10 +25,7 @@ export const OnBoardingModule: React.FC = () => {
               Data Diri
             </p>
             <p className="text-black lg:text-lg text-sm mt-3 mb-10 leading-relaxed">
-              Silahkan mengisi data diri Anda dengan sejujur-jujurnya. Data yang
-              Anda isikan hanya akan digunakan untuk keperluan administrasi
-              sehingga Anda tidak perlu khawatir karena kami akan menjaga
-              kerahasiaan data tersebut.
+              {ONBOARDING_BANNER_TEXT}
             </p>
           </div>
           <div className="md:w-2/5 w-full h-32 md:h-auto relative">
@@ -150,11 +148,7 @@ export const OnBoardingModule: React.FC = () => {
             {lineHandler && socmedState ? (
               <>
                 <p>ID Line dan Display Name</p>
-                <p>
-                  Silakan menuliskan ID LINE dan Display Name Anda sesuai dengan
-                  contoh. Contoh: Ireneb519 - Irene Bella (Pastikan ID LINE &
-                  Display Name tertulis dengan benar)
-                </p>
+                <p>{ONBOARDING_LINE_TEXT}</p>
                 <input {...register('linkSocmed', { required: true })} />
               </>
             ) : (
@@ -163,17 +157,13 @@ export const OnBoardingModule: React.FC = () => {
             {igHandler && socmedState ? (
               <>
                 <p>Username Instagram</p>
-                <p>
-                  Silakan tuliskan Username Instagram akun Anda yang akan
-                  digunakan selama konseling. Akun yang digunakan tidak harus
-                  1st account, Anda boleh menggunakan 2nd account Anda.
-                </p>
+                <p>{ONBOARDING_INSTAGRAM_TEXT}</p>
                 <input {...register('linkSocmed', { required: true })} />
               </>
             ) : (
               <></>
             )}
-            <input type="submit" />
+            <input type="submit"/>
           </form>
         </div>
       </div>
