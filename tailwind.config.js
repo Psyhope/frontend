@@ -22,6 +22,9 @@ module.exports = {
           300: '#D9D6FE',
           500: '#53389E',
         },
+        aspectRatio: {
+          infografic: '2 / 3',
+        },
       },
     },
   },

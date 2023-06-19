@@ -16,6 +16,7 @@ export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
           src={PlaceHolder}
           fill
           className="relative rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-l-lg"
+          quality={100}
         />
       </div>
       <div className="md:w-2/3 w-full bg-[#D9D6FE] rounded-bl-lg rounded-br-lg md:rounded-lg md:-ml-1 z-10 p-5 relative pb-20 md:pb-0 ">
