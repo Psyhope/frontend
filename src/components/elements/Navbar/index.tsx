@@ -15,8 +15,9 @@ export const Navbar: React.FC = () => {
 
   return (
     <div
-      className={`bg-[#FEFEF2] h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-10 sticky top-0 transition-all duration-1000 z-50 ${scroll ? 'md:top-1 md:scale-[0.99] lg:top-2' : 'top-0 scale-100'
-        }`}
+      className={`bg-[#FEFEF2] h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-10 sticky top-0 transition-all duration-1000 z-50 ${
+        scroll ? 'md:top-1 md:scale-[0.99] lg:top-2' : 'top-0 scale-100'
+      }`}
     >
       <div>
         <Psyhope />
@@ -34,7 +35,10 @@ export const Navbar: React.FC = () => {
           <Konseling />
           Konseling
         </button>
-        <Link href="/login" className="flex font-inter font-semibold px-4 bg-[#0086C9] text-white py-2 rounded-md shadow-md active:shadow-none">
+        <Link
+          href="/login"
+          className="flex font-inter font-semibold px-4 bg-[#0086C9] text-white py-2 rounded-md shadow-md active:shadow-none"
+        >
           Login
         </Link>
       </div>
