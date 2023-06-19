@@ -16,6 +16,9 @@ module.exports = {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
       },
+      aspectRatio: {
+        infografic: '2 / 3',
+      },
     },
   },
   plugins: [],

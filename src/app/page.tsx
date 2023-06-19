@@ -2,9 +2,9 @@
 import Image from 'next/image'
 import HeroAssets from '../../public/assets/Hero Asset.svg'
 import ArticleBubble from '../../public/assets/Article Bubble.svg'
-import Nebula from '../../public/assets/Nebula.svg'
+import Plus from '../../public/assets/Plus.svg'
 import { TypeAnimation } from 'react-type-animation'
-import { ArticleLandingCard } from '@elements'
+import { ArticleLandingCard, InfograficCard } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
 
 export default function Home() {
@@ -79,7 +79,7 @@ export default function Home() {
         </div>
         {/* Card */}
         <div className="relative">
-          <div className="h-48 bg-[#0085FF] w-full absolute -bottom-10"></div>
+          <div className="h-48 bg- w-full absolute -bottom-10 bg-gradient-to-br from-[#0085FF] to-[#6600CC]"></div>
           <div className="md:px-10 px-2">
             <div
               className="mb-5 mt-5 relative overflow-x-auto scrollbar-hidden scroll-smooth"
@@ -95,9 +95,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-full flex items-center justify-center gap-5 mt-5 z-20">
+        <div className="w-full flex items-center justify-center gap-10 mt-3 z-20">
           <button
-            className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center"
+            className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
             onClick={() => {
               const element = document.getElementById('article')
               element!.scrollLeft -= 400
@@ -106,7 +106,7 @@ export default function Home() {
             <ChevronLeft />
           </button>
           <button
-            className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center"
+            className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
             onClick={() => {
               const element = document.getElementById('article')
               element!.scrollLeft += 400
@@ -114,6 +114,57 @@ export default function Home() {
           >
             <ChevronRight />
           </button>
+        </div>
+      </div>
+      {/* Infografis */}
+      <div className="bg-[#53389E] h-[893px] mt-16 mb-10 flex relative overflow-hidden">
+        <Image
+          alt="Plus Assets"
+          src={Plus}
+          className="z-0 absolute w-full -bottom-32"
+          quality={100}
+        />
+        <div className="w-1/3 p-12">
+          <p className="font-inter text-6xl font-bold text-[#F4EBFF] leading-normal">
+            The Mindful Mind: An Infographic
+          </p>
+          <p className="font-inter font-medium text-lg text-[#B692F6] leading-relaxed mt-5">
+            Infografis ini mengeksplorasi bagaimana kamu dapat membantu
+            meningkatkan kesehatan mentalmu.
+          </p>
+          <div className="w-full flex justify-end gap-10 mt-20 z-10">
+            <button
+              className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
+              onClick={() => {
+                const element = document.getElementById('infografic')
+                element!.scrollLeft -= 400
+              }}
+            >
+              <ChevronLeft />
+            </button>
+            <button
+              className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
+              onClick={() => {
+                const element = document.getElementById('infografic')
+                element!.scrollLeft += 400
+              }}
+            >
+              <ChevronRight />
+            </button>
+          </div>
+        </div>
+        <div className="w-2/3 flex items-center overflow-hidden max-w-full">
+          <div
+            className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500"
+            id="infografic"
+          >
+            <div className="transition-transform -translate-x-0 flex">
+              <InfograficCard />
+              <InfograficCard />
+              <InfograficCard />
+              <InfograficCard />
+            </div>
+          </div>
         </div>
       </div>
     </main>
