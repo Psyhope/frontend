@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { OnBoardingFormInterface } from './interface'
-import { ONBOARDING_BANNER_TEXT, ONBOARDING_INSTAGRAM_TEXT, ONBOARDING_LINE_TEXT } from './const'
+import {
+  ONBOARDING_BANNER_TEXT,
+  ONBOARDING_INSTAGRAM_TEXT,
+  ONBOARDING_LINE_TEXT,
+} from './const'
 
 export const OnBoardingModule: React.FC = () => {
   const {
@@ -163,7 +167,7 @@ export const OnBoardingModule: React.FC = () => {
             ) : (
               <></>
             )}
-            <input type="submit"/>
+            <input type="submit" />
           </form>
         </div>
       </div>
