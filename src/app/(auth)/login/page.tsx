@@ -74,12 +74,6 @@ export default function LoginPage() {
           Login
         </Button>
       </form>
-      <p className="mt-3 text-base opacity-80">
-        Getting started? Register{' '}
-        <Link href="/register" className="underline underline-offset-4">
-          here
-        </Link>
-      </p>
     </section>
   )
 }
