@@ -22,7 +22,7 @@ export const OnBoardingModule: React.FC = () => {
     console.log(data)
   return (
     <div>
-      <div className="p-20 flex flex-col gap-5">
+      <div className="p-10 flex flex-col gap-5">
         <div className="md:h-[500px] w-full bg-[#BDB4FE] rounded-3xl flex flex-col-reverse md:flex-row p-5">
           <div className="md:w-3/5 w-full h-full justify-center flex flex-col md:p-10">
             <p className="text-[#42307D] font-inter font-bold lg:text-4xl md:text-2xl text-xl">
@@ -47,11 +47,16 @@ export const OnBoardingModule: React.FC = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <label>Nama/Inisial</label>
-            <input {...register('name', { required: true })} />
+            <input
+              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
+              placeholder='Masukkan nama anda'
+              {...register('name', { required: true })} 
+            />
             <label>Jenis Kelamin</label>
             <div className="flex flex-col gap-1">
               <div className="flex gap-4">
                 <input
+                  className=' bg-transparent'
                   {...register('gender', { required: true })}
                   type="radio"
                   value="Laki-laki"
@@ -75,8 +80,15 @@ export const OnBoardingModule: React.FC = () => {
                 <p>Memilih tidak menjawab</p>
               </div>
             </div>
-            <label>NPM</label>
-            <input {...register('npm', { required: true })} />
+            <div className='flex flex-col gap-1'>
+              <label>NPM</label>
+              <p className='text-sm text-[#667080]'>Data ini dibutuhkan untuk memastikan bahwa Anda merupakan mahasiswa D-3/D-4 atau S-1 Universitas Indonesia</p>
+            </div>
+            <input 
+              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
+              placeholder='Contoh : 2106000000'
+              {...register('npm', { required: true })} 
+            />
             <label>Jenjang Studi</label>
             <div className="flex flex-col gap-1">
               <div className="flex gap-4">
@@ -113,9 +125,18 @@ export const OnBoardingModule: React.FC = () => {
               </div>
             </div>
             <label>Fakultas</label>
-            <input {...register('fakultas', { required: true })} />
-            <label>Jurusan</label>
-            <input {...register('jurusan', { required: true })} />
+            <input 
+              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
+              {...register('fakultas', { required: true })} 
+            />
+            <div className='flex flex-col gap-1'>
+              <label>Jurusan</label>
+              <p className='text-sm text-[#667080]'>Contoh : Ilmu Komputer</p>
+            </div>
+            <input
+              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
+              {...register('jurusan', { required: true })} 
+            />
             <label>Kanal Curhat</label>
             <div className="flex flex-col gap-1">
               <div className="flex gap-4">
@@ -151,23 +172,39 @@ export const OnBoardingModule: React.FC = () => {
             </div>
             {lineHandler && socmedState ? (
               <>
-                <p>ID Line dan Display Name</p>
-                <p>{ONBOARDING_LINE_TEXT}</p>
-                <input {...register('linkSocmed', { required: true })} />
+                <div className='flex flex-col gap-1'>
+                  <p>ID Line dan Display Name</p>
+                  <p className='text-sm text-[#667080]'>{ONBOARDING_LINE_TEXT}</p>
+                  <input
+                    className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
+                    {...register('linkSocmed', { required: true })} 
+                  />
+                </div>
               </>
             ) : (
               <></>
             )}
             {igHandler && socmedState ? (
               <>
-                <p>Username Instagram</p>
-                <p>{ONBOARDING_INSTAGRAM_TEXT}</p>
-                <input {...register('linkSocmed', { required: true })} />
+                <div className='flex flex-col gap-1'>
+                  <p>Username Instagram</p>
+                  <p className='text-sm text-[#667080]'>{ONBOARDING_INSTAGRAM_TEXT}</p>
+                  <input
+                    className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
+                    {...register('linkSocmed', { required: true })} 
+                  />
+                </div>
               </>
             ) : (
               <></>
             )}
-            <input type="submit" />
+            <div className=''>
+              <div className='flex justify-end'>
+                <div className='p-4 bg-[#98A2B3] rounded-lg hover:cursor-pointer'>
+                  <input type="submit" className='  text-white' value="Berikan Data"/>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
