@@ -48,15 +48,15 @@ export const OnBoardingModule: React.FC = () => {
           >
             <label>Nama/Inisial</label>
             <input
-              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
-              placeholder='Masukkan nama anda'
-              {...register('name', { required: true })} 
+              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
+              placeholder="Masukkan nama anda"
+              {...register('name', { required: true })}
             />
             <label>Jenis Kelamin</label>
             <div className="flex flex-col gap-1">
               <div className="flex gap-4">
                 <input
-                  className=' bg-transparent'
+                  className=" bg-transparent"
                   {...register('gender', { required: true })}
                   type="radio"
                   value="Laki-laki"
@@ -80,14 +80,17 @@ export const OnBoardingModule: React.FC = () => {
                 <p>Memilih tidak menjawab</p>
               </div>
             </div>
-            <div className='flex flex-col gap-1'>
+            <div className="flex flex-col gap-1">
               <label>NPM</label>
-              <p className='text-sm text-[#667080]'>Data ini dibutuhkan untuk memastikan bahwa Anda merupakan mahasiswa D-3/D-4 atau S-1 Universitas Indonesia</p>
+              <p className="text-sm text-[#667080]">
+                Data ini dibutuhkan untuk memastikan bahwa Anda merupakan
+                mahasiswa D-3/D-4 atau S-1 Universitas Indonesia
+              </p>
             </div>
-            <input 
-              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
-              placeholder='Contoh : 2106000000'
-              {...register('npm', { required: true })} 
+            <input
+              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
+              placeholder="Contoh : 2106000000"
+              {...register('npm', { required: true })}
             />
             <label>Jenjang Studi</label>
             <div className="flex flex-col gap-1">
@@ -125,17 +128,17 @@ export const OnBoardingModule: React.FC = () => {
               </div>
             </div>
             <label>Fakultas</label>
-            <input 
-              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
-              {...register('fakultas', { required: true })} 
+            <input
+              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
+              {...register('fakultas', { required: true })}
             />
-            <div className='flex flex-col gap-1'>
+            <div className="flex flex-col gap-1">
               <label>Jurusan</label>
-              <p className='text-sm text-[#667080]'>Contoh : Ilmu Komputer</p>
+              <p className="text-sm text-[#667080]">Contoh : Ilmu Komputer</p>
             </div>
             <input
-              className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
-              {...register('jurusan', { required: true })} 
+              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
+              {...register('jurusan', { required: true })}
             />
             <label>Kanal Curhat</label>
             <div className="flex flex-col gap-1">
@@ -172,12 +175,14 @@ export const OnBoardingModule: React.FC = () => {
             </div>
             {lineHandler && socmedState ? (
               <>
-                <div className='flex flex-col gap-1'>
+                <div className="flex flex-col gap-1">
                   <p>ID Line dan Display Name</p>
-                  <p className='text-sm text-[#667080]'>{ONBOARDING_LINE_TEXT}</p>
+                  <p className="text-sm text-[#667080]">
+                    {ONBOARDING_LINE_TEXT}
+                  </p>
                   <input
-                    className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
-                    {...register('linkSocmed', { required: true })} 
+                    className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
+                    {...register('linkSocmed', { required: true })}
                   />
                 </div>
               </>
@@ -186,22 +191,28 @@ export const OnBoardingModule: React.FC = () => {
             )}
             {igHandler && socmedState ? (
               <>
-                <div className='flex flex-col gap-1'>
+                <div className="flex flex-col gap-1">
                   <p>Username Instagram</p>
-                  <p className='text-sm text-[#667080]'>{ONBOARDING_INSTAGRAM_TEXT}</p>
+                  <p className="text-sm text-[#667080]">
+                    {ONBOARDING_INSTAGRAM_TEXT}
+                  </p>
                   <input
-                    className='bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm' 
-                    {...register('linkSocmed', { required: true })} 
+                    className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
+                    {...register('linkSocmed', { required: true })}
                   />
                 </div>
               </>
             ) : (
               <></>
             )}
-            <div className=''>
-              <div className='flex justify-end'>
-                <div className='p-4 bg-[#98A2B3] rounded-lg hover:cursor-pointer'>
-                  <input type="submit" className='  text-white' value="Berikan Data"/>
+            <div className="">
+              <div className="flex justify-end">
+                <div className="p-4 bg-[#98A2B3] rounded-lg hover:cursor-pointer">
+                  <input
+                    type="submit"
+                    className="  text-white"
+                    value="Berikan Data"
+                  />
                 </div>
               </div>
             </div>
