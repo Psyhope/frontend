@@ -2,14 +2,15 @@
 
 import { Table } from '@mantine/core'
 import React, { ReactNode } from 'react'
+import { HiOutlineInformationCircle } from 'react-icons/hi'
 
 type ClientTableProps<T> = {
   title: string
   description: string
   rowComponent: (val: T, index: number) => ReactNode
-  // headerComponent: ReactNode;
   headerTitle: string[]
   data: T[]
+  emptyComponent?: ReactNode
 }
 
 const ClientTable = <T extends object>({
@@ -18,29 +19,42 @@ const ClientTable = <T extends object>({
   description,
   rowComponent,
   headerTitle,
+  emptyComponent,
 }: ClientTableProps<T>) => {
   return (
     <div className="rounded-b-lg shadow-md">
       <div className="rounded-t-lg bg-[#B9E6FE] p-5">
-        <h2 className="text-lg font-semibold sm:text-2xl md:text-3xl">
+        <h2 className="text-2xl font-semibold md:text-3xl">
           {title}
         </h2>
         <p className="mt-1 opacity-50">{description}</p>
+        <div className="flex gap-2 rounded-md bg-[#0086C9] sm:hidden mt-2">
+          <div className="aspect-[5/6] px-2 grid place-items-center bg-[#0B4A6F] rounded-md">
+            <HiOutlineInformationCircle className='text-[#3EEBBE] text-xl' />
+          </div>
+          <p className="py-2 text-sm text-white">
+          Slide tabel ke kanan untuk melihat info lainnya.
+          </p>
+        </div>
       </div>
-      <Table verticalSpacing="md" horizontalSpacing="lg">
+      <div className="w-full overflow-x-auto">
+      <Table verticalSpacing="md" horizontalSpacing="lg" cellPadding="12px" className="min-w-full w-max">
         <thead className="border-b-2 border-b-gray-100">
           <tr className="text-sm">
             {headerTitle.map((val, index) => (
-              <th className="" key={index}>
-                {val}
+              <th key={index}>
+                <p className="text-center">
+                  {val}
+                </p>
               </th>
             ))}
           </tr>
         </thead>
         <tbody className="bg-opacity-50 bg-slate-100">
-          {data.map(rowComponent)}
+          {data.length > 0 ? data.map(rowComponent) : emptyComponent}
         </tbody>
       </Table>
+      </div>
     </div>
   )
 }
