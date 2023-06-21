@@ -39,7 +39,7 @@ const AdminClientPage = () => {
   return (
     <>
       <section className="p-5 md:px-10">
-        <div className="flex items-center gap-4 md:gap-8">
+        <div className="flex flex-col items-center gap-8 sm:gap-4 sm:flex-row md:gap-8">
           <TextInput
             label="Cari Konselor"
             icon={<HiSearch />}
@@ -47,6 +47,7 @@ const AdminClientPage = () => {
             onChange={(e) => setName(e.currentTarget.value)}
             placeholder="Nama Konselor"
             size="md"
+            className="w-full sm:w-60 md:w-96"
           />
           <DatePickerInput
             label="Cari Hari Konseling"
@@ -55,6 +56,7 @@ const AdminClientPage = () => {
             onChange={(e) => setDate(date)}
             rightSection={<HiChevronDown />}
             size="md"
+            className="w-full sm:w-60 md:w-96"
           />
           <Select
             label="Filter berdasarkan Status"
@@ -86,6 +88,7 @@ const AdminClientPage = () => {
             value={status}
             onChange={setStatus}
             icon={<BsFilter />}
+            className="w-full sm:w-60 md:w-96"
             styles={() => ({
               item: {
                 // applies styles to selected item
@@ -105,7 +108,7 @@ const AdminClientPage = () => {
           />
         </div>
       </section>
-      <section className="p-5 md:px-10">
+      <section className="p-5 overflow-x-auto md:px-10">
         <ClientTable
           title="Daftar Klien"
           description="Berikut merupakan daftar klien konseling Psyhope."

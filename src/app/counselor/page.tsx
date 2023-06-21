@@ -8,8 +8,8 @@ const DashboardPage = () => {
   return (
     <main className="min-h-screen">
       <section className="p-5 md:px-10">
-        <div className="flex flex-col-reverse w-full p-5 md:h-96 bg-primary-300 rounded-3xl md:p-10 md:flex-row">
-          <div className="flex flex-col justify-center w-full h-full gap-3 md:w-3/5">
+        <div className="relative flex flex-col w-full p-5 overflow-hidden md:h-96 bg-primary-300 rounded-3xl md:p-10 md:flex-row">
+          <div className="z-10 flex flex-col justify-center w-full h-full gap-3 md:w-3/5">
             <div className="relative w-16 h-16">
               <Image src="assets/HeartBrain.svg" alt="" fill />
             </div>
@@ -20,12 +20,12 @@ const DashboardPage = () => {
               Peer Counselor
             </p>
           </div>
-          <div className="relative w-full h-96 md:w-2/5 -top-10">
+          <div className="absolute w-3/5 h-72 md:h-96 -right-12 md:w-2/5 md:relative sm:-top-10 sm:right-0">
             <Image
-              src="assets/KonselorImage.svg"
+              src="/assets/KonselorImage.svg"
               alt="Hero Assets"
               fill
-              className="relative z-0"
+              className="z-0"
             />
           </div>
         </div>

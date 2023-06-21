@@ -7,11 +7,14 @@ import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { HiPaperClip, HiSpeakerphone, HiUser } from 'react-icons/hi'
 import { LuCalendarHeart, LuFileHeart } from 'react-icons/lu'
+import { useViewportSize } from '@mantine/hooks'
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname()
 
   const [tab, setTab] = useState(pathName.replace('/admin', ''))
+
+  const { width } = useViewportSize()
 
   useEffect(() => {
     setTab(pathName.replace('/admin', ''))
@@ -20,8 +23,16 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="min-h-screen">
       <section className="p-5 md:px-10">
-        <div className="flex flex-col-reverse w-full p-5 md:h-96 bg-primary-300 rounded-3xl md:p-10 md:flex-row">
-          <div className="flex flex-col justify-center w-full h-full gap-3 md:w-3/5">
+        <div className="relative flex flex-col w-full p-5 overflow-hidden md:h-96 bg-primary-300 rounded-3xl md:p-10 md:flex-row">
+          <div className="absolute w-full -left-2/3 md:relative h-96 md:w-2/5 top-10 sm:-top-10 sm:left-0 sm:hidden">
+            <Image
+              src="/assets/KonselorImage.svg"
+              alt="Hero Assets"
+              fill
+              className="z-0"
+            />
+          </div>
+          <div className="z-10 flex flex-col items-center justify-center w-full h-full gap-3 sm:items-start md:w-3/5">
             <div className="relative w-16 h-16">
               <Image src="/assets/HeartBrain.svg" alt="" fill />
             </div>
@@ -31,7 +42,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             <p className="px-3 py-1 text-sm bg-red-800 rounded-3xl text-primary-50 w-max">
               Admin Psyhope
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center justify-center gap-2 text-sm sm:justify-start sm:flex-row sm:text-base">
               <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500">
                 <HiPaperClip /> Lihat Dashboard Artikel
               </button>
@@ -40,12 +51,12 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               </button>
             </div>
           </div>
-          <div className="relative w-full h-96 md:w-2/5 -top-10">
+          <div className="absolute w-full -right-1/3 md:relative h-96 sm:w-2/5 top-10 sm:-top-10 sm:right-0">
             <Image
               src="/assets/KonselorImage.svg"
               alt="Hero Assets"
               fill
-              className="relative z-0"
+              className="z-0"
             />
           </div>
         </div>
@@ -55,6 +66,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
           fullWidth
           value={tab}
           size="md"
+          orientation={width < 480 ? 'vertical' : 'horizontal'}
           data={[
             {
               label: (

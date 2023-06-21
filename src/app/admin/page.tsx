@@ -18,7 +18,7 @@ const AdminPage = () => {
   return (
     <>
       <section className="p-5 md:px-10">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center gap-4 sm:flex-row">
           <TextInput
             label="Cari Konselor"
             icon={<HiSearch />}
@@ -26,6 +26,7 @@ const AdminPage = () => {
             onChange={(e) => setName(e.currentTarget.value)}
             placeholder="Nama Konselor"
             size="md"
+            className="w-full sm:w-60 md:w-96"
           />
           <DatePickerInput
             label="Cari Hari Konseling"
@@ -34,6 +35,7 @@ const AdminPage = () => {
             onChange={(e) => setDate(date)}
             rightSection={<HiChevronDown />}
             size="md"
+            className="w-full sm:w-60 md:w-96"
           />
         </div>
       </section>
@@ -56,7 +58,7 @@ const AdminPage = () => {
                 <p>Klien 1: Senin, 08:00</p>
               </td>
               <td>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-8">
                   <div className="flex flex-col items-center gap-2">
                     <div className="flex items-center gap-1">
                       <div className="grid w-8 border-4 rounded-full aspect-square place-items-center border-primary-300 bg-primary-50">
