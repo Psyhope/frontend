@@ -20,7 +20,7 @@ export const GraphQLProvider = ({ children }: { children: ReactNode }) => {
 
   const authLink = setContext(async (_, { headers }) => {
     // get the authentication token from local storage if it exists
-    // const access_token = await getItemAsync('access_token');
+    // const accessToken = await getItemAsync('accessToken');
     const { accessToken } = useAuth()
     // return the headers to the context so httpLink can read them
     return {

@@ -18,32 +18,31 @@ const AuthContext = createContext<{
   accessToken: string
   user: {
     username: string
-    email: string
     id: string
   }
   login: (username: string, password: string) => Promise<void>
-  register: (
-    username: string,
-    password: string,
-    confirmPassword: string,
-    email: string
-  ) => Promise<void>
+  // register: (
+  //   username: string,
+  //   password: string,
+  //   confirmPassword: string,
+  //   email: string
+  // ) => Promise<void>
   logout: () => void
   refreshToken: () => Promise<void>
 }>({
   accessToken: '',
-  user: { username: '', email: '', id: '' },
+  user: { username: '', id: '' },
   login: undefined as unknown as (
     username: string,
     password: string
   ) => Promise<void>,
   logout: undefined as unknown as () => void,
-  register: undefined as unknown as (
-    username: string,
-    password: string,
-    confirmPassword: string,
-    email: string
-  ) => Promise<void>,
+  // register: undefined as unknown as (
+  //   username: string,
+  //   password: string,
+  //   confirmPassword: string,
+  //   email: string
+  // ) => Promise<void>,
   refreshToken: undefined as unknown as () => Promise<void>,
 })
 
@@ -51,9 +50,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState('')
   const [user, setUser] = useState<{
     username: string
-    email: string
     id: string
-  }>({ username: '', email: '', id: '' })
+  }>({ username: '', id: '' })
   const [loading, setLoading] = useState(true)
 
   const router = useRouter()
@@ -67,17 +65,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
         body: JSON.stringify({ username, password }),
         method: 'POST',
+        // credentials: "include",
       })
+      console.log(res.status)
       if (res.status !== 200) throw new Error(await res.json())
       // router.replace("/dashboard")
       const data: TokenResponse = await res.json()
-      // console.log(data)
-      const user = jwt_decode<{ username: string; email: string; sub: string }>(
-        data.access_token
-      )
+      const user = jwt_decode<{ username: string; sub: string }>(data.accessToken)
       // console.log(user)
-      setUser({ username: user.username, email: user.email, id: user.sub })
-      setAccessToken(data.access_token)
+      setUser({ username: user.username, id: user.sub })
+      setAccessToken(data.accessToken)
       notifications.show({
         title: 'Success',
         message: 'Login Successfull',
@@ -87,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       router.replace('/dashboard')
     } catch (error) {
       // const err = error as AxiosError;
-      console.error(error)
+      console.error("Error: ", error)
       notifications.show({
         title: 'Login failed',
         message: 'Please try again',
@@ -100,34 +97,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const register = async (
-    username: string,
-    password: string,
-    confirmPassword: string,
-    email: string
-  ) => {
-    setLoading(true)
-    try {
-      const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/register`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password, email, confirmPassword }),
-        method: 'POST',
-      })
-      if (res.status !== 200) throw new Error(await res.json())
-      router.replace('/login')
-    } catch (err) {
-      notifications.show({
-        title: 'Error',
-        message: 'Please try again',
-        color: 'red',
-        autoClose: 3000,
-        icon: <FaTimes />,
-      })
-    }
-    setLoading(false)
-  }
+  // const register = async (
+  //   username: string,
+  //   password: string,
+  //   confirmPassword: string,
+  //   email: string
+  // ) => {
+  //   setLoading(true)
+  //   try {
+  //     const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/register`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ username, password, email, confirmPassword }),
+  //       method: 'POST',
+  //     })
+  //     if (res.status !== 200) throw new Error(await res.json())
+  //     router.replace('/login')
+  //   } catch (err) {
+  //     notifications.show({
+  //       title: 'Error',
+  //       message: 'Please try again',
+  //       color: 'red',
+  //       autoClose: 3000,
+  //       icon: <FaTimes />,
+  //     })
+  //   }
+  //   setLoading(false)
+  // }
 
   const refreshToken = async () => {
     try {
@@ -139,12 +136,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       if (res.status !== 200) return
       const data: TokenResponse = await res.json()
-      const user: { username: string; email: string; sub: string } = jwt_decode(
-        data.access_token
+      const user: { username: string; sub: string } = jwt_decode(
+        data.accessToken
       )
       // console.log(user)
-      setUser({ username: user.username, email: user.email, id: user.sub })
-      setAccessToken(data.access_token)
+      setUser({ username: user.username, id: user.sub })
+      setAccessToken(data.accessToken)
     } catch (error) {
       // const err = error as AxiosError;
       console.error(error)
@@ -155,11 +152,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const logout = () => {
-    // SecureStore.deleteItemAsync("refresh_token");
+    // SecureStore.deleteItemAsync("refreshToken");
     setLoading(true)
     router.replace('/login')
     setAccessToken('')
-    setUser({ username: '', email: '', id: '' })
+    setUser({ username: '', id: '' })
     fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
       headers: {
         'Content-Type': 'application/json',
@@ -168,15 +165,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }).finally(() => setLoading(false))
   }
 
-  useEffect(() => {
-    refreshToken()
-  }, [])
+  // useEffect(() => {
+  //   refreshToken()
+  // }, [])
 
   const contextValue = {
     accessToken,
     user,
     login,
-    register,
+    // register,
     logout,
     refreshToken,
   }
