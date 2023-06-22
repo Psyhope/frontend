@@ -3,7 +3,7 @@ import React from 'react'
 
 export const ArticleCard: React.FC = () => {
   return (
-    <div className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none pr-5">
+    <div className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none">
       <div className="w-full aspect-article relative">
         <Image
           alt="Infografis"
