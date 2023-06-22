@@ -8,10 +8,6 @@ import { ArticleLandingCard, InfograficCard } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
 
 export default function Home() {
-  const scrollRight = () => {
-    const elem = document.getElementById('article')
-    elem?.scrollLeft
-  }
   return (
     <main className="min-h-screen md:pt-5">
       {/* Hero */}

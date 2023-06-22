@@ -1,3 +1,4 @@
+'use client'
 import { EventCard } from '@elements'
 import Image from 'next/image'
 import React from 'react'
