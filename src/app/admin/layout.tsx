@@ -8,6 +8,8 @@ import React, { useEffect, useState } from 'react'
 import { HiPaperClip, HiSpeakerphone, HiUser } from 'react-icons/hi'
 import { LuCalendarHeart, LuFileHeart } from 'react-icons/lu'
 import { useViewportSize } from '@mantine/hooks'
+import withAuth from '@/components/hoc/withAuth'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname()
@@ -16,7 +18,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { width } = useViewportSize()
 
+  const { user, accessToken } = useAuth();
+
+  console.log(accessToken)
+
+  const router = useRouter();
+
   useEffect(() => {
+    // if (!accessToken) router.replace("/login");
     setTab(pathName.replace('/admin', ''))
   }, [pathName])
 
@@ -106,4 +115,4 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default AdminLayout
+export default AdminLayout;

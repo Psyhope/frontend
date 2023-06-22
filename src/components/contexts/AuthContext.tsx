@@ -71,7 +71,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (res.status !== 200) throw new Error(await res.json())
       // router.replace("/dashboard")
       const data: TokenResponse = await res.json()
-      const user = jwt_decode<{ username: string; sub: string }>(data.accessToken)
+      const user = jwt_decode<{ username: string; sub: string }>(
+        data.accessToken
+      )
       // console.log(user)
       setUser({ username: user.username, id: user.sub })
       setAccessToken(data.accessToken)
@@ -81,10 +83,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         color: 'teal',
         autoClose: 3000,
       })
-      router.replace('/dashboard')
+      // router.replace('/dashboard')
     } catch (error) {
       // const err = error as AxiosError;
-      console.error("Error: ", error)
+      console.error('Error: ', error)
       notifications.show({
         title: 'Login failed',
         message: 'Please try again',
@@ -127,25 +129,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // }
 
   const refreshToken = async () => {
+    console.log("Refreshing")
     try {
       const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/refresh`, {
         headers: {
           'Content-Type': 'application/json',
         },
-        method: 'POST',
+        credentials: "include"
       })
-      if (res.status !== 200) return
-      const data: TokenResponse = await res.json()
+      if (!res.ok) return;
+      const data: TokenResponse = await res.json();
+      // console.log(data)
       const user: { username: string; sub: string } = jwt_decode(
         data.accessToken
       )
       // console.log(user)
       setUser({ username: user.username, id: user.sub })
-      setAccessToken(data.accessToken)
+      setAccessToken(data.accessToken);
+
     } catch (error) {
       // const err = error as AxiosError;
       console.error(error)
-      router.replace('/login')
+      // router.replace('/login')
     } finally {
       setLoading(false)
     }
@@ -168,6 +173,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // useEffect(() => {
   //   refreshToken()
   // }, [])
+
+  const getCurrentUser = async () => {
+    const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/user`, {
+      credentials: "include",
+    })
+    const data: {user: { username: string; sub: string }; token: string} = await res.json();
+    setUser({id: data.user.sub, username: data.user.username});
+    setAccessToken(data.token);
+  }
+
+  useEffect(() => {
+    getCurrentUser();
+  }, [])
 
   const contextValue = {
     accessToken,

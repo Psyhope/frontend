@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
     })
     if (!res.ok) {
       return NextResponse.json(
@@ -33,13 +33,13 @@ export async function POST(req: NextRequest) {
     const data: TokenResponse = await res.json()
     // console.log(data)
     const response = NextResponse.json(data, { status: 200 })
-    response.cookies.set("accessToken", data.accessToken, {
-        httpOnly: true,
-        maxAge: 60 * 60,
-        secure: env.NODE_ENV !== "development",
-        sameSite: "lax",
-        path: "/",
-    });
+    response.cookies.set('accessToken', data.accessToken, {
+      httpOnly: true,
+      maxAge: 60 * 60,
+      secure: env.NODE_ENV !== 'development',
+      sameSite: 'lax',
+      path: '/',
+    })
     response.cookies.set('refreshToken', data.refreshToken, {
       httpOnly: true,
       maxAge: 60 * 60 * 24,
