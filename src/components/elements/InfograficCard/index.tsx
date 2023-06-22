@@ -4,7 +4,7 @@ import PlaceHolder from '../../../../public/assets/Placeholder.png'
 
 export const InfograficCard: React.FC = () => {
   return (
-    <div className="lg:w-[445px] w-[200px] rounded-lg relative flex-none pr-5">
+    <div className="lg:w-[445px] w-[200px] rounded-lg relative flex-none">
       <div className="w-full aspect-infografic relative">
         <Image
           alt="Infografis"

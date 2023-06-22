@@ -154,7 +154,7 @@ export default function Home() {
             className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500"
             id="infografic"
           >
-            <div className="transition-transform -translate-x-0 flex">
+            <div className="transition-transform -translate-x-0 flex gap-5">
               <InfograficCard />
               <InfograficCard />
               <InfograficCard />
