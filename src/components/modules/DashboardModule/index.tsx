@@ -1,10 +1,9 @@
 'use client'
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { Modal, Button, Group } from '@mantine/core';
+import { Modal, Button, Group } from '@mantine/core'
 
 export const DashboardModule: React.FC = () => {
-
   return (
     <div>
       <div className="p-10 flex flex-col gap-20">
@@ -61,10 +60,10 @@ export const DashboardModule: React.FC = () => {
             </p>
           </div>
 
-          <div className='flex justify-center'>
-            <div className=''>
-              <Button className='block text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded'>
-              <div className='flex gap-1 justify-center items-center'>
+          <div className="flex justify-center">
+            <div className="">
+              <Button className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded">
+                <div className="flex gap-1 justify-center items-center">
                   <div>
                     <Image
                       src="assets/DashboardQuestionMark.svg"
@@ -74,8 +73,8 @@ export const DashboardModule: React.FC = () => {
                       className=""
                     />
                   </div>
-                    <p>Apa perbedaan Psyhope dan Peer Counselor?</p>  
-              </div>
+                  <p>Apa perbedaan Psyhope dan Peer Counselor?</p>
+                </div>
               </Button>
             </div>
           </div>
