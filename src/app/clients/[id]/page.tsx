@@ -1,7 +1,11 @@
 import React from 'react'
 
 const ClientByIDPage = () => {
-  return <div>ClientByIDPage</div>
+  return (
+    <section className=''>
+
+    </section>
+  )
 }
 
 export default ClientByIDPage

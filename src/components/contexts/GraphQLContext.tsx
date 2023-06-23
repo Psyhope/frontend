@@ -11,39 +11,40 @@ import {
 import { setContext } from '@apollo/client/link/context'
 import { useAuth } from './AuthContext'
 import { ReactNode } from 'react'
-import { onError } from "@apollo/client/link/error";
+import { onError } from '@apollo/client/link/error'
 
 export const GraphQLProvider = ({ children }: { children: ReactNode }) => {
-
-  const { accessToken, refreshToken } = useAuth();
+  const { accessToken, refreshToken } = useAuth()
 
   const httpLink = createHttpLink({
     uri: `${env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
   })
 
-  const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
-    if (graphQLErrors) {
-      for (const err of graphQLErrors) {
-        switch (err.extensions.code) {
-          // Apollo Server sets code to UNAUTHENTICATED
-          // when an AuthenticationError is thrown in a resolver
-          case "UNAUTHENTICATED":
-            // Modify the operation context with a new token
-            // const oldHeaders = operation.getContext().headers;
-            // operation.setContext({
-            //   headers: {
-            //     ...oldHeaders,
-            //     authorization: getNewToken(),
-            //   },
-            // });
-            refreshToken();
-            // Retry the request, returning the new observable
-            return forward(operation);
+  const errorLink = onError(
+    ({ graphQLErrors, networkError, operation, forward }) => {
+      if (graphQLErrors) {
+        for (const err of graphQLErrors) {
+          switch (err.extensions.code) {
+            // Apollo Server sets code to UNAUTHENTICATED
+            // when an AuthenticationError is thrown in a resolver
+            case 'UNAUTHENTICATED':
+              // Modify the operation context with a new token
+              // const oldHeaders = operation.getContext().headers;
+              // operation.setContext({
+              //   headers: {
+              //     ...oldHeaders,
+              //     authorization: getNewToken(),
+              //   },
+              // });
+              refreshToken()
+              // Retry the request, returning the new observable
+              return forward(operation)
+          }
         }
       }
+      if (networkError) console.log(`[Network error]: ${networkError}`)
     }
-    if (networkError) console.log(`[Network error]: ${networkError}`);
-  })
+  )
 
   const authLink = setContext(async (_, { headers }) => {
     // get the authentication token from local storage if it exists

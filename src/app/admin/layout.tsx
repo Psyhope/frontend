@@ -18,11 +18,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { width } = useViewportSize()
 
-  const { user, accessToken } = useAuth();
+  const { user, accessToken } = useAuth()
 
   console.log(accessToken)
 
-  const router = useRouter();
+  const router = useRouter()
 
   useEffect(() => {
     // if (!accessToken) router.replace("/login");
@@ -51,7 +51,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             <p className="px-3 py-1 text-sm bg-red-800 rounded-3xl text-primary-50 w-max">
               Admin Psyhope
             </p>
-            <div className="flex flex-col items-center justify-center gap-2 text-sm sm:justify-start sm:flex-row sm:text-base">
+            <div className="flex flex-col flex-wrap items-center justify-center gap-2 text-sm sm:justify-start md:flex-row sm:text-base">
               <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500">
                 <HiPaperClip /> Lihat Dashboard Artikel
               </button>
@@ -115,4 +115,4 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default AdminLayout;
+export default withAuth(AdminLayout)
