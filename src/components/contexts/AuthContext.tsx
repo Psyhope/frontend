@@ -138,9 +138,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser({ id: data.user.sub, username: data.user.username })
       setAccessToken(data.token)
     } catch (err) {
-      return;
+      return
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
@@ -158,9 +158,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={contextValue}>
-      {
-        !loading ? children : <></>
-      }
+      {!loading ? children : <></>}
     </AuthContext.Provider>
   )
 }
