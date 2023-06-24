@@ -1,7 +1,7 @@
-import { AuthProvider } from '@/context/AuthContext'
+import { AuthProvider } from '@/components/contexts/AuthContext'
 import './globals.css'
 import { Poppins } from 'next/font/google'
-import { GraphQLProvider } from '@/context/GraphQLContext'
+import { GraphQLProvider } from '@/components/contexts/GraphQLContext'
 import RootStyleRegistry from '@/emotion'
 import { Navbar } from '@elements'
 
@@ -26,7 +26,7 @@ export default function RootLayout({
         <RootStyleRegistry>
           <AuthProvider>
             <GraphQLProvider>
-              <div className="bg-white min-h-screen text-black flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center min-h-screen text-black bg-white">
                 <Navbar />
                 <div className="max-w-[1920px] w-full">{children}</div>
               </div>

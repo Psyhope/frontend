@@ -25,9 +25,14 @@
       "@utils": ["src/components/utils"],
       "@pages/*": ["src/pages/*"],
       "@/*": ["./src/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
-  "extends": "@tsconfig/next/tsconfig.json"
+  "exclude": ["node_modules"]
+  // "extends": "@tsconfig/next/tsconfig.json"
 }

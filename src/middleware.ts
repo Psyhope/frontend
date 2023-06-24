@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get('refresh_token')?.value
   if (refreshToken) {
     const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
+    url.pathname = '/'
     return NextResponse.redirect(url)
   }
   return NextResponse.next()
@@ -14,5 +14,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/login', '/register'],
+  matcher: ['/login'],
 }

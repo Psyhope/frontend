@@ -22,25 +22,25 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     })
-    if (res.status === 403) {
+    if (!res.ok) {
       return NextResponse.json(
         { message: 'Wrong username or password' },
         { status: 403 }
       )
     }
     const data: TokenResponse = await res.json()
-    console.log(data)
+    // console.log(data)
     const response = NextResponse.json(data, { status: 200 })
-    // response.cookies.set("access_token", data.access_token, {
-    //     httpOnly: true,
-    //     maxAge: 60 * 60,
-    //     secure: env.NODE_ENV !== "development",
-    //     sameSite: "lax",
-    //     path: "/",
-    // });
-
-    response.cookies.set('refresh_token', data.refresh_token, {
+    response.cookies.set('accessToken', data.accessToken, {
+      httpOnly: true,
+      maxAge: 60 * 60,
+      secure: env.NODE_ENV !== 'development',
+      sameSite: 'lax',
+      path: '/',
+    })
+    response.cookies.set('refreshToken', data.refreshToken, {
       httpOnly: true,
       maxAge: 60 * 60 * 24,
       secure: env.NODE_ENV !== 'development',

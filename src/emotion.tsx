@@ -28,7 +28,6 @@ export default function RootStyleRegistry({
         withNormalizeCSS
         theme={{
           // black: "#121212",
-          colorScheme: 'dark',
           colors: {
             // dark: ["#323645"],
           },

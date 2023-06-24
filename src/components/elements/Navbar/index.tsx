@@ -1,6 +1,7 @@
 'use client'
 
 import { Event, Home, Konseling, Psyhope } from '@icons'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 export const Navbar: React.FC = () => {
@@ -21,7 +22,7 @@ export const Navbar: React.FC = () => {
       <div>
         <Psyhope />
       </div>
-      <div className="gap-5 items-center hidden md:flex">
+      <div className="items-center hidden gap-5 md:flex">
         <button className="flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] border-transparent px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]">
           <Home />
           Home
@@ -34,9 +35,12 @@ export const Navbar: React.FC = () => {
           <Konseling />
           Konseling
         </button>
-        <button className="flex font-inter font-semibold px-4 bg-[#0086C9] text-white py-2 rounded-md shadow-md active:shadow-none">
+        <Link
+          href="/login"
+          className="flex font-inter font-semibold px-4 bg-[#0086C9] text-white py-2 rounded-md shadow-md active:shadow-none"
+        >
           Login
-        </button>
+        </Link>
       </div>
     </div>
   )
