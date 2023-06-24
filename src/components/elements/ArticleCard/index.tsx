@@ -1,14 +1,13 @@
 import Image from 'next/image'
 import React from 'react'
-import PlaceHolder from '../../../../public/assets/Placeholder.png'
 
-export const InfograficCard: React.FC = () => {
+export const ArticleCard: React.FC = () => {
   return (
-    <div className="lg:w-[445px] w-[200px] rounded-lg relative flex-none">
-      <div className="w-full aspect-infografic relative">
+    <div className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none">
+      <div className="w-full aspect-article relative">
         <Image
           alt="Infografis"
-          src={PlaceHolder}
+          src={'/assets/ArticlePlaceholder.jpg'}
           fill
           className="rounded-t-lg"
         />
