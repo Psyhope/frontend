@@ -8,10 +8,6 @@ import { ArticleLandingCard, InfograficCard } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
 
 export default function Home() {
-  const scrollRight = () => {
-    const elem = document.getElementById('article')
-    elem?.scrollLeft
-  }
   return (
     <main className="min-h-screen md:pt-5">
       {/* Hero */}
@@ -158,7 +154,7 @@ export default function Home() {
             className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500"
             id="infografic"
           >
-            <div className="transition-transform -translate-x-0 flex">
+            <div className="transition-transform -translate-x-0 flex gap-5">
               <InfograficCard />
               <InfograficCard />
               <InfograficCard />
