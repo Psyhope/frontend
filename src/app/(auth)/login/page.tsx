@@ -1,15 +1,12 @@
 'use client'
 
 import { Button, TextInput, PasswordInput } from '@mantine/core'
-import { HiLockClosed, HiUser } from 'react-icons/hi'
 import { useForm, zodResolver } from '@mantine/form'
 import { Input } from '@mantine/core'
-import Link from 'next/link'
 import { z } from 'zod'
-// import { useAuth } from "@/store/authStore";
 import { SyntheticEvent, useState } from 'react'
-import { useAuth } from '@/context/AuthContext'
 import Image from 'next/image'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
