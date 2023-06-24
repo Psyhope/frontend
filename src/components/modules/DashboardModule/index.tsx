@@ -2,60 +2,66 @@
 import React from 'react'
 import Image from 'next/image'
 import { Modal, Button } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks';
-import { DashboardModal } from './const';
-import { DashboardModalWord } from './interface';
-
+import { useDisclosure } from '@mantine/hooks'
+import { DashboardModal } from './const'
+import { DashboardModalWord } from './interface'
 
 export const DashboardModule: React.FC = () => {
-
-  const DashboardWording: DashboardModalWord[] =  DashboardModal
-  const [opened, { open, close }] = useDisclosure(false);
+  const DashboardWording: DashboardModalWord[] = DashboardModal
+  const [opened, { open, close }] = useDisclosure(false)
   return (
     <div>
       <div className="px-10 flex flex-col ">
-      <div className='bg-white'>
-        <Modal 
-        opened={opened} 
-        onClose={close}
-        withCloseButton={false}
-        size="50%"
-        >
-          <div className='flex flex-col gap-4'>
-            <div className='flex justify-center'>
-              <Image
-                src="assets/DashboardModal.svg"
-                alt="OnBoard Hero Assets"
-                width="150"
-                height="150"
-                className="z-0 "
-              />
-            </div>
-            <div className='flex justify-center'>
-              <p className=' text-2xl font-semibold text-center'>Psyhope dan Peer Counselor, Apa Bedanya?</p>
-            </div>
-            <div className='flex gap-4'>
-              {DashboardWording.map(({title, desc}) => (
-                <div key={title} className='bg-[#6941C6] p-4 flex flex-col gap-2 rounded-xl'>
-                  <div className='bg-white p-2 rounded-lg'>
-                    <p className='text-[#6941C6] text-lg font-semibold drop-shadow-lg'>{title}</p>
+        <div className="bg-white">
+          <Modal
+            opened={opened}
+            onClose={close}
+            withCloseButton={false}
+            size="50%"
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-center">
+                <Image
+                  src="assets/DashboardModal.svg"
+                  alt="OnBoard Hero Assets"
+                  width="150"
+                  height="150"
+                  className="z-0 "
+                />
+              </div>
+              <div className="flex justify-center">
+                <p className=" text-2xl font-semibold text-center">
+                  Psyhope dan Peer Counselor, Apa Bedanya?
+                </p>
+              </div>
+              <div className="flex gap-4">
+                {DashboardWording.map(({ title, desc }) => (
+                  <div
+                    key={title}
+                    className="bg-[#6941C6] p-4 flex flex-col gap-2 rounded-xl"
+                  >
+                    <div className="bg-white p-2 rounded-lg">
+                      <p className="text-[#6941C6] text-lg font-semibold drop-shadow-lg">
+                        {title}
+                      </p>
+                    </div>
+                    <p className="text-white text-sm">{desc}</p>
                   </div>
-                  <p className='text-white text-sm'>{desc}</p>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div className=" flex justify-center">
+                <Button
+                  className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] items-center rounded w-full"
+                  onClick={close}
+                >
+                  <div className="flex gap-1 justify-center items-center">
+                    <p>Oke, Mengerti</p>
+                  </div>
+                </Button>
+              </div>
             </div>
-            <div className=" flex justify-center">
-              <Button 
-              className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] items-center rounded w-full"
-              onClick={close}>
-                <div className="flex gap-1 justify-center items-center">
-                  <p>Oke, Mengerti</p>
-                </div>
-              </Button>
-            </div>
-          </div>
-        </Modal>
-      </div>
+          </Modal>
+        </div>
         <div className="lg:h-[330px] h-full w-full bg-[#D9D6FE] rounded-3xl flex flex-col lg:flex-row lg:p-5 lg:px-10">
           <div className="lg:w-3/5 w-full h-full justify-center flex flex-col md:p-10 gap-4">
             <div className="flex justify-center lg:flex-none lg:justify-start p-2 lg:p-0">
@@ -108,31 +114,38 @@ export const DashboardModule: React.FC = () => {
               Yah, kamu belum memiliki jadwal konseling :(
             </p>
           </div>
-          <div className='flex justify-center gap-4'>
-              <button className='w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg'>Daftar Konseling di Psyhope</button>
-              <button className='w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg'>Daftar Konseling di CSP</button>
+          <div className="flex justify-center gap-4">
+            <button className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg">
+              Daftar Konseling di Psyhope
+            </button>
+            <button className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg">
+              Daftar Konseling di CSP
+            </button>
           </div>
 
           <div className="flex justify-center">
-            <div className='w-1/2'>
-            <div className="w-full">
-              <Button 
-              className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded w-full"
-              onClick={open}>
-                <div className="flex gap-1 justify-center items-center">
-                  <div>
-                    <Image
-                      src="assets/DashboardQuestionMark.svg"
-                      alt="OnBoard Question Modal"
-                      width={20}
-                      height={20}
-                      className=""
-                    />
+            <div className="w-1/2">
+              <div className="w-full">
+                <Button
+                  className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded w-full"
+                  onClick={open}
+                >
+                  <div className="flex gap-1 justify-center items-center">
+                    <div>
+                      <Image
+                        src="assets/DashboardQuestionMark.svg"
+                        alt="OnBoard Question Modal"
+                        width={20}
+                        height={20}
+                        className=""
+                      />
+                    </div>
+                    <p className="text-lg">
+                      Apa perbedaan Psyhope dan Peer Counselor?
+                    </p>
                   </div>
-                  <p className='text-lg'>Apa perbedaan Psyhope dan Peer Counselor?</p>
-                </div>
-              </Button>
-            </div>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
