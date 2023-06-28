@@ -1,3 +1,3 @@
 export interface GHQInterface {
-    question : string
+  question: string
 }
