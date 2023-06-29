@@ -7,7 +7,6 @@ import React, { useState } from 'react'
 const InfograficPage = () => {
   const [isAdmin, setIsAdmin] = useState(false)
 
-  setIsAdmin(false)
   return (
     <div className="min-h-screen p-5 lg:px-28">
       {/* Hero */}
