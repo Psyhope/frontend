@@ -2,10 +2,68 @@
 import { EventCard } from '@elements'
 import { PlusSquare } from '@icons'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useState, SyntheticEvent } from 'react'
+import { useDisclosure } from '@mantine/hooks'
+import { Modal, Input, TextInput, PasswordInput } from '@mantine/core'
+import { useForm, zodResolver } from '@mantine/form'
+import { z } from 'zod'
+import { DatePickerInput } from '@mantine/dates'
+import { RichTextEditor, Link } from '@mantine/tiptap'
+import { useEditor } from '@tiptap/react'
+import Highlight from '@tiptap/extension-highlight'
+import StarterKit from '@tiptap/starter-kit'
+import Underline from '@tiptap/extension-underline'
+import TextAlign from '@tiptap/extension-text-align'
+import Superscript from '@tiptap/extension-superscript'
+import SubScript from '@tiptap/extension-subscript'
+import { Color } from '@tiptap/extension-color'
+import TextStyle from '@tiptap/extension-text-style'
 
 const EventPage = () => {
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(true)
+  const [opened, { open, close }] = useDisclosure(false)
+  const [loading, setLoading] = useState(false)
+
+  const content = ''
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextStyle,
+      Color,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+    ],
+    content,
+  })
+
+  const form = useForm({
+    initialValues: {
+      eventName: '',
+      date: new Date(),
+      location: '',
+      time: '',
+    },
+    validate: zodResolver(
+      z.object({
+        eventName: z.string().min(1),
+        date: z.date(),
+        location: z.string().min(1),
+        time: z.string().min(1),
+      })
+    ),
+  })
+
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault()
+    form.validate()
+    if (!form.isValid()) return
+    setLoading(true)
+  }
 
   return (
     <div className="min-h-screen p-5 lg:px-28">
@@ -21,7 +79,10 @@ const EventPage = () => {
             kami di bawah ini:
           </p>
           {isAdmin && (
-            <button className="bg-[#7F56D9] w-full py-2 font-inter font-semibold lg:text-base md:text-sm text-xs text-white tracking-wider flex items-center justify-center gap-2 rounded-lg drop-shadow-lg active:drop-shadow-none mt-5">
+            <button
+              className="bg-[#7F56D9] w-full py-2 font-inter font-semibold lg:text-base md:text-sm text-xs text-white tracking-wider flex items-center justify-center gap-2 rounded-lg drop-shadow-lg active:drop-shadow-none mt-5"
+              onClick={open}
+            >
               <PlusSquare />
               <p>Tambah Event</p>
             </button>
@@ -60,6 +121,152 @@ const EventPage = () => {
           <EventCard isAdmin={isAdmin} />
         </div>
       </div>
+      <Modal
+        opened={opened}
+        onClose={close}
+        centered
+        withCloseButton={false}
+        size="auto"
+      >
+        <div className="w-full h-full flex flex-col gap-5">
+          <p>Edit Event</p>
+          <div className="flex gap-5">
+            <div>
+              <Input.Label
+                className="text-black font-inter font-normal text-base pb-2"
+                required
+              >
+                Nama Event
+              </Input.Label>
+              <TextInput
+                radius="md"
+                size="lg"
+                placeholder="e.g. Website design"
+                {...form.getInputProps('eventName')}
+              />
+            </div>
+            <div>
+              <Input.Label
+                className="text-black font-inter font-normal text-base pb-2"
+                required
+              >
+                Tanggal Event
+              </Input.Label>
+              <DatePickerInput
+                dropdownType="modal"
+                valueFormat="DD MMM YYYY"
+                placeholder="Pilih Tanggal Event"
+                radius="md"
+                size="lg"
+                clearable
+                maw={400}
+                {...form.getInputProps('date')}
+              />
+            </div>
+          </div>
+          <div className="flex gap-5">
+            <div>
+              <Input.Label
+                className="text-black font-inter font-normal text-base pb-2"
+                required
+              >
+                Lokasi
+              </Input.Label>
+              <TextInput
+                radius="md"
+                size="lg"
+                placeholder="e.g. Alamat Lengkap"
+                {...form.getInputProps('location')}
+              />
+            </div>
+            <div>
+              <Input.Label
+                className="text-black font-inter font-normal text-base pb-2"
+                required
+              >
+                Waktu Event
+              </Input.Label>
+              <TextInput
+                radius="md"
+                size="lg"
+                placeholder="e.g. 08:00 - Selesai"
+                {...form.getInputProps('time')}
+              />
+            </div>
+          </div>
+          <div>
+            <Input.Label
+              className="text-black font-inter font-normal text-base pb-2"
+              required
+            >
+              Deskripsi Event
+            </Input.Label>
+            <RichTextEditor editor={editor}>
+              <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.Bold />
+                  <RichTextEditor.Italic />
+                  <RichTextEditor.Underline />
+                  <RichTextEditor.Strikethrough />
+                  <RichTextEditor.ClearFormatting />
+                  <RichTextEditor.Highlight />
+                  <RichTextEditor.Code />
+                </RichTextEditor.ControlsGroup>
+
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.H1 />
+                  <RichTextEditor.H2 />
+                  <RichTextEditor.H3 />
+                  <RichTextEditor.H4 />
+                </RichTextEditor.ControlsGroup>
+
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.Blockquote />
+                  <RichTextEditor.Hr />
+                  <RichTextEditor.BulletList />
+                  <RichTextEditor.OrderedList />
+                  <RichTextEditor.Subscript />
+                  <RichTextEditor.Superscript />
+                </RichTextEditor.ControlsGroup>
+
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.Link />
+                  <RichTextEditor.Unlink />
+                </RichTextEditor.ControlsGroup>
+
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.AlignLeft />
+                  <RichTextEditor.AlignCenter />
+                  <RichTextEditor.AlignJustify />
+                  <RichTextEditor.AlignRight />
+                </RichTextEditor.ControlsGroup>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.ColorPicker
+                    colors={[
+                      '#25262b',
+                      '#868e96',
+                      '#fa5252',
+                      '#e64980',
+                      '#be4bdb',
+                      '#7950f2',
+                      '#4c6ef5',
+                      '#228be6',
+                      '#15aabf',
+                      '#12b886',
+                      '#40c057',
+                      '#82c91e',
+                      '#fab005',
+                      '#fd7e14',
+                    ]}
+                  />
+                </RichTextEditor.ControlsGroup>
+              </RichTextEditor.Toolbar>
+
+              <RichTextEditor.Content />
+            </RichTextEditor>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
