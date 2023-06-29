@@ -155,10 +155,10 @@ export default function Home() {
             id="infografic"
           >
             <div className="transition-transform -translate-x-0 flex gap-5">
-              <InfograficCard />
-              <InfograficCard />
-              <InfograficCard />
-              <InfograficCard />
+              <InfograficCard isAdmin={false} />
+              <InfograficCard isAdmin={false} />
+              <InfograficCard isAdmin={false} />
+              <InfograficCard isAdmin={false} />
             </div>
           </div>
         </div>
