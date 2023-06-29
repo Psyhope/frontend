@@ -1,9 +1,12 @@
 'use client'
 import { EventCard } from '@elements'
+import { PlusSquare } from '@icons'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 const EventPage = () => {
+  const [isAdmin, setIsAdmin] = useState(false)
+
   return (
     <div className="min-h-screen p-5 lg:px-28">
       {/* Hero */}
@@ -17,6 +20,12 @@ const EventPage = () => {
             lanjut tentang psikologi dan kesehatan mental. Lihat acara mendatang
             kami di bawah ini:
           </p>
+          {isAdmin && (
+            <button className="bg-[#7F56D9] w-full py-2 font-inter font-semibold lg:text-base md:text-sm text-xs text-white tracking-wider flex items-center justify-center gap-2 rounded-lg drop-shadow-lg active:drop-shadow-none mt-5">
+              <PlusSquare />
+              <p>Tambah Event</p>
+            </button>
+          )}
         </div>
         <div className="relative lg:h-[300px] h-[150px] lg:w-[880px] w-full lg:my-10 lg:mr-10">
           <Image
@@ -29,25 +38,26 @@ const EventPage = () => {
       </div>
       {/* Grid */}
       <div className=" flex justify-center mt-5">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3 2xl:grid-cols-4">
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
+          <EventCard isAdmin={isAdmin} />
         </div>
       </div>
     </div>
