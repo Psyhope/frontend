@@ -111,7 +111,7 @@ export const DashboardModule: React.FC = () => {
           </div>
           <div className="flex flex-col justify-center">
             <p className="flex justify-center">
-              Yah, kamu belum memiliki jadwal konseling :(
+              Yah, kamu belum memiliki jadwal konseling
             </p>
           </div>
           <div className="flex justify-center gap-4">
