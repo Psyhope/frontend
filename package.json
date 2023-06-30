@@ -22,6 +22,7 @@
     "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.15",
     "@mantine/dates": "^6.0.13",
+    "@mantine/dropzone": "^6.0.15",
     "@mantine/form": "^6.0.13",
     "@mantine/hooks": "^6.0.15",
     "@mantine/next": "^6.0.13",

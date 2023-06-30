@@ -2,9 +2,9 @@
 import { EventCard } from '@elements'
 import { PlusSquare } from '@icons'
 import Image from 'next/image'
-import React, { useState, SyntheticEvent } from 'react'
+import React, { useState, SyntheticEvent, useEffect } from 'react'
 import { useDisclosure } from '@mantine/hooks'
-import { Modal, Input, TextInput, PasswordInput } from '@mantine/core'
+import { Modal, Input, TextInput, SimpleGrid, FileInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { DatePickerInput } from '@mantine/dates'
@@ -23,6 +23,17 @@ const EventPage = () => {
   const [isAdmin, setIsAdmin] = useState(true)
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
+  const [files, setFiles] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState('')
+
+  useEffect(() => {
+    if (files) {
+      const imageSrc = URL.createObjectURL(files)
+      setPreviewUrl(imageSrc)
+    } else {
+      setPreviewUrl('')
+    }
+  }, [files])
 
   const content = ''
 
@@ -38,13 +49,13 @@ const EventPage = () => {
       Color,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
-    content,
+    content: content,
   })
 
   const form = useForm({
     initialValues: {
       eventName: '',
-      date: new Date(),
+      date: null,
       location: '',
       time: '',
     },
@@ -129,11 +140,13 @@ const EventPage = () => {
         size="auto"
       >
         <div className="w-full h-full flex flex-col gap-5">
-          <p>Edit Event</p>
-          <div className="flex gap-5">
+          <p className="text-[#101828] text-lg font-bold font-inter">
+            Edit Event
+          </p>
+          <div className="flex md:flex-row flex-col gap-5">
             <div>
               <Input.Label
-                className="text-black font-inter font-normal text-base pb-2"
+                className="text-black font-inter font-normal md:text-base text-sm pb-2"
                 required
               >
                 Nama Event
@@ -147,7 +160,7 @@ const EventPage = () => {
             </div>
             <div>
               <Input.Label
-                className="text-black font-inter font-normal text-base pb-2"
+                className="text-black font-inter font-normal md:text-base text-sm pb-2"
                 required
               >
                 Tanggal Event
@@ -159,15 +172,14 @@ const EventPage = () => {
                 radius="md"
                 size="lg"
                 clearable
-                maw={400}
                 {...form.getInputProps('date')}
               />
             </div>
           </div>
-          <div className="flex gap-5">
+          <div className="flex md:flex-row flex-col gap-5">
             <div>
               <Input.Label
-                className="text-black font-inter font-normal text-base pb-2"
+                className="text-black font-inter font-normal md:text-base text-sm pb-2"
                 required
               >
                 Lokasi
@@ -181,7 +193,7 @@ const EventPage = () => {
             </div>
             <div>
               <Input.Label
-                className="text-black font-inter font-normal text-base pb-2"
+                className="text-black font-inter font-normal md:text-base text-sm pb-2"
                 required
               >
                 Waktu Event
@@ -196,7 +208,7 @@ const EventPage = () => {
           </div>
           <div>
             <Input.Label
-              className="text-black font-inter font-normal text-base pb-2"
+              className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
               Deskripsi Event
@@ -264,6 +276,48 @@ const EventPage = () => {
 
               <RichTextEditor.Content />
             </RichTextEditor>
+          </div>
+          <div>
+            <Input.Label
+              className="text-black font-inter font-normal md:text-base text-sm pb-2"
+              required
+            >
+              Upload Poster
+            </Input.Label>
+            <FileInput
+              placeholder="Click here to pick file"
+              withAsterisk
+              value={files}
+              onChange={setFiles}
+              clearable
+            />
+            {previewUrl && (
+              <SimpleGrid
+                cols={4}
+                breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                className="mt-5"
+              >
+                <div className="w-full aspect-article relative">
+                  <Image
+                    src={previewUrl}
+                    fill
+                    className="relative"
+                    alt="preview"
+                  />
+                </div>
+              </SimpleGrid>
+            )}
+          </div>
+          <div className="flex gap-4 md:flex-row flex-col">
+            <button
+              className="w-full py-2 bg-white border border-[#D0D5DD] text-[#344054] font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
+              onClick={close}
+            >
+              Cancel
+            </button>
+            <button className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none">
+              Tambah Event
+            </button>
           </div>
         </div>
       </Modal>
