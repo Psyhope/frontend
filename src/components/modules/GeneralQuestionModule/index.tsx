@@ -3,14 +3,23 @@ import React from 'react'
 import Image from 'next/image'
 import { GHQ_MODULE_BANNER } from './const'
 import { GQHQuestionModule } from './section/formSection'
-import { ArrowLeft } from '@icons'
+import { usePathname, useRouter } from 'next/navigation'
 import { BsArrowLeftCircle } from 'react-icons/bs'
 
 export const GHQModule: React.FC = () => {
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const handlerBack = () => {
+    pathname.slice(5) == 'psyhope' ? router.push('/schedule/psyhope') : router.push('/schedule/csp')
+    
+  }
+
   return (
     <div>
       <div className="px-8 lg:px-24  py-10 flex flex-col gap-5">
-        <button className="p-2 bg-[#F9F5FF] w-fit rounded-lg">
+        <button className="p-2 bg-[#F9F5FF] w-fit rounded-lg"
+        onClick={handlerBack}>
           <div className="flex w-fit gap-2 items-center justify-center">
             <BsArrowLeftCircle className="text-[#6941C6]"></BsArrowLeftCircle>
             <p className="text-[#6941C6]">Ubah Jadwal</p>

@@ -1,6 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
+import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { GHQQuestionInterface, GHQRespondsInterface } from './interface'
 import { GHQ_QUESTION } from './const'
