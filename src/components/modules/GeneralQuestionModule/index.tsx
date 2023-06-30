@@ -11,15 +11,18 @@ export const GHQModule: React.FC = () => {
   const router = useRouter()
 
   const handlerBack = () => {
-    pathname.slice(5) == 'psyhope' ? router.push('/schedule/psyhope') : router.push('/schedule/csp')
-    
+    pathname.slice(5) == 'psyhope'
+      ? router.push('/schedule/psyhope')
+      : router.push('/schedule/csp')
   }
 
   return (
     <div>
       <div className="px-8 lg:px-24  py-10 flex flex-col gap-5">
-        <button className="p-2 bg-[#F9F5FF] w-fit rounded-lg"
-        onClick={handlerBack}>
+        <button
+          className="p-2 bg-[#F9F5FF] w-fit rounded-lg"
+          onClick={handlerBack}
+        >
           <div className="flex w-fit gap-2 items-center justify-center">
             <BsArrowLeftCircle className="text-[#6941C6]"></BsArrowLeftCircle>
             <p className="text-[#6941C6]">Ubah Jadwal</p>
