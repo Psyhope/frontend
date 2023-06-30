@@ -141,7 +141,7 @@ const EventPage = () => {
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="text-[#101828] text-lg font-bold font-inter">
-            Edit Event
+            Tambah Event
           </p>
           <div className="flex md:flex-row flex-col gap-5">
             <div>
