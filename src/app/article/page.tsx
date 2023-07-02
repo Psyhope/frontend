@@ -1,6 +1,5 @@
 'use client'
 import { ArticleCard } from '@elements'
-import { EventCard } from '@elements'
 import { PlusSquare } from '@icons'
 import Image from 'next/image'
 import React, { useState, SyntheticEvent, useEffect } from 'react'
@@ -8,7 +7,6 @@ import { useDisclosure } from '@mantine/hooks'
 import { Modal, Input, TextInput, SimpleGrid, FileInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
-import { DatePickerInput } from '@mantine/dates'
 import { RichTextEditor, Link } from '@mantine/tiptap'
 import { useEditor } from '@tiptap/react'
 import Highlight from '@tiptap/extension-highlight'
@@ -126,77 +124,30 @@ const ArticlePage = () => {
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="text-[#101828] text-lg font-bold font-inter">
-            Tambah Event
+            Tambah Artikel
           </p>
-          <div className="flex md:flex-row flex-col gap-5">
-            <div>
-              <Input.Label
-                className="text-black font-inter font-normal md:text-base text-sm pb-2"
-                required
-              >
-                Nama Event
-              </Input.Label>
-              <TextInput
-                radius="md"
-                size="lg"
-                placeholder="e.g. Website design"
-                {...form.getInputProps('eventName')}
-              />
-            </div>
-            <div>
-              <Input.Label
-                className="text-black font-inter font-normal md:text-base text-sm pb-2"
-                required
-              >
-                Tanggal Event
-              </Input.Label>
-              <DatePickerInput
-                dropdownType="modal"
-                valueFormat="DD MMM YYYY"
-                placeholder="Pilih Tanggal Event"
-                radius="md"
-                size="lg"
-                clearable
-                {...form.getInputProps('date')}
-              />
-            </div>
-          </div>
-          <div className="flex md:flex-row flex-col gap-5">
-            <div>
-              <Input.Label
-                className="text-black font-inter font-normal md:text-base text-sm pb-2"
-                required
-              >
-                Lokasi
-              </Input.Label>
-              <TextInput
-                radius="md"
-                size="lg"
-                placeholder="e.g. Alamat Lengkap"
-                {...form.getInputProps('location')}
-              />
-            </div>
-            <div>
-              <Input.Label
-                className="text-black font-inter font-normal md:text-base text-sm pb-2"
-                required
-              >
-                Waktu Event
-              </Input.Label>
-              <TextInput
-                radius="md"
-                size="lg"
-                placeholder="e.g. 08:00 - Selesai"
-                {...form.getInputProps('time')}
-              />
-            </div>
-          </div>
+
           <div>
             <Input.Label
               className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
-              Deskripsi Event
+              Judul
+            </Input.Label>
+            <TextInput
+              radius="md"
+              size="lg"
+              placeholder="e.g. Website design"
+              {...form.getInputProps('eventName')}
+            />
+          </div>
+
+          <div>
+            <Input.Label
+              className="text-black font-inter font-normal md:text-base text-sm pb-2"
+              required
+            >
+              Isi Artikel
             </Input.Label>
             <RichTextEditor editor={editor}>
               <RichTextEditor.Toolbar sticky stickyOffset={60}>
