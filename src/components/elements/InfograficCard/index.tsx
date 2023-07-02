@@ -27,7 +27,7 @@ export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
             imperdiet Lorem ipsum dolor sit amet consectetur. Dui in iaculis non
             dui amet imperdietLorem ipsum dolor sit amet consectetur. Dui in
             iaculis non dui amet imperdiet Lorem ipsum dolor sit amet
-            consectetur. Dui in iaculis non dui amet imperdiet
+            consectetur. Dui in iaculis non dui amet imperdie
           </p>
         </div>
       </div>
