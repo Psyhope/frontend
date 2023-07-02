@@ -2,12 +2,14 @@ import Image from 'next/image'
 import React from 'react'
 import { useDisclosure } from '@mantine/hooks'
 import { Modal } from '@mantine/core'
+import { Props } from './interface'
+import { Edit, Trash } from '@icons'
 
-export const EventCard: React.FC = () => {
+export const EventCard: React.FC<Props> = ({ isAdmin }) => {
   const [opened, { open, close }] = useDisclosure(false)
 
   return (
-    <>
+    <div>
       <button
         className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none drop-shadow-xl active:drop-shadow-none"
         onClick={open}
@@ -33,6 +35,18 @@ export const EventCard: React.FC = () => {
           </p>
         </div>
       </button>
+      {isAdmin && (
+        <div className="flex gap-2 mt-2">
+          <button className="flex items-center justify-center gap-2 text-[#B42318] bg-[#FEF3F2] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs">
+            <Trash />
+            <p>Hapus</p>
+          </button>
+          <button className="flex items-center justify-center gap-2 text-white bg-[#7F56D9] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs">
+            <Edit />
+            <p>Edit</p>
+          </button>
+        </div>
+      )}
 
       <Modal
         opened={opened}
@@ -109,6 +123,6 @@ export const EventCard: React.FC = () => {
           </button>
         </div>
       </Modal>
-    </>
+    </div>
   )
 }
