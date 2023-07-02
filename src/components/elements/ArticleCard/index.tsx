@@ -2,8 +2,11 @@ import Image from 'next/image'
 import React from 'react'
 import { Props } from './interface'
 import { Edit, Trash } from '@icons'
+import { DeleteModal } from '../DeleteModal'
+import { useDisclosure } from '@mantine/hooks'
 
 export const ArticleCard: React.FC<Props> = ({ isAdmin }) => {
+  const [opened, { open, close }] = useDisclosure(false)
   return (
     <div>
       <div className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none">
@@ -28,7 +31,10 @@ export const ArticleCard: React.FC<Props> = ({ isAdmin }) => {
       </div>
       {isAdmin && (
         <div className="flex gap-2 mt-2">
-          <button className="flex items-center justify-center gap-2 text-[#B42318] bg-[#FEF3F2] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs">
+          <button
+            className="flex items-center justify-center gap-2 text-[#B42318] bg-[#FEF3F2] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs"
+            onClick={open}
+          >
             <Trash />
             <p>Hapus</p>
           </button>
@@ -38,6 +44,13 @@ export const ArticleCard: React.FC<Props> = ({ isAdmin }) => {
           </button>
         </div>
       )}
+      <DeleteModal
+        close={close}
+        open={open}
+        opened={opened}
+        tipe="Artikel"
+        judul="Judul"
+      />
     </div>
   )
 }

@@ -3,8 +3,12 @@ import React from 'react'
 import PlaceHolder from '../../../../public/assets/Placeholder.png'
 import { Props } from './interface'
 import { Edit, Trash } from '@icons'
+import { DeleteModal } from '../DeleteModal'
+import { useDisclosure } from '@mantine/hooks'
 
 export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
+  const [opened, { open: open, close: close }] = useDisclosure(false)
+
   return (
     <div>
       <div className="lg:w-[445px] w-[200px] rounded-lg relative flex-none">
@@ -23,13 +27,16 @@ export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
             imperdiet Lorem ipsum dolor sit amet consectetur. Dui in iaculis non
             dui amet imperdietLorem ipsum dolor sit amet consectetur. Dui in
             iaculis non dui amet imperdiet Lorem ipsum dolor sit amet
-            consectetur. Dui in iaculis non dui amet imperdiet
+            consectetur. Dui in iaculis non dui amet imperdie
           </p>
         </div>
       </div>
       {isAdmin && (
         <div className="flex gap-2 mt-2">
-          <button className="flex items-center justify-center gap-2 text-[#B42318] bg-[#FEF3F2] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs">
+          <button
+            className="flex items-center justify-center gap-2 text-[#B42318] bg-[#FEF3F2] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs"
+            onClick={open}
+          >
             <Trash />
             <p>Hapus</p>
           </button>
@@ -39,6 +46,14 @@ export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
           </button>
         </div>
       )}
+
+      <DeleteModal
+        close={close}
+        open={open}
+        opened={opened}
+        tipe="Infografik"
+        judul="Judul"
+      />
     </div>
   )
 }
