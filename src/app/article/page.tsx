@@ -65,8 +65,8 @@ const ArticlePage = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    form.validate()
-    if (!form.isValid()) return
+    console.log(form.values)
+    console.log(editor?.getHTML())
     setLoading(true)
   }
 
@@ -138,7 +138,7 @@ const ArticlePage = () => {
               radius="md"
               size="lg"
               placeholder="e.g. Website design"
-              {...form.getInputProps('eventName')}
+              {...form.getInputProps('title')}
             />
           </div>
 
@@ -251,7 +251,10 @@ const ArticlePage = () => {
             >
               Cancel
             </button>
-            <button className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none">
+            <button
+              className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
+              onClick={handleSubmit}
+            >
               Tambah Event
             </button>
           </div>
