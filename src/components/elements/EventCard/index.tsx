@@ -2,15 +2,19 @@ import Image from 'next/image'
 import React from 'react'
 import { useDisclosure } from '@mantine/hooks'
 import { Modal } from '@mantine/core'
+import { Props } from './interface'
+import { Edit, Trash } from '@icons'
+import { DeleteModal } from '../DeleteModal'
 
-export const EventCard: React.FC = () => {
-  const [opened, { open, close }] = useDisclosure(false)
+export const EventCard: React.FC<Props> = ({ isAdmin }) => {
+  const [opened1, { open: open1, close: close1 }] = useDisclosure(false)
+  const [opened2, { open: open2, close: close2 }] = useDisclosure(false)
 
   return (
-    <>
+    <div>
       <button
         className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none drop-shadow-xl active:drop-shadow-none"
-        onClick={open}
+        onClick={open1}
       >
         <div className="w-full aspect-article relative">
           <Image
@@ -33,10 +37,33 @@ export const EventCard: React.FC = () => {
           </p>
         </div>
       </button>
+      {isAdmin && (
+        <div className="flex gap-2 mt-2">
+          <button
+            className="flex items-center justify-center gap-2 text-[#B42318] bg-[#FEF3F2] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs"
+            onClick={open2}
+          >
+            <Trash />
+            <p>Hapus</p>
+          </button>
+          <button className="flex items-center justify-center gap-2 text-white bg-[#7F56D9] py-1 w-full rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none lg:text-base md:text-sm text-xs">
+            <Edit />
+            <p>Edit</p>
+          </button>
+        </div>
+      )}
+
+      <DeleteModal
+        close={close2}
+        open={open2}
+        opened={opened2}
+        tipe="Event"
+        judul="Judul"
+      />
 
       <Modal
-        opened={opened}
-        onClose={close}
+        opened={opened1}
+        onClose={close1}
         centered
         withCloseButton={false}
         size="auto"
@@ -103,12 +130,12 @@ export const EventCard: React.FC = () => {
           </div>
           <button
             className="w-full px-2 py-2 border border-[#FDA29B] text-[#B42318] bg-white rounded-lg drop-shadow-xl active:drop-shadow-none"
-            onClick={close}
+            onClick={close1}
           >
             Close
           </button>
         </div>
       </Modal>
-    </>
+    </div>
   )
 }
