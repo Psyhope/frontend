@@ -15,7 +15,7 @@ export const ScheduleModule: React.FC = () => {
 
   return (
     <div>
-      <div className="px-8 lg:px-24 py-10 flex flex-col gap-5">
+      <div className="px-8 lg:px-24 py-5 flex flex-col gap-5">
         {/* Section Banner */}
         <BannerSection></BannerSection>
         {/* Section Schedule */}

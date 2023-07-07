@@ -25,7 +25,7 @@ export const BannerSection: React.FC = () => {
         <div className=" flex flex-col-reverse">
           <div className="flex justify-center text-center">
             <p className="text-[#42307D] font-inter font-bold lg:text-4xl md:text-2xl text-xl">
-              General Health Questionnaire
+              Booking Layanan Konseling
             </p>
           </div>
           <div className="w-full flex justify-center">
