@@ -11,7 +11,7 @@ export const DashboardModule: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false)
   return (
     <div>
-      <div className="px-10 flex flex-col ">
+      <div className="px-10 py-4 flex flex-col ">
         <div className="bg-white">
           <Modal
             opened={opened}
@@ -140,7 +140,7 @@ export const DashboardModule: React.FC = () => {
                         className=""
                       />
                     </div>
-                    <p className="text-lg">
+                    <p className="lg:text-lg text-md">
                       Apa perbedaan Psyhope dan Peer Counselor?
                     </p>
                   </div>
