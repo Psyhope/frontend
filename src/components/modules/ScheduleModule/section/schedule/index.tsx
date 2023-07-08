@@ -22,13 +22,12 @@ export const ScheduleSection: React.FC = () => {
   const handleClosest = () => {
     setClosest(!closest)
   }
-  
+
   const handlerNext = () => {
     pathname.slice(10) == 'psyhope'
-    ? router.push('/ghq/psyhope')
-    : router.push('/ghq/csp')
+      ? router.push('/ghq/psyhope')
+      : router.push('/ghq/csp')
   }
-  
 
   const pilihJadwal = () => {
     const dateNow = new Date()
@@ -75,37 +74,47 @@ export const ScheduleSection: React.FC = () => {
         transitionTimingFunction="linear"
       ></SegmentedControl>
 
-      {
-        (value !== null && valueTime !== null) ? 
-        (
-          <div className='flex flex-col gap-3'>
-            <div>
-              <p className=' font-semibold'>
-                Silakan ceritakan secara singkat alasan Anda mendaftarkan diri ke layanan konseling sebaya Psyhope UI 2023
-              </p>
-              <span className='text-[#667080] text-sm'>
-                Jangan khawatir! Kami akan menjaga kerahasiaan jawaban Anda.
-              </span>
-            </div>
-            <input value={reason} onChange={(e) => {setReason(e.target.value)}} className='outline outline-2 rounded-md outline-[#CBD2E0] p-2' type='text'/>
-            <div className='flex gap-2'>
-              <input name='close' type='radio' onChange={handleClosest}></input>
-              <span>Ya</span>
-            </div>
-            <div className='flex gap-2'>
-              <input name='close' type='radio' onChange={handleClosest}></input>
-              <span>Tidak</span>
-            </div>
+      {value !== null && valueTime !== null ? (
+        <div className="flex flex-col gap-3">
+          <div>
+            <p className=" font-semibold">
+              Silakan ceritakan secara singkat alasan Anda mendaftarkan diri ke
+              layanan konseling sebaya Psyhope UI 2023
+            </p>
+            <span className="text-[#667080] text-sm">
+              Jangan khawatir! Kami akan menjaga kerahasiaan jawaban Anda.
+            </span>
           </div>
-        )
-        :
-        (<></>)
-      }
-      <div className='flex lg:justify-end justify-center'>
+          <input
+            value={reason}
+            onChange={(e) => {
+              setReason(e.target.value)
+            }}
+            className="outline outline-2 rounded-md outline-[#CBD2E0] p-2"
+            type="text"
+          />
+          <div className="flex gap-2">
+            <input name="close" type="radio" onChange={handleClosest}></input>
+            <span>Ya</span>
+          </div>
+          <div className="flex gap-2">
+            <input name="close" type="radio" onChange={handleClosest}></input>
+            <span>Tidak</span>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="flex lg:justify-end justify-center">
         <button
-        disabled={value== null && valueTime==null}
-        className={`p-4 w-fit font-semibold rounded-lg ${(value != null && valueTime !=null) ? `text-[#3538CD] bg-gradient-to-bl from-[#F6CCDF] to-[#E0B3EB]` : `text-white bg-[#98A2B3]`}`}
-        onClick={handlerNext}>
+          disabled={value == null && valueTime == null}
+          className={`p-4 w-fit font-semibold rounded-lg ${
+            value != null && valueTime != null
+              ? `text-[#3538CD] bg-gradient-to-bl from-[#F6CCDF] to-[#E0B3EB]`
+              : `text-white bg-[#98A2B3]`
+          }`}
+          onClick={handlerNext}
+        >
           Pilih Jadwal
         </button>
       </div>
