@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         color: 'teal',
         autoClose: 3000,
       })
-      // router.replace('/dashboard')
+      router.replace('/')
     } catch (error) {
       // const err = error as AxiosError;
       console.error('Error: ', error)

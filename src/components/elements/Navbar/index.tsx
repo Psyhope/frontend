@@ -1,11 +1,16 @@
 'use client'
 
 import { Event, Home, Konseling, Psyhope } from '@icons'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 export const Navbar: React.FC = () => {
   const [scroll, setScroll] = useState(false)
+
+  const pathname = usePathname()
+
+  const router = useRouter()
 
   useEffect(() => {
     window.addEventListener('scroll', () =>
@@ -17,7 +22,7 @@ export const Navbar: React.FC = () => {
     <div
       className={`bg-[#FEFEF2] h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-10 sticky top-0 transition-all duration-1000 z-50 ${
         scroll ? 'md:top-1 md:scale-[0.99] lg:top-2' : 'top-0 scale-100'
-      }`}
+      } ${pathname == '/login' && 'hidden'}`}
     >
       <div>
         <Psyhope />

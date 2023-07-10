@@ -1,21 +1,19 @@
 import Image from 'next/image'
 import React from 'react'
-import PlaceHolder from '../../../../public/assets/Placeholder.png'
 import { Props } from './interface'
 import { Edit, Trash } from '@icons'
 import { DeleteModal } from '../DeleteModal'
 import { useDisclosure } from '@mantine/hooks'
 
-export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
-  const [opened, { open: open, close: close }] = useDisclosure(false)
-
+export const ArticleCard: React.FC<Props> = ({ isAdmin }) => {
+  const [opened, { open, close }] = useDisclosure(false)
   return (
     <div>
-      <div className="lg:w-[445px] w-[200px] rounded-lg relative flex-none">
-        <div className="w-full aspect-infografic relative">
+      <div className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none">
+        <div className="w-full aspect-article relative">
           <Image
             alt="Infografis"
-            src={PlaceHolder}
+            src={'/assets/ArticlePlaceholder.jpg'}
             fill
             className="rounded-t-lg"
           />
@@ -27,7 +25,7 @@ export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
             imperdiet Lorem ipsum dolor sit amet consectetur. Dui in iaculis non
             dui amet imperdietLorem ipsum dolor sit amet consectetur. Dui in
             iaculis non dui amet imperdiet Lorem ipsum dolor sit amet
-            consectetur. Dui in iaculis non dui amet imperdie
+            consectetur. Dui in iaculis non dui amet imperdiet
           </p>
         </div>
       </div>
@@ -46,12 +44,11 @@ export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
           </button>
         </div>
       )}
-
       <DeleteModal
         close={close}
         open={open}
         opened={opened}
-        tipe="Infografik"
+        tipe="Artikel"
         judul="Judul"
       />
     </div>

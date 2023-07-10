@@ -1,12 +1,11 @@
 'use client'
 
 import { Button, TextInput, PasswordInput } from '@mantine/core'
-import { HiLockClosed, HiUser } from 'react-icons/hi'
 import { useForm, zodResolver } from '@mantine/form'
-import Link from 'next/link'
+import { Input } from '@mantine/core'
 import { z } from 'zod'
-// import { useAuth } from "@/store/authStore";
 import { SyntheticEvent, useState } from 'react'
+import Image from 'next/image'
 import { useAuth } from '@/components/contexts/AuthContext'
 
 export default function LoginPage() {
@@ -40,46 +39,64 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="z-[1] flex flex-col gap-8 px-5 sm:px-10 md:pl-20 w-full sm:w-1/2 sm:min-w-[500px]">
-      <aside>
-        <h1 className="text-3xl font-semibold sm:text-5xl">Welcome back</h1>
-        <p className="mt-3 text-xl opacity-80">Sign in to continue</p>
-      </aside>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <TextInput
-          radius="md"
-          size="md"
-          label="Username"
-          classNames={{ input: 'mt-0.5' }}
-          placeholder="Username"
-          icon={<HiUser />}
-          {...form.getInputProps('username')}
-        />
-        <PasswordInput
-          radius="md"
-          size="md"
-          label="Password"
-          classNames={{ input: 'mt-0.5' }}
-          placeholder="Password"
-          icon={<HiLockClosed />}
-          {...form.getInputProps('password')}
-        />
-        <Button
-          loading={loading}
-          radius="md"
-          size="md"
-          className="mt-3 bg-sky-600"
-          type="submit"
-        >
-          Login
-        </Button>
-      </form>
-      {/* <p className="mt-3 text-base opacity-80">
-        Getting started? Register{' '}
-        <Link href="/register" className="underline underline-offset-4">
-          here
-        </Link>
-      </p> */}
+    <section className="flex items-center justify-center w-full min-h-screen p-2 py-10 xl:px-36 xl:py-0">
+      <div className="flex flex-col-reverse xl:flex-row">
+        <div className="md:w-[564px] bg-white md:p-10 p-5 rounded-md">
+          <p className="text-xl font-light font-inter md:text-2xl">
+            Yuk, mulai daftar konseling!
+          </p>
+          <p className="text-2xl font-medium font-inter md:text-3xl mt-7">
+            Login SSO
+          </p>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-9 mt-7">
+            <div>
+              <Input.Label
+                className="pb-2 text-base font-normal text-black font-inter"
+                required
+              >
+                Username
+              </Input.Label>
+              <TextInput
+                radius="md"
+                size="lg"
+                placeholder="Username"
+                {...form.getInputProps('username')}
+              />
+            </div>
+            <div>
+              <Input.Label
+                className="pb-2 text-base font-normal text-black font-inter"
+                required
+              >
+                Password
+              </Input.Label>
+              <PasswordInput
+                radius="md"
+                size="lg"
+                placeholder="Password"
+                {...form.getInputProps('password')}
+              />
+            </div>
+            <Button
+              loading={loading}
+              radius="md"
+              size="md"
+              className="mt-3 bg-sky-600"
+              type="submit"
+            >
+              Login
+            </Button>
+          </form>
+        </div>
+        <div className="relative xl:h-auto h-[221px] xl:w-[580px] w-full">
+          <Image
+            alt="Login Asset"
+            src={'assets/LoginAsset.svg'}
+            fill
+            className="relative"
+          />
+        </div>
+      </div>
     </section>
   )
 }

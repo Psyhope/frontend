@@ -1,3 +1,6 @@
 export * from './Navbar'
 export * from './ArticleLandingCard'
 export * from './InfograficCard'
+export * from './ArticleCard'
+export * from './EventCard'
+export * from './DeleteModal'
