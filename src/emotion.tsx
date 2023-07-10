@@ -31,7 +31,7 @@ export default function RootStyleRegistry({
           colors: {
             // dark: ["#323645"],
           },
-          colorScheme: "light",
+          colorScheme: 'light',
         }}
       >
         <Notifications />

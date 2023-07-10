@@ -1,56 +1,48 @@
-'use client';
+'use client'
 
 import ClientTable from '@/components/elements/ClientTable'
 import React from 'react'
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
-const formatter = Intl.DateTimeFormat('id-ID', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Asia/Jakarta' })
+const formatter = Intl.DateTimeFormat('id-ID', {
+  dateStyle: 'full',
+  timeStyle: 'long',
+  timeZone: 'Asia/Jakarta',
+})
 
 const ClientByIDPage = () => {
   return (
     <>
       <section className="">
         <article className="">
-          <h1 className='py-4 text-2xl font-semibold'>Data Diri Klien</h1>
+          <h1 className="py-4 text-2xl font-semibold">Data Diri Klien</h1>
           <aside className="grid grid-cols-1 text-gray-700 sm:grid-cols-2 md:grid-cols-3">
-            <ul className='flex flex-col gap-3'>
-              <li>
-                Konselor: Akmal Hakim
-              </li>
-              <li>
-                Jenis Konselor: Konselor Psyhope
-              </li>
-              <li>
-                Nama/Inisial: MAH
-              </li>
-              <li>
-                Jenis Kelamin: Laki-laki
-              </li>
+            <ul className="flex flex-col gap-3">
+              <li>Konselor: Akmal Hakim</li>
+              <li>Jenis Konselor: Konselor Psyhope</li>
+              <li>Nama/Inisial: MAH</li>
+              <li>Jenis Kelamin: Laki-laki</li>
             </ul>
-            <ul className='flex flex-col gap-3'>
-              <li>
-                NPM: 2106750383
-              </li>
-              <li>
-                Fakultas:
-                Fakultas Ilmu Komputer
-              </li>
-              <li>
-                Jenjang:
-                S1 Reguler
-              </li>
-              <li>
-                Program Studi:
-                Ilmu Komputer
-              </li>
+            <ul className="flex flex-col gap-3">
+              <li>NPM: 2106750383</li>
+              <li>Fakultas: Fakultas Ilmu Komputer</li>
+              <li>Jenjang: S1 Reguler</li>
+              <li>Program Studi: Ilmu Komputer</li>
             </ul>
             <ul>
               <li>Kanal Curhat: Instagram</li>
               <li>
                 <div className="p-3 bg-red-100 border-2 border-gray-100 rounded-md">
-                  <h2 className='font-medium'>Instagram</h2>
-                  <p className='my-2 text-gray-700'>Jadwal Konseling: Minggu, 08:00 WIB</p>
-                  <a href="http://" target="_blank" rel="noopener noreferrer" className='inline-block px-3 py-2 text-white bg-red-500 rounded'>
+                  <h2 className="font-medium">Instagram</h2>
+                  <p className="my-2 text-gray-700">
+                    Jadwal Konseling: Minggu, 08:00 WIB
+                  </p>
+                  <a
+                    href="http://"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-3 py-2 text-white bg-red-500 rounded"
+                  >
                     Instagram: akmalhakin
                   </a>
                 </div>
@@ -64,13 +56,21 @@ const ClientByIDPage = () => {
           <h1 className="text-3xl font-semibold">Request Reschedule</h1>
         </aside>
         <ClientTable
-          title=''
-          description=''
-          headerTitle={['Jadwal Sebelumnya', 'Permintaan Jadwal', 'Konfirmasi Permintaan']}
+          title=""
+          description=""
+          headerTitle={[
+            'Jadwal Sebelumnya',
+            'Permintaan Jadwal',
+            'Konfirmasi Permintaan',
+          ]}
           rowComponent={(val, index) => (
             <tr key={index}>
-              <td className="bg-yellow-50">{formatter.format(new Date()).replace(" pukul", ",")}</td>
-              <td className="bg-blue-50">{formatter.format(new Date()).replace(" pukul", ",")}</td>
+              <td className="bg-yellow-50">
+                {formatter.format(new Date()).replace(' pukul', ',')}
+              </td>
+              <td className="bg-blue-50">
+                {formatter.format(new Date()).replace(' pukul', ',')}
+              </td>
               <td className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <button className="px-3 py-2 text-red-700 bg-red-100 rounded-md shadow">
@@ -95,12 +95,14 @@ const ClientByIDPage = () => {
           <h1 className="text-3xl font-semibold">Log Konseling</h1>
         </aside>
         <ClientTable
-          title=''
-          description=''
+          title=""
+          description=""
           headerTitle={['Tanggal Konseling', 'Notes']}
           rowComponent={(val, index) => (
             <tr key={index}>
-              <td className="w-1/2">{formatter.format(new Date()).replace(" pukul", ",")}</td>
+              <td className="w-1/2">
+                {formatter.format(new Date()).replace(' pukul', ',')}
+              </td>
               <td className="flex items-center justify-between w-1/2">
                 <div className="flex flex-col gap-2">
                   <p>Judul</p>
@@ -118,7 +120,15 @@ const ClientByIDPage = () => {
       </section>
       <section className="">
         <h1 className="text-3xl font-semibold">Analisis GHQ</h1>
-        <p className='my-3'>The GHQ-12 measure has standardized instructions as well as scoring interpretations for the clinician to follow and is administered as a self-report in which the subject is asked to consider 12 questions and how they relate to his or her personal life over the past few weeks. Total scores range from 0 to 36 with a score of 11 or 12 considered typical, scores &gt; 15 suggesting evidence of distress, and scores &gt; 20 are considered severe problems with psychological distress.</p>
+        <p className="my-3">
+          The GHQ-12 measure has standardized instructions as well as scoring
+          interpretations for the clinician to follow and is administered as a
+          self-report in which the subject is asked to consider 12 questions and
+          how they relate to his or her personal life over the past few weeks.
+          Total scores range from 0 to 36 with a score of 11 or 12 considered
+          typical, scores &gt; 15 suggesting evidence of distress, and scores
+          &gt; 20 are considered severe problems with psychological distress.
+        </p>
         <ul className="grid grid-cols-3">
           <li></li>
           <li></li>
@@ -133,4 +143,3 @@ const ClientByIDPage = () => {
 }
 
 export default ClientByIDPage
-

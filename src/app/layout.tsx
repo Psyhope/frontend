@@ -31,8 +31,9 @@ export default function RootLayout({
           <AuthProvider>
             <GraphQLProvider>
               <div
-                className={`${pathname == '/login' ? 'bg-[#E9D7FE]' : 'bg-white'
-                  } min-h-screen text-black flex flex-col items-center justify-center`}
+                className={`${
+                  pathname == '/login' ? 'bg-[#E9D7FE]' : 'bg-white'
+                } min-h-screen text-black flex flex-col items-center justify-center`}
               >
                 <Navbar />
                 <div className="max-w-[1920px] w-full">{children}</div>
