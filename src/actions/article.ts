@@ -1,4 +1,6 @@
-import { gql } from '@apollo/client'
+import { gql } from '@/__generated__'
+
+// import { gql } from '@apollo/client'
 
 export const GET_ALL_ARTICLE = gql(`
     query FindAllArticle {
