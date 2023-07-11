@@ -24,6 +24,11 @@ export const ScheduleSection: React.FC = () => {
   }
 
   const handlerNext = () => {
+    localStorage.setItem('date', value as string)
+    localStorage.setItem('time', valueTime as string)
+    localStorage.setItem('reason', reason)
+    localStorage.setItem('closest', `${closest}`)
+    
     pathname.slice(10) == 'psyhope'
       ? router.push('/ghq/psyhope')
       : router.push('/ghq/csp')
