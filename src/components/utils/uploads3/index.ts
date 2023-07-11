@@ -50,7 +50,7 @@ export const uploadS3 = async ({
 
   const baseURL = process.env.AWS_BASE_OBJECT_URL
 
-  const awsUrl = `https://perak2023.s3.ap-northeast-1.amazonaws.com/${type}/${id}/${file}`
+  const awsUrl = `https://perak2023.s3.ap-northeast-1.amazonaws.com/${type}/${file}`
 
   if (upload?.status == 204) {
     return awsUrl

@@ -25,7 +25,7 @@ const uploadS3API = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const s3 = new aws.S3()
 
-  const Key = `${type}/${id}/${file}`
+  const Key = `${type}/${file}`
 
   const minSizeFile = 0
   const maxSizeFile = 30 * 1024 * 1024
