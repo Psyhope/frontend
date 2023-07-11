@@ -23,19 +23,31 @@ const ArticlePage = () => {
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
-  const [files, setFiles] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState('')
+  const [thumbnail, setThumbnail] = useState<File | null>(null)
+  const [previewThumbnail, setPreviewThumbnail] = useState('')
+  const [cover, setCover] = useState<File | null>(null)
+  const [previewCover, setPreviewCover] = useState('')
 
   useEffect(() => {
-    if (files) {
-      const imageSrc = URL.createObjectURL(files)
-      setPreviewUrl(imageSrc)
+    if (cover) {
+      const imageSrc = URL.createObjectURL(cover)
+      setPreviewCover(imageSrc)
     } else {
-      setPreviewUrl('')
+      setPreviewCover('')
     }
-  }, [files])
+  }, [cover])
 
-  const content = ''
+  useEffect(() => {
+    if (thumbnail) {
+      const imageSrc = URL.createObjectURL(thumbnail)
+      setPreviewThumbnail(imageSrc)
+    } else {
+      setPreviewThumbnail('')
+    }
+  }, [thumbnail])
+
+  const content =
+    '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>'
 
   const editor = useEditor({
     extensions: [
@@ -218,24 +230,53 @@ const ArticlePage = () => {
               className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
-              Upload Poster
+              Upload Thumbnail (3:2)
             </Input.Label>
             <FileInput
               placeholder="Click here to pick file"
               withAsterisk
-              value={files}
-              onChange={setFiles}
+              value={thumbnail}
+              onChange={setThumbnail}
               clearable
             />
-            {previewUrl && (
+            {previewThumbnail && (
               <SimpleGrid
-                cols={4}
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
                 <div className="w-full aspect-article relative">
                   <Image
-                    src={previewUrl}
+                    src={previewThumbnail}
+                    fill
+                    className="relative"
+                    alt="preview"
+                  />
+                </div>
+              </SimpleGrid>
+            )}
+          </div>
+          <div>
+            <Input.Label
+              className="text-black font-inter font-normal md:text-base text-sm pb-2"
+              required
+            >
+              Upload Cover (8:3)
+            </Input.Label>
+            <FileInput
+              placeholder="Click here to pick file"
+              withAsterisk
+              value={cover}
+              onChange={setCover}
+              clearable
+            />
+            {previewCover && (
+              <SimpleGrid
+                breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                className="mt-5"
+              >
+                <div className="w-full aspect-articleCover relative">
+                  <Image
+                    src={previewCover}
                     fill
                     className="relative"
                     alt="preview"
