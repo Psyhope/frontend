@@ -7,6 +7,7 @@ export const GET_ALL_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -18,6 +19,7 @@ export const GET_BY_PAGE_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -29,6 +31,7 @@ export const GET_BY_ID_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -39,6 +42,7 @@ export const CREATE_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -50,6 +54,7 @@ export const UPDATE_ATRICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
