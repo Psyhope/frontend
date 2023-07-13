@@ -4,6 +4,7 @@ import { Props } from './interface'
 import { Edit, Trash } from '@icons'
 import { DeleteModal } from '../DeleteModal'
 import { useDisclosure } from '@mantine/hooks'
+import Link from 'next/link'
 
 export const ArticleCard: React.FC<Props> = ({
   isAdmin,
@@ -14,8 +15,10 @@ export const ArticleCard: React.FC<Props> = ({
   title,
 }) => {
   const [opened, { open, close }] = useDisclosure(false)
+
+  const description = { __html: content }
   return (
-    <div>
+    <Link href={`/article/${id}`}>
       <div className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none">
         <div className="w-full aspect-article relative">
           <Image
@@ -30,7 +33,7 @@ export const ArticleCard: React.FC<Props> = ({
             {title}
           </p>
           <p className="lg:max-h-20 max-h-12 pb-6 overflow-hidden lg:text-base text-xs">
-            {content}
+            <div dangerouslySetInnerHTML={description} />;
           </p>
         </div>
       </div>
@@ -56,6 +59,6 @@ export const ArticleCard: React.FC<Props> = ({
         tipe="Artikel"
         judul="Judul"
       />
-    </div>
+    </Link>
   )
 }
