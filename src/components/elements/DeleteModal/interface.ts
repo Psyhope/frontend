@@ -5,4 +5,5 @@ export interface Props {
   tipe: 'Artikel' | 'Infografik' | 'Event'
   judul: string
   handleDelete: () => Promise<void>
+  loading: boolean
 }

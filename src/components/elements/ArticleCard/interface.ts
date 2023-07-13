@@ -5,4 +5,5 @@ export interface Props {
   content: string
   posterUrl: string
   thumbnailUrl: string
+  refetch: any
 }

@@ -1,4 +1,4 @@
-import { Modal } from '@mantine/core'
+import { Loader, Modal } from '@mantine/core'
 import React from 'react'
 import { Props } from './interface'
 
@@ -9,6 +9,7 @@ export const DeleteModal: React.FC<Props> = ({
   tipe,
   judul,
   handleDelete,
+  loading,
 }) => {
   return (
     <Modal
@@ -35,10 +36,11 @@ export const DeleteModal: React.FC<Props> = ({
             Cancel
           </button>
           <button
-            className="w-full py-2 text-[#B42318] bg-[#FEF3F2] rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none md:text-base text-sm"
+            className="w-full py-2 text-[#B42318] bg-[#FEF3F2] rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none md:text-base text-sm flex items-center justify-center"
             onClick={handleDelete}
+            disabled={loading}
           >
-            Hapus {tipe}
+            {loading ? <Loader color="red" variant="dots" /> : `Hapus ${tipe}`}
           </button>
         </div>
       </div>

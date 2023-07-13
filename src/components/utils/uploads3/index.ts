@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { UploadS3 } from './interface'
-import { useAuth } from '@/components/contexts/AuthContext'
 
 export const uploadS3 = async ({ file, type, onUploadProgress }: UploadS3) => {
   const minSize = 0
@@ -35,8 +34,6 @@ export const uploadS3 = async ({ file, type, onUploadProgress }: UploadS3) => {
     },
     onUploadProgress,
   })
-
-  const baseURL = process.env.AWS_BASE_OBJECT_URL
 
   const awsUrl = `https://perak2023.s3.ap-northeast-1.amazonaws.com/${type}/${filename}`
 

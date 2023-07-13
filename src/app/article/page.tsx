@@ -4,7 +4,14 @@ import { PlusSquare } from '@icons'
 import Image from 'next/image'
 import React, { useState, SyntheticEvent, useEffect } from 'react'
 import { useDisclosure } from '@mantine/hooks'
-import { Modal, Input, TextInput, SimpleGrid, FileInput } from '@mantine/core'
+import {
+  Modal,
+  Input,
+  TextInput,
+  SimpleGrid,
+  FileInput,
+  Loader,
+} from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { RichTextEditor, Link } from '@mantine/tiptap'
@@ -20,6 +27,8 @@ import TextStyle from '@tiptap/extension-text-style'
 import { useMutation, useQuery } from '@apollo/client'
 import { CREATE_ARTICLE, GET_ALL_ARTICLE } from '@/actions/article'
 import { uploadS3 } from '@utils'
+import { notifications } from '@mantine/notifications'
+import { GET } from '../api/auth/refresh/route'
 
 type Article = {
   id: number
@@ -63,14 +72,9 @@ const ArticlePage = () => {
   }, [thumbnail])
 
   // Query
-  const {
-    loading: getAllLoading,
-    error: getAllError,
-    refetch: getAllRefetch,
-  } = useQuery(GET_ALL_ARTICLE, {
+  const { refetch: getAllRefetch } = useQuery(GET_ALL_ARTICLE, {
     onCompleted(data) {
       setListArticle(data.findAllArticle)
-      console.log('data', data)
     },
     onError(error) {
       console.log('error', error)
@@ -78,7 +82,10 @@ const ArticlePage = () => {
   })
 
   // Mutation
-  const [mutate, { data, loading: createLoading }] = useMutation(CREATE_ARTICLE)
+  const [mutate, { data, loading: createLoading }] = useMutation(
+    CREATE_ARTICLE,
+    { refetchQueries: [GET_ALL_ARTICLE] }
+  )
 
   // Rich Text Editor
   const content =
@@ -114,7 +121,6 @@ const ArticlePage = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      console.log('mulai')
       const thumbnailUrl = await uploadS3({
         file: thumbnail,
         type: 'thumbnail',
@@ -134,15 +140,29 @@ const ArticlePage = () => {
             thumbnailUrl: thumbnailUrl,
           },
         },
+        onCompleted: () => {
+          close()
+          notifications.show({
+            title: 'Success',
+            message: 'Add Article Successfull',
+            color: 'teal',
+            autoClose: 3000,
+          })
+        },
       })
     } catch (error) {
-      console.log(error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Someting Wrong...',
+        color: 'red',
+        autoClose: 3000,
+      })
     } finally {
       setLoading(false)
     }
   }
 
-  const disable = !!form.errors || !content || !thumbnail || !cover
+  const disable = form.values.title == '' || thumbnail == null || cover == null
 
   return (
     <div className="min-h-screen p-5 lg:px-28">
@@ -188,6 +208,7 @@ const ArticlePage = () => {
               thumbnailUrl={article.thumbnailUrl}
               title={article.title}
               key={article.id}
+              refetch={getAllRefetch}
             />
           ))}
         </div>
@@ -310,7 +331,7 @@ const ArticlePage = () => {
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-article relative">
+                <div className="w-full md:w-1/4 aspect-article relative">
                   <Image
                     src={previewThumbnail}
                     fill
@@ -341,7 +362,7 @@ const ArticlePage = () => {
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-articleCover relative">
+                <div className="w-full md:w-1/2 aspect-articleCover relative">
                   <Image
                     src={previewCover}
                     fill
@@ -360,10 +381,13 @@ const ArticlePage = () => {
               Cancel
             </button>
             <button
-              className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
+              className={`w-full py-2 ${
+                disable ? 'bg-gray-500' : 'bg-[#7F56D9]'
+              } text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none flex items-center justify-center`}
               onClick={handleSubmit}
+              disabled={disable || loading}
             >
-              Tambah Event
+              {loading ? <Loader variant="dots" /> : `Tambah Article`}
             </button>
           </div>
         </div>

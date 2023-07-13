@@ -2,10 +2,16 @@ import Image from 'next/image'
 import { Props } from './interface'
 import { Edit, Trash } from '@icons'
 import { DeleteModal } from '../DeleteModal'
-import { PlusSquare } from '@icons'
 import React, { useState, SyntheticEvent, useEffect } from 'react'
 import { useDisclosure } from '@mantine/hooks'
-import { Modal, Input, TextInput, SimpleGrid, FileInput } from '@mantine/core'
+import {
+  Modal,
+  Input,
+  TextInput,
+  SimpleGrid,
+  FileInput,
+  Loader,
+} from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { RichTextEditor, Link } from '@mantine/tiptap'
@@ -18,10 +24,11 @@ import Superscript from '@tiptap/extension-superscript'
 import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { uploadS3 } from '@utils'
 import { useRouter } from 'next/navigation'
 import { DELETE_ARTICLE, UPDATE_ATRICLE } from '@/actions/article'
+import { notifications } from '@mantine/notifications'
 
 export const ArticleCard: React.FC<Props> = ({
   isAdmin,
@@ -30,6 +37,7 @@ export const ArticleCard: React.FC<Props> = ({
   posterUrl,
   thumbnailUrl,
   title,
+  refetch,
 }) => {
   const [opened1, { open: open1, close: close1 }] = useDisclosure(false)
   const [opened2, { open: open2, close: close2 }] = useDisclosure(false)
@@ -127,9 +135,24 @@ export const ArticleCard: React.FC<Props> = ({
             thumbnailUrl: thumbnailUrl2,
           },
         },
+        onCompleted: () => {
+          refetch()
+          close2()
+          notifications.show({
+            title: 'Success',
+            message: 'Edit Article Successfull',
+            color: 'teal',
+            autoClose: 3000,
+          })
+        },
       })
     } catch (error) {
-      console.log(error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Someting Wrong...',
+        color: 'red',
+        autoClose: 3000,
+      })
     } finally {
       setLoading(false)
     }
@@ -142,13 +165,32 @@ export const ArticleCard: React.FC<Props> = ({
         variables: {
           removeArticleId: id,
         },
+        onCompleted: () => {
+          refetch()
+          close1()
+          notifications.show({
+            title: 'Success',
+            message: 'Delete Article Successfull',
+            color: 'teal',
+            autoClose: 3000,
+          })
+        },
       })
     } catch (error) {
-      console.log(error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Someting Wrong...',
+        color: 'red',
+        autoClose: 3000,
+      })
     } finally {
       setLoading(false)
     }
   }
+
+  const disable =
+    form.values.title == '' || previewThumbnail == null || previewCover == null
+
   return (
     <div>
       <button onClick={() => router.push(`/article/${id}`)}>
@@ -162,7 +204,7 @@ export const ArticleCard: React.FC<Props> = ({
             />
           </div>
           <div className="bg-[#D9D6FE] w-full lg:h-[156px] h-[100px] relative rounded-lg -mt-2 lg:p-6 p-2">
-            <p className="text-[#53389E] lg:text-2xl text-lg font-bold text-start">
+            <p className="text-[#53389E] lg:text-2xl text-lg md:font-bold font-semibold text-start">
               {title}
             </p>
             <div className="lg:max-h-20 max-h-12 pb-6 overflow-hidden lg:text-base text-xs text-start">
@@ -196,6 +238,7 @@ export const ArticleCard: React.FC<Props> = ({
         tipe="Artikel"
         judul={title}
         handleDelete={handleDelete}
+        loading={loading}
       />
       <Modal
         opened={opened2}
@@ -315,7 +358,7 @@ export const ArticleCard: React.FC<Props> = ({
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-article relative">
+                <div className="w-full md:w-1/4 aspect-article relative">
                   <Image
                     src={previewThumbnail}
                     fill
@@ -346,7 +389,7 @@ export const ArticleCard: React.FC<Props> = ({
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-articleCover relative">
+                <div className="w-full md:w-1/2 aspect-articleCover relative">
                   <Image
                     src={previewCover}
                     fill
@@ -360,15 +403,18 @@ export const ArticleCard: React.FC<Props> = ({
           <div className="flex gap-4 md:flex-row flex-col">
             <button
               className="w-full py-2 bg-white border border-[#D0D5DD] text-[#344054] font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
-              onClick={close}
+              onClick={close2}
             >
               Cancel
             </button>
             <button
-              className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
+              className={`w-full py-2 ${
+                disable ? 'bg-gray-500' : 'bg-[#7F56D9]'
+              } text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none flex items-center justify-center`}
               onClick={handleSubmit}
+              disabled={disable || loading}
             >
-              Tambah Event
+              {loading ? <Loader variant="dots" /> : `Edit Article`}
             </button>
           </div>
         </div>
