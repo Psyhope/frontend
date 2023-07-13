@@ -1,20 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse, NextRequest } from 'next/server'
 import aws from 'aws-sdk'
 
-const uploadS3API = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== 'POST') {
-    return res.status(405).send('Method not allowed')
-  }
+export async function POST(req: Request) {
+  const body = await req.json()
+  // return NextResponse.json({ res })
 
-  const {
-    query: { file },
-    body: { type, id },
-  } = req
-
-  if (!file) {
-    return res.status(404).send({
-      error: 'Please provide a file',
-    })
+  if (!body.filename) {
+    return NextResponse.json(
+      { message: 'Please provide a file' },
+      { status: 404 }
+    )
   }
 
   aws.config.update({
@@ -25,7 +20,7 @@ const uploadS3API = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const s3 = new aws.S3()
 
-  const Key = `${type}/${file}`
+  const Key = `${body.type}/${body.filename}`
 
   const minSizeFile = 0
   const maxSizeFile = 30 * 1024 * 1024
@@ -39,7 +34,5 @@ const uploadS3API = async (req: NextApiRequest, res: NextApiResponse) => {
     Conditions: [['content-length-range', minSizeFile, maxSizeFile]],
   })
 
-  return res.send(post)
+  return NextResponse.json({ post })
 }
-
-export default uploadS3API

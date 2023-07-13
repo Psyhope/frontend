@@ -1,12 +1,8 @@
 import axios from 'axios'
 import { UploadS3 } from './interface'
+import { useAuth } from '@/components/contexts/AuthContext'
 
-export const uploadS3 = async ({
-  file,
-  id,
-  type,
-  onUploadProgress,
-}: UploadS3) => {
+export const uploadS3 = async ({ file, type, onUploadProgress }: UploadS3) => {
   const minSize = 0
   const maxSize = 1 * 1024 * 1024 // 1MB
 
@@ -16,19 +12,11 @@ export const uploadS3 = async ({
 
   const filename = file?.name
 
-  const csrf = await axios.get('/api/auth/csrf')
+  console.log('filename', filename)
+  const res = await axios.post(`/api/s3/upload`, { type, filename })
+  console.log(res)
 
-  const res = await axios.post(
-    `/api/s3/upload?file=` + filename,
-    { id },
-    {
-      headers: {
-        'anti-csrf': csrf.data.csrfToken,
-      },
-    }
-  )
-
-  const { url, fields, error } = res.data
+  const { url, fields, error } = res.data.post
 
   if (error) throw new Error(error)
 

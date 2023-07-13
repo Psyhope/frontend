@@ -17,6 +17,17 @@ import Superscript from '@tiptap/extension-superscript'
 import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
+import { useMutation, useQuery } from '@apollo/client'
+import { CREATE_ARTICLE, GET_ALL_ARTICLE } from '@/actions/article'
+import { uploadS3 } from '@utils'
+
+type Article = {
+  id: number
+  title: string
+  content: string
+  posterUrl: string
+  thumbnailUrl: string
+}
 
 const ArticlePage = () => {
   const [isAdmin, setIsAdmin] = useState(true)
@@ -27,7 +38,9 @@ const ArticlePage = () => {
   const [previewThumbnail, setPreviewThumbnail] = useState('')
   const [cover, setCover] = useState<File | null>(null)
   const [previewCover, setPreviewCover] = useState('')
+  const [listArticle, setListArticle] = useState<Array<Article>>()
 
+  // Cover Preview
   useEffect(() => {
     if (cover) {
       const imageSrc = URL.createObjectURL(cover)
@@ -35,8 +48,10 @@ const ArticlePage = () => {
     } else {
       setPreviewCover('')
     }
+    console.log(cover)
   }, [cover])
 
+  // Thumbnail Preview
   useEffect(() => {
     if (thumbnail) {
       const imageSrc = URL.createObjectURL(thumbnail)
@@ -44,11 +59,30 @@ const ArticlePage = () => {
     } else {
       setPreviewThumbnail('')
     }
+    console.log(thumbnail)
   }, [thumbnail])
 
+  // Query
+  const {
+    loading: getAllLoading,
+    error: getAllError,
+    refetch: getAllRefetch,
+  } = useQuery(GET_ALL_ARTICLE, {
+    onCompleted(data) {
+      setListArticle(data.findAllArticle)
+      console.log('data', data)
+    },
+    onError(error) {
+      console.log('error', error)
+    },
+  })
+
+  // Mutation
+  const [mutate, { data, loading: createLoading }] = useMutation(CREATE_ARTICLE)
+
+  // Rich Text Editor
   const content =
     '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>'
-
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -64,6 +98,7 @@ const ArticlePage = () => {
     content: content,
   })
 
+  // Form
   const form = useForm({
     initialValues: {
       title: '',
@@ -77,10 +112,37 @@ const ArticlePage = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    console.log(form.values)
-    console.log(editor?.getHTML())
     setLoading(true)
+    try {
+      console.log('mulai')
+      const thumbnailUrl = await uploadS3({
+        file: thumbnail,
+        type: 'thumbnail',
+      })
+
+      const coverUrl = await uploadS3({
+        file: cover,
+        type: 'cover',
+      })
+
+      mutate({
+        variables: {
+          createArticleInput: {
+            title: form.values.title,
+            content: editor ? editor.getHTML() : '',
+            posterUrl: coverUrl,
+            thumbnailUrl: thumbnailUrl,
+          },
+        },
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const disable = !!form.errors || !content || !thumbnail || !cover
 
   return (
     <div className="min-h-screen p-5 lg:px-28">
@@ -117,14 +179,17 @@ const ArticlePage = () => {
       {/* Grid */}
       <div className=" flex justify-center mt-5">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
+          {listArticle?.map((article: Article) => (
+            <ArticleCard
+              isAdmin={isAdmin}
+              content={article.content}
+              id={article.id}
+              posterUrl={article.posterUrl}
+              thumbnailUrl={article.thumbnailUrl}
+              title={article.title}
+              key={article.id}
+            />
+          ))}
         </div>
       </div>
       <Modal
@@ -238,6 +303,7 @@ const ArticlePage = () => {
               value={thumbnail}
               onChange={setThumbnail}
               clearable
+              accept="image/png,image/jpeg,image/jpg"
             />
             {previewThumbnail && (
               <SimpleGrid
@@ -268,6 +334,7 @@ const ArticlePage = () => {
               value={cover}
               onChange={setCover}
               clearable
+              accept="image/png,image/jpeg,image/jpg"
             />
             {previewCover && (
               <SimpleGrid

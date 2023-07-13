@@ -5,7 +5,14 @@ import { Edit, Trash } from '@icons'
 import { DeleteModal } from '../DeleteModal'
 import { useDisclosure } from '@mantine/hooks'
 
-export const ArticleCard: React.FC<Props> = ({ isAdmin }) => {
+export const ArticleCard: React.FC<Props> = ({
+  isAdmin,
+  content,
+  id,
+  posterUrl,
+  thumbnailUrl,
+  title,
+}) => {
   const [opened, { open, close }] = useDisclosure(false)
   return (
     <div>
@@ -13,19 +20,17 @@ export const ArticleCard: React.FC<Props> = ({ isAdmin }) => {
         <div className="w-full aspect-article relative">
           <Image
             alt="Infografis"
-            src={'/assets/ArticlePlaceholder.jpg'}
+            src={thumbnailUrl}
             fill
             className="rounded-t-lg"
           />
         </div>
         <div className="bg-[#D9D6FE] w-full lg:h-[156px] h-[100px] relative rounded-lg -mt-2 lg:p-6 p-2">
-          <p className="text-[#53389E] lg:text-2xl text-lg font-bold">Judul</p>
+          <p className="text-[#53389E] lg:text-2xl text-lg font-bold">
+            {title}
+          </p>
           <p className="lg:max-h-20 max-h-12 pb-6 overflow-hidden lg:text-base text-xs">
-            Lorem ipsum dolor sit amet consectetur. Dui in iaculis non dui amet
-            imperdiet Lorem ipsum dolor sit amet consectetur. Dui in iaculis non
-            dui amet imperdietLorem ipsum dolor sit amet consectetur. Dui in
-            iaculis non dui amet imperdiet Lorem ipsum dolor sit amet
-            consectetur. Dui in iaculis non dui amet imperdiet
+            {content}
           </p>
         </div>
       </div>
