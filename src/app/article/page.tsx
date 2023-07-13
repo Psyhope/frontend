@@ -57,7 +57,6 @@ const ArticlePage = () => {
     } else {
       setPreviewCover('')
     }
-    console.log(cover)
   }, [cover])
 
   // Thumbnail Preview
@@ -68,7 +67,6 @@ const ArticlePage = () => {
     } else {
       setPreviewThumbnail('')
     }
-    console.log(thumbnail)
   }, [thumbnail])
 
   // Query
@@ -151,6 +149,7 @@ const ArticlePage = () => {
         },
       })
     } catch (error) {
+      console.log('error', error)
       notifications.show({
         title: 'Failed',
         message: 'Someting Wrong...',

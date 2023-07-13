@@ -147,6 +147,7 @@ export const ArticleCard: React.FC<Props> = ({
         },
       })
     } catch (error) {
+      console.log('error', error)
       notifications.show({
         title: 'Failed',
         message: 'Someting Wrong...',
@@ -177,6 +178,7 @@ export const ArticleCard: React.FC<Props> = ({
         },
       })
     } catch (error) {
+      console.log('error', error)
       notifications.show({
         title: 'Failed',
         message: 'Someting Wrong...',
@@ -204,12 +206,9 @@ export const ArticleCard: React.FC<Props> = ({
             />
           </div>
           <div className="bg-[#D9D6FE] w-full lg:h-[156px] h-[100px] relative rounded-lg -mt-2 lg:p-6 p-2">
-            <p className="text-[#53389E] lg:text-2xl text-lg md:font-bold font-semibold text-start">
+            <p className="text-[#53389E] lg:text-2xl text-lg md:font-bold font-semibold text-start h-full  break-words overflow-hidden">
               {title}
             </p>
-            <div className="lg:max-h-20 max-h-12 pb-6 overflow-hidden lg:text-base text-xs text-start">
-              <div dangerouslySetInnerHTML={description} />
-            </div>
           </div>
         </div>
       </button>
