@@ -47,13 +47,13 @@ export const InfograficCard: React.FC<Props> = ({ isAdmin }) => {
         </div>
       )}
 
-      <DeleteModal
+      {/* <DeleteModal
         close={close}
         open={open}
         opened={opened}
         tipe="Infografik"
         judul="Judul"
-      />
+      /> */}
     </div>
   )
 }

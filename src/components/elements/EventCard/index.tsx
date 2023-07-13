@@ -53,13 +53,14 @@ export const EventCard: React.FC<Props> = ({ isAdmin }) => {
         </div>
       )}
 
-      <DeleteModal
+      {/* <DeleteModal
         close={close2}
         open={open2}
         opened={opened2}
         tipe="Event"
         judul="Judul"
-      />
+        handleDelete={}
+      /> */}
 
       <Modal
         opened={opened1}

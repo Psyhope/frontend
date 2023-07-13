@@ -8,6 +8,7 @@ export const DeleteModal: React.FC<Props> = ({
   open,
   tipe,
   judul,
+  handleDelete,
 }) => {
   return (
     <Modal
@@ -33,7 +34,10 @@ export const DeleteModal: React.FC<Props> = ({
           >
             Cancel
           </button>
-          <button className="w-full py-2 text-[#B42318] bg-[#FEF3F2] rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none md:text-base text-sm">
+          <button
+            className="w-full py-2 text-[#B42318] bg-[#FEF3F2] rounded-lg font-semibold drop-shadow-lg active:drop-shadow-none md:text-base text-sm"
+            onClick={handleDelete}
+          >
             Hapus {tipe}
           </button>
         </div>
