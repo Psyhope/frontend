@@ -3,6 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  ul {
+    list-style: disc;
+  }
+  ol {
+    list-style: decimal;
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

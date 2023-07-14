@@ -90,10 +90,7 @@ const ArticlePage = () => {
     '<h2 style="text-align: center">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/">Tiptap.dev</a> and supports all of its features:</p><p>General text formatting: </p><p>1. <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </p><p>2. Headings (h1-h6)</p><p>3. Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</p><p>4. Ordered and bullet listsText align&nbsp;And all <a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/extensions">other extensions</a></p>'
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        bulletList: false,
-        orderedList: false,
-      }),
+      StarterKit,
       Underline,
       Link,
       Superscript,
@@ -261,6 +258,7 @@ const ArticlePage = () => {
                   <RichTextEditor.Italic />
                   <RichTextEditor.Underline />
                   <RichTextEditor.Strikethrough />
+
                   <RichTextEditor.ClearFormatting />
                   <RichTextEditor.Highlight />
                   <RichTextEditor.Code />
@@ -276,7 +274,8 @@ const ArticlePage = () => {
                 <RichTextEditor.ControlsGroup>
                   <RichTextEditor.Blockquote />
                   <RichTextEditor.Hr />
-
+                  <RichTextEditor.BulletList />
+                  <RichTextEditor.OrderedList />
                   <RichTextEditor.Subscript />
                   <RichTextEditor.Superscript />
                 </RichTextEditor.ControlsGroup>

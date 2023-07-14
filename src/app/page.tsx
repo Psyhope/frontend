@@ -83,10 +83,10 @@ export default function Home() {
             >
               <div className="transition-transform -translate-x-0 flex">
                 <ArticleLandingCard className="mx-2 flex-none" />
+                {/* <ArticleLandingCard className="mx-2 flex-none" />
                 <ArticleLandingCard className="mx-2 flex-none" />
                 <ArticleLandingCard className="mx-2 flex-none" />
-                <ArticleLandingCard className="mx-2 flex-none" />
-                <ArticleLandingCard className="mx-2 flex-none" />
+                <ArticleLandingCard className="mx-2 flex-none" /> */}
               </div>
             </div>
           </div>

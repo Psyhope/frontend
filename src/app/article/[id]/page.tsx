@@ -46,10 +46,7 @@ const ArticleByIdPage = () => {
   const editor = useEditor({
     editable: false,
     extensions: [
-      StarterKit.configure({
-        bulletList: false,
-        orderedList: false,
-      }),
+      StarterKit,
       Underline,
       Link,
       Superscript,
