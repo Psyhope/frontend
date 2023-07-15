@@ -29,6 +29,7 @@ import { uploadS3 } from '@utils'
 import { useRouter } from 'next/navigation'
 import { DELETE_ARTICLE, UPDATE_ATRICLE } from '@/actions/article'
 import { notifications } from '@mantine/notifications'
+import { IconCheck } from '@tabler/icons-react'
 
 export const ArticleCard: React.FC<Props> = ({
   isAdmin,
@@ -114,6 +115,31 @@ export const ArticleCard: React.FC<Props> = ({
         thumbnailUrl2 = await uploadS3({
           file: thumbnail,
           type: 'thumbnail',
+          onUploadProgress: (progressEvent) => {
+            const { loaded, total } = progressEvent
+            const total2 = total ? (total as number) : 0
+            const percent = Math.round((loaded / total2) * 100)
+
+            const message = `Uploading Thumbnail... ${percent}%`
+
+            notifications.show({
+              id: 'load-data-thumbnail',
+              loading: true,
+              title: 'Upload',
+              message: message,
+              autoClose: false,
+              withCloseButton: false,
+            })
+          },
+        })
+
+        notifications.update({
+          id: 'load-data-thumbnail',
+          color: 'teal',
+          title: 'Success',
+          message: 'Thumbnail was Uploaded',
+          icon: <IconCheck size="1rem" />,
+          autoClose: 2000,
         })
       }
 
@@ -122,6 +148,31 @@ export const ArticleCard: React.FC<Props> = ({
         coverUrl2 = await uploadS3({
           file: cover,
           type: 'cover',
+          onUploadProgress: (progressEvent) => {
+            const { loaded, total } = progressEvent
+            const total2 = total ? (total as number) : 0
+            const percent = Math.round((loaded / total2) * 100)
+
+            const message = `Uploading Cover... ${percent}%`
+
+            notifications.show({
+              id: 'load-data-cover',
+              loading: true,
+              title: 'Upload',
+              message: message,
+              autoClose: false,
+              withCloseButton: false,
+            })
+          },
+        })
+
+        notifications.update({
+          id: 'load-data-cover',
+          color: 'teal',
+          title: 'Success',
+          message: 'Cover was Uploaded',
+          icon: <IconCheck size="1rem" />,
+          autoClose: 2000,
         })
       }
 
