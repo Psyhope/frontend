@@ -66,3 +66,21 @@ export const DELETE_ARTICLE = gql(`
         }
     }
 `)
+
+export const GET_BY_LIMIT_ARTICLE = gql(`
+    query FindByLimitArticle($limit: Int!) {
+        findByLimitArticle(limit: $limit) {
+        id
+        title
+        content
+        posterUrl
+        thumbnailUrl
+        }
+    }
+`)
+
+export const GET_COUNT_ARTICLE = gql(`
+    query Query {
+        countArticle
+    }
+`)

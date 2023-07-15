@@ -72,7 +72,7 @@ const ArticleByIdPage = () => {
     <div className="min-h-screen p-5 lg:px-28 flex flex-col gap-5">
       <div className="flex items-center gap-5">
         <button
-          onClick={() => router.push('/article')}
+          onClick={() => router.back()}
           className="bg-[#7F56D9] md:p-2 p-1 rounded-lg drop-shadow-lg active:drop-shadow-none"
         >
           <ArrowLeft />
@@ -82,7 +82,7 @@ const ArticleByIdPage = () => {
             <p className="">Home</p>
           </button>
           <p>/</p>
-          <button onClick={() => router.push('/article')}>
+          <button onClick={() => router.push('/article?page=1')}>
             <p className="font-bold">Artikel</p>
           </button>
         </div>

@@ -145,6 +145,15 @@ export const ArticleCard: React.FC<Props> = ({
             autoClose: 3000,
           })
         },
+        onError: (e) => {
+          console.log('error', e)
+          notifications.show({
+            title: 'Failed',
+            message: e.message,
+            color: 'red',
+            autoClose: 3000,
+          })
+        },
       })
     } catch (error) {
       console.log('error', error)
@@ -173,6 +182,15 @@ export const ArticleCard: React.FC<Props> = ({
             title: 'Success',
             message: 'Delete Article Successfull',
             color: 'teal',
+            autoClose: 3000,
+          })
+        },
+        onError: (e) => {
+          console.log('error', e)
+          notifications.show({
+            title: 'Failed',
+            message: e.message,
+            color: 'red',
             autoClose: 3000,
           })
         },

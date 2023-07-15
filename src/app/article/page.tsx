@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   FileInput,
   Loader,
+  Pagination,
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
@@ -25,10 +26,15 @@ import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import { useMutation, useQuery } from '@apollo/client'
-import { CREATE_ARTICLE, GET_ALL_ARTICLE } from '@/actions/article'
+import {
+  CREATE_ARTICLE,
+  GET_BY_PAGE_ARTICLE,
+  GET_COUNT_ARTICLE,
+} from '@/actions/article'
 import { uploadS3 } from '@utils'
 import { notifications } from '@mantine/notifications'
-import { GET } from '../api/auth/refresh/route'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 type Article = {
   id: number
@@ -39,7 +45,11 @@ type Article = {
 }
 
 const ArticlePage = () => {
-  const [isAdmin, setIsAdmin] = useState(true)
+  const { user } = useAuth()
+
+  const [isAdmin, setIsAdmin] = useState(
+    user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
+  )
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
@@ -48,6 +58,23 @@ const ArticlePage = () => {
   const [cover, setCover] = useState<File | null>(null)
   const [previewCover, setPreviewCover] = useState('')
   const [listArticle, setListArticle] = useState<Array<Article>>()
+
+  const [count, setCount] = useState(1)
+
+  const searchParams = useSearchParams()
+
+  const page = Number(searchParams.get('page'))
+
+  const router = useRouter()
+
+  const {} = useQuery(GET_COUNT_ARTICLE, {
+    onCompleted(data) {
+      setCount(Math.ceil(data.countArticle / 10))
+    },
+    onError(error) {
+      console.log('error', error)
+    },
+  })
 
   // Cover Preview
   useEffect(() => {
@@ -70,9 +97,12 @@ const ArticlePage = () => {
   }, [thumbnail])
 
   // Query
-  const { refetch: getAllRefetch } = useQuery(GET_ALL_ARTICLE, {
+  const { refetch: getAllRefetch } = useQuery(GET_BY_PAGE_ARTICLE, {
+    variables: {
+      page: page,
+    },
     onCompleted(data) {
-      setListArticle(data.findAllArticle)
+      setListArticle(data.findByPageArticle)
     },
     onError(error) {
       console.log('error', error)
@@ -82,7 +112,7 @@ const ArticlePage = () => {
   // Mutation
   const [mutate, { data, loading: createLoading }] = useMutation(
     CREATE_ARTICLE,
-    { refetchQueries: [GET_ALL_ARTICLE] }
+    { refetchQueries: [GET_BY_PAGE_ARTICLE] }
   )
 
   // Rich Text Editor
@@ -152,6 +182,15 @@ const ArticlePage = () => {
             autoClose: 3000,
           })
         },
+        onError: (e) => {
+          console.log('error', e)
+          notifications.show({
+            title: 'Failed',
+            message: e.message,
+            color: 'red',
+            autoClose: 3000,
+          })
+        },
       })
     } catch (error) {
       console.log('error', error)
@@ -216,6 +255,15 @@ const ArticlePage = () => {
             />
           ))}
         </div>
+      </div>
+      <div className="w-full justify-center md:justify-end flex mt-5">
+        <Pagination
+          value={page}
+          total={count}
+          color="violet"
+          withControls={false}
+          onChange={(p) => router.push(`/article?page=${p}`)}
+        />
       </div>
       <Modal
         opened={opened}
