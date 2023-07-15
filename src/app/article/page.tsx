@@ -68,6 +68,7 @@ const ArticlePage = () => {
 
   const router = useRouter()
 
+  // get count
   const {} = useQuery(GET_COUNT_ARTICLE, {
     onCompleted(data) {
       setCount(Math.ceil(data.countArticle / 10))

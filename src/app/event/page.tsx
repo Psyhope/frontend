@@ -4,10 +4,17 @@ import { PlusSquare } from '@icons'
 import Image from 'next/image'
 import React, { useState, SyntheticEvent, useEffect } from 'react'
 import { useDisclosure } from '@mantine/hooks'
-import { Modal, Input, TextInput, SimpleGrid, FileInput } from '@mantine/core'
+import {
+  Modal,
+  Input,
+  TextInput,
+  SimpleGrid,
+  FileInput,
+  Loader,
+} from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
-import { DatePickerInput } from '@mantine/dates'
+import { DatePickerInput, DateTimePicker } from '@mantine/dates'
 import { RichTextEditor, Link } from '@mantine/tiptap'
 import { useEditor } from '@tiptap/react'
 import Highlight from '@tiptap/extension-highlight'
@@ -18,14 +25,65 @@ import Superscript from '@tiptap/extension-superscript'
 import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
+import { useAuth } from '@/components/contexts/AuthContext'
+import { useSearchParams } from 'next/navigation'
+import { useMutation, useQuery } from '@apollo/client'
+import {
+  CREATE_EVENT,
+  GET_BY_PAGE_EVENT,
+  GET_COUNT_EVENT,
+} from '@/actions/event'
+import { notifications } from '@mantine/notifications'
+import { uploadS3 } from '@utils'
+import { IconCheck } from '@tabler/icons-react'
+
+type Event = {
+  id: number
+  title: string
+  date: Date
+  location: string
+  time: string
+  description: string
+  posterUrl: string
+}
 
 const EventPage = () => {
-  const [isAdmin, setIsAdmin] = useState(true)
+  const { user } = useAuth()
+
+  const [isAdmin, setIsAdmin] = useState(
+    user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
+  )
+
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
   const [files, setFiles] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState('')
 
+  const [listEvent, setListEvent] = useState<Array<Event>>()
+
+  const [count, setCount] = useState(1)
+
+  const searchParams = useSearchParams()
+
+  const page = Number(searchParams.get('page'))
+
+  // get count
+  const {} = useQuery(GET_COUNT_EVENT, {
+    onCompleted(data) {
+      setCount(Math.ceil(data.countEvent / 10))
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
+
+  // Image Preview
   useEffect(() => {
     if (files) {
       const imageSrc = URL.createObjectURL(files)
@@ -34,6 +92,30 @@ const EventPage = () => {
       setPreviewUrl('')
     }
   }, [files])
+
+  // Query
+  const { refetch: getAllRefetch } = useQuery(GET_BY_PAGE_EVENT, {
+    variables: {
+      page: page,
+    },
+    onCompleted(data) {
+      setListEvent(data.findByPageEvent)
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
+
+  // Mutation
+  const [mutate, { data, loading: createLoading }] = useMutation(CREATE_EVENT, {
+    refetchQueries: [GET_BY_PAGE_EVENT],
+  })
 
   const content =
     '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>'
@@ -51,6 +133,11 @@ const EventPage = () => {
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: content,
+    editorProps: {
+      attributes: {
+        class: 'font-inter text-sm md:text-base',
+      },
+    },
   })
 
   const form = useForm({
@@ -72,10 +159,87 @@ const EventPage = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    console.log(form.values)
-    console.log(editor?.getHTML())
     setLoading(true)
+    try {
+      const posterUrl = await uploadS3({
+        file: files,
+        type: 'poster',
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const total2 = total ? (total as number) : 0
+          const percent = Math.round((loaded / total2) * 100)
+
+          const message = `Uploading Poster... ${percent}%`
+
+          notifications.show({
+            id: 'load-data-poster',
+            loading: true,
+            title: 'Upload',
+            message: message,
+            autoClose: false,
+            withCloseButton: false,
+          })
+        },
+      })
+
+      notifications.update({
+        id: 'load-data-poster',
+        color: 'teal',
+        title: 'Success',
+        message: 'Poster was Uploaded',
+        icon: <IconCheck size="1rem" />,
+        autoClose: 2000,
+      })
+
+      mutate({
+        variables: {
+          createEventInput: {
+            date: form.values.date,
+            description: editor ? editor.getHTML() : '',
+            location: form.values.location,
+            posterUrl: posterUrl,
+            time: form.values.time,
+            title: form.values.eventName,
+          },
+        },
+        onCompleted: () => {
+          close()
+          notifications.show({
+            title: 'Success',
+            message: 'Add Event Successfull',
+            color: 'teal',
+            autoClose: 3000,
+          })
+        },
+        onError: (e) => {
+          console.log('error', e)
+          notifications.show({
+            title: 'Failed',
+            message: e.message,
+            color: 'red',
+            autoClose: 3000,
+          })
+        },
+      })
+    } catch (error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Someting Wrong when create...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const disable =
+    form.values.date == null ||
+    form.values.location == '' ||
+    form.values.eventName == '' ||
+    form.values.time == '' ||
+    files == null
 
   return (
     <div className="min-h-screen p-5 lg:px-28">
@@ -112,25 +276,15 @@ const EventPage = () => {
       {/* Grid */}
       <div className=" flex justify-center mt-5">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
-          <EventCard isAdmin={isAdmin} />
+          {listEvent &&
+            listEvent.map((event) => (
+              <EventCard
+                isAdmin={isAdmin}
+                {...event}
+                key={event.id}
+                refetch={getAllRefetch}
+              />
+            ))}
         </div>
       </div>
       <Modal
@@ -166,9 +320,8 @@ const EventPage = () => {
               >
                 Tanggal Event
               </Input.Label>
-              <DatePickerInput
+              <DateTimePicker
                 dropdownType="modal"
-                valueFormat="DD MMM YYYY"
                 placeholder="Pilih Tanggal Event"
                 radius="md"
                 size="lg"
@@ -317,10 +470,13 @@ const EventPage = () => {
               Cancel
             </button>
             <button
-              className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
+              className={`w-full py-2 ${
+                disable ? 'bg-gray-500' : 'bg-[#7F56D9]'
+              } text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none flex items-center justify-center`}
               onClick={handleSubmit}
+              disabled={disable || loading}
             >
-              Tambah Event
+              {loading ? <Loader variant="dots" /> : `Tambah Event`}
             </button>
           </div>
         </div>

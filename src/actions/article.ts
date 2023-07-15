@@ -80,7 +80,7 @@ export const GET_BY_LIMIT_ARTICLE = gql(`
 `)
 
 export const GET_COUNT_ARTICLE = gql(`
-    query Query {
+    query countArticleQuery {
         countArticle
     }
 `)

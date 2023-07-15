@@ -75,8 +75,6 @@ export const ArticleCard: React.FC<Props> = ({
     }
   }, [thumbnail])
 
-  const description = { __html: content }
-
   // Rich Text Editor
   const content1 = content
   const editor = useEditor({
