@@ -16,6 +16,7 @@ import Superscript from '@tiptap/extension-superscript'
 import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
+import NextLink from 'next/link'
 
 type Article = {
   id: number
@@ -59,7 +60,7 @@ const ArticleByIdPage = () => {
     editorProps: {
       attributes: {
         class:
-          'bg-[#D6BBFB40] border-transparent text-xs md:text-base lg:text-lg',
+          'bg-[#D6BBFB40] border-transparent text-xs md:text-base lg:text-lg ring-0',
       },
     },
   })
@@ -78,13 +79,13 @@ const ArticleByIdPage = () => {
           <ArrowLeft />
         </button>
         <div className="flex text-[#344054] font-inter gap-2 md:text-xl text-sm">
-          <button onClick={() => router.push('/')}>
+          <NextLink href={'/'}>
             <p className="">Home</p>
-          </button>
+          </NextLink>
           <p>/</p>
-          <button onClick={() => router.push('/article?page=1')}>
+          <NextLink href={'/article?page=1'}>
             <p className="font-bold">Artikel</p>
-          </button>
+          </NextLink>
         </div>
       </div>
       <div className="aspect-articleCover w-full rounded-3xl relative">

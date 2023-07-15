@@ -6,8 +6,41 @@ import Plus from '../../public/assets/Plus.svg'
 import { TypeAnimation } from 'react-type-animation'
 import { ArticleLandingCard, InfograficCard } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
+import { useState } from 'react'
+import { useQuery } from '@apollo/client'
+import { GET_BY_LIMIT_ARTICLE } from '@/actions/article'
+import { notifications } from '@mantine/notifications'
+import Link from 'next/link'
+
+type Article = {
+  id: number
+  title: string
+  content: string
+  posterUrl: string
+  thumbnailUrl: string
+}
 
 export default function Home() {
+  const [listArticle, setListArticle] = useState<Array<Article>>()
+
+  const { loading: articleLoading } = useQuery(GET_BY_LIMIT_ARTICLE, {
+    variables: {
+      limit: 5,
+    },
+    onCompleted(data) {
+      setListArticle(data.findByLimitArticle)
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Error while load Article...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
+
   return (
     <main className="min-h-screen md:pt-5">
       {/* Hero */}
@@ -69,9 +102,12 @@ export default function Home() {
             kesehatan mental, serta cara mengatasi tantangan umum kesehatan
             mental.
           </p>
-          <button className="text-white font-inter font-semibold px-5 py-2 bg-[#7F56D9] md:text-sm text-xs rounded-lg drop-shadow-lg active:drop-shadow-none mt-5">
+          <Link
+            className="text-white font-inter font-semibold px-5 py-2 bg-[#7F56D9] md:text-sm text-xs rounded-lg drop-shadow-lg active:drop-shadow-none mt-5"
+            href={'/article?page=1'}
+          >
             Lihat Artikel Lainnya
-          </button>
+          </Link>
         </div>
         {/* Card */}
         <div className="relative">
@@ -82,11 +118,14 @@ export default function Home() {
               id="article"
             >
               <div className="transition-transform -translate-x-0 flex">
-                <ArticleLandingCard className="mx-2 flex-none" />
-                {/* <ArticleLandingCard className="mx-2 flex-none" />
-                <ArticleLandingCard className="mx-2 flex-none" />
-                <ArticleLandingCard className="mx-2 flex-none" />
-                <ArticleLandingCard className="mx-2 flex-none" /> */}
+                {listArticle &&
+                  listArticle.map((article) => (
+                    <ArticleLandingCard
+                      {...article}
+                      className="mx-2 flex-none"
+                      key={article.id}
+                    />
+                  ))}
               </div>
             </div>
           </div>

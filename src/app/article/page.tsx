@@ -74,6 +74,12 @@ const ArticlePage = () => {
     },
     onError(error) {
       console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
     },
   })
 
@@ -107,6 +113,12 @@ const ArticlePage = () => {
     },
     onError(error) {
       console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
     },
   })
 
@@ -247,7 +259,7 @@ const ArticlePage = () => {
       console.log('error', error)
       notifications.show({
         title: 'Failed',
-        message: 'Someting Wrong...',
+        message: 'Someting Wrong when create...',
         color: 'red',
         autoClose: 3000,
       })
@@ -295,12 +307,8 @@ const ArticlePage = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {listArticle?.map((article: Article) => (
             <ArticleCard
+              {...article}
               isAdmin={isAdmin}
-              content={article.content}
-              id={article.id}
-              posterUrl={article.posterUrl}
-              thumbnailUrl={article.thumbnailUrl}
-              title={article.title}
               key={article.id}
               refetch={getAllRefetch}
             />
