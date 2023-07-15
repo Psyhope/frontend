@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   FileInput,
   Loader,
+  Pagination,
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
@@ -26,7 +27,7 @@ import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import { useAuth } from '@/components/contexts/AuthContext'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useMutation, useQuery } from '@apollo/client'
 import {
   CREATE_EVENT,
@@ -50,6 +51,7 @@ type Event = {
 const EventPage = () => {
   const { user } = useAuth()
 
+  const router = useRouter()
   const [isAdmin, setIsAdmin] = useState(
     user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
   )
@@ -286,6 +288,15 @@ const EventPage = () => {
               />
             ))}
         </div>
+      </div>
+      <div className="w-full justify-center md:justify-end flex mt-5">
+        <Pagination
+          value={page}
+          total={count}
+          color="violet"
+          withControls={false}
+          onChange={(p) => router.push(`/event?page=${p}`)}
+        />
       </div>
       <Modal
         opened={opened}
