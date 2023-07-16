@@ -11,6 +11,7 @@ import { useQuery } from '@apollo/client'
 import { GET_BY_LIMIT_ARTICLE } from '@/actions/article'
 import { notifications } from '@mantine/notifications'
 import Link from 'next/link'
+import { GET_BY_LIMIT_INFOGRAFIC } from '@/actions/infografic'
 
 type Article = {
   id: number
@@ -20,8 +21,16 @@ type Article = {
   thumbnailUrl: string
 }
 
+type Infografic = {
+  id: number
+  title: string
+  description: string
+  infograficUrl: string
+}
+
 export default function Home() {
   const [listArticle, setListArticle] = useState<Array<Article>>()
+  const [listInfografic, setListInfografic] = useState<Array<Infografic>>()
 
   const { loading: articleLoading } = useQuery(GET_BY_LIMIT_ARTICLE, {
     variables: {
@@ -40,6 +49,27 @@ export default function Home() {
       })
     },
   })
+
+  const { loading: infograficLoading, refetch: getAllRefetch } = useQuery(
+    GET_BY_LIMIT_INFOGRAFIC,
+    {
+      variables: {
+        limit: 5,
+      },
+      onCompleted(data) {
+        setListInfografic(data.findByLimitInfografic)
+      },
+      onError(error) {
+        console.log('error', error)
+        notifications.show({
+          title: 'Failed',
+          message: 'Error while load Infografic...',
+          color: 'red',
+          autoClose: 3000,
+        })
+      },
+    }
+  )
 
   return (
     <main className="min-h-screen md:pt-5">
@@ -194,10 +224,15 @@ export default function Home() {
             id="infografic"
           >
             <div className="transition-transform -translate-x-0 flex gap-5">
-              <InfograficCard isAdmin={false} />
-              <InfograficCard isAdmin={false} />
-              <InfograficCard isAdmin={false} />
-              <InfograficCard isAdmin={false} />
+              {listInfografic &&
+                listInfografic.map((infografic) => (
+                  <InfograficCard
+                    isAdmin={false}
+                    key={infografic.id}
+                    refetch={getAllRefetch}
+                    {...infografic}
+                  />
+                ))}
             </div>
           </div>
         </div>

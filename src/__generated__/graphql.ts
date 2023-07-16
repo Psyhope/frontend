@@ -148,11 +148,13 @@ export type Query = {
   __typename?: 'Query'
   countArticle: Scalars['Float']['output']
   countEvent: Scalars['Float']['output']
+  countInfografic: Scalars['Float']['output']
   findAllArticle: Array<Article>
   findAllEvent: Array<Event>
   findAllInfografic: Array<Infografic>
   findByLimitArticle: Array<Article>
   findByLimitEvent: Array<Event>
+  findByLimitInfografic: Array<Infografic>
   findByPageArticle: Array<Article>
   findByPageEvent: Array<Event>
   findByPageInfografic: Array<Infografic>
@@ -167,6 +169,10 @@ export type QueryFindByLimitArticleArgs = {
 }
 
 export type QueryFindByLimitEventArgs = {
+  limit: Scalars['Int']['input']
+}
+
+export type QueryFindByLimitInfograficArgs = {
   limit: Scalars['Int']['input']
 }
 
@@ -534,6 +540,28 @@ export type RemoveInfograficMutationVariables = Exact<{
 export type RemoveInfograficMutation = {
   __typename?: 'Mutation'
   removeInfografic: { __typename?: 'Infografic'; id: number }
+}
+
+export type FindByLimitInfograficQueryVariables = Exact<{
+  limit: Scalars['Int']['input']
+}>
+
+export type FindByLimitInfograficQuery = {
+  __typename?: 'Query'
+  findByLimitInfografic: Array<{
+    __typename?: 'Infografic'
+    id: number
+    title: string
+    infograficUrl: string
+    description: string
+  }>
+}
+
+export type CountInfograficQueryQueryVariables = Exact<{ [key: string]: never }>
+
+export type CountInfograficQueryQuery = {
+  __typename?: 'Query'
+  countInfografic: number
 }
 
 export const FindAllArticleDocument = {
@@ -1617,4 +1645,80 @@ export const RemoveInfograficDocument = {
 } as unknown as DocumentNode<
   RemoveInfograficMutation,
   RemoveInfograficMutationVariables
+>
+export const FindByLimitInfograficDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'FindByLimitInfografic' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'findByLimitInfografic' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'infograficUrl' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  FindByLimitInfograficQuery,
+  FindByLimitInfograficQueryVariables
+>
+export const CountInfograficQueryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'countInfograficQuery' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'countInfografic' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CountInfograficQueryQuery,
+  CountInfograficQueryQueryVariables
 >

@@ -3,7 +3,14 @@ import { PlusSquare } from '@icons'
 import Image from 'next/image'
 import React, { useState, SyntheticEvent, useEffect } from 'react'
 import { useDisclosure } from '@mantine/hooks'
-import { Modal, Input, TextInput, SimpleGrid, FileInput } from '@mantine/core'
+import {
+  Modal,
+  Input,
+  TextInput,
+  SimpleGrid,
+  FileInput,
+  Loader,
+} from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { RichTextEditor, Link } from '@mantine/tiptap'
@@ -17,14 +24,61 @@ import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import { InfograficCard } from '@elements'
+import { useMutation, useQuery } from '@apollo/client'
+import {
+  CREATE_INFOGRAFIC,
+  GET_BY_PAGE_INFOGRAFIC,
+  GET_COUNT_INFOGRAFIC,
+} from '@/actions/infografic'
+import { useAuth } from '@/components/contexts/AuthContext'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { notifications } from '@mantine/notifications'
+import { IconCheck } from '@tabler/icons-react'
+import { uploadS3 } from '@utils'
+
+type Infografic = {
+  id: number
+  title: string
+  description: string
+  infograficUrl: string
+}
 
 const InfograficPage = () => {
-  const [isAdmin, setIsAdmin] = useState(true)
+  const { user } = useAuth()
+
+  const [isAdmin, setIsAdmin] = useState(
+    user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
+  )
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
   const [files, setFiles] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState('')
+  const [listInfografic, setListInfografic] = useState<Array<Infografic>>()
+
+  const [count, setCount] = useState(1)
+
+  const searchParams = useSearchParams()
+
+  const page = Number(searchParams.get('page'))
+
+  const router = useRouter()
+
+  // get count
+  const {} = useQuery(GET_COUNT_INFOGRAFIC, {
+    onCompleted(data) {
+      setCount(Math.ceil(data.countInfografic / 10))
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
 
   useEffect(() => {
     if (files) {
@@ -35,8 +89,34 @@ const InfograficPage = () => {
     }
   }, [files])
 
-  const content = ''
+  // Query
+  const { refetch: getAllRefetch } = useQuery(GET_BY_PAGE_INFOGRAFIC, {
+    variables: {
+      page: page,
+    },
+    onCompleted(data) {
+      setListInfografic(data.findByPageInfografic)
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
 
+  // Mutation
+  const [mutate, { data, loading: createLoading }] = useMutation(
+    CREATE_INFOGRAFIC,
+    { refetchQueries: [GET_BY_PAGE_INFOGRAFIC] }
+  )
+
+  // Rich Text Editor
+  const content =
+    '<h2 style="text-align: center">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/">Tiptap.dev</a> and supports all of its features:</p><p>General text formatting: </p><p>1. <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </p><p>2. Headings (h1-h6)</p><p>3. Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</p><p>4. Ordered and bullet listsText align&nbsp;And all <a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/extensions">other extensions</a></p>'
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -50,6 +130,11 @@ const InfograficPage = () => {
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: content,
+    editorProps: {
+      attributes: {
+        class: 'font-inter text-sm md:text-base',
+      },
+    },
   })
 
   const form = useForm({
@@ -65,10 +150,79 @@ const InfograficPage = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    form.validate()
-    if (!form.isValid()) return
     setLoading(true)
+    try {
+      const infograficUrl = await uploadS3({
+        file: files,
+        type: 'infografic',
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const total2 = total ? (total as number) : 0
+          const percent = Math.round((loaded / total2) * 100)
+
+          const message = `Uploading Infografic... ${percent}%`
+
+          notifications.show({
+            id: 'load-data-Infografic',
+            loading: true,
+            title: 'Upload',
+            message: message,
+            autoClose: false,
+            withCloseButton: false,
+          })
+        },
+      })
+
+      notifications.update({
+        id: 'load-data-Infografic',
+        color: 'teal',
+        title: 'Success',
+        message: 'Infografic was Uploaded',
+        icon: <IconCheck size="1rem" />,
+        autoClose: 2000,
+      })
+
+      mutate({
+        variables: {
+          createInfograficInput: {
+            description: editor ? editor.getHTML() : '',
+            infograficUrl,
+            title: form.values.title,
+          },
+        },
+        onCompleted: () => {
+          close()
+          notifications.show({
+            title: 'Success',
+            message: 'Add Event Successfull',
+            color: 'teal',
+            autoClose: 3000,
+          })
+        },
+        onError: (e) => {
+          console.log('error', e)
+          notifications.show({
+            title: 'Failed',
+            message: e.message,
+            color: 'red',
+            autoClose: 3000,
+          })
+        },
+      })
+    } catch (error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Someting Wrong when create...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const disable = form.values.title == '' || files == null
 
   return (
     <div className="min-h-screen p-5 lg:px-28">
@@ -105,10 +259,15 @@ const InfograficPage = () => {
       {/* Grid */}
       <div className=" flex justify-center mt-5">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3">
-          <InfograficCard isAdmin={isAdmin} />
-          <InfograficCard isAdmin={isAdmin} />
-          <InfograficCard isAdmin={isAdmin} />
-          <InfograficCard isAdmin={isAdmin} />
+          {listInfografic &&
+            listInfografic.map((infografic) => (
+              <InfograficCard
+                isAdmin={isAdmin}
+                key={infografic.id}
+                refetch={getAllRefetch}
+                {...infografic}
+              />
+            ))}
         </div>
       </div>
       <Modal
@@ -134,7 +293,7 @@ const InfograficPage = () => {
               radius="md"
               size="lg"
               placeholder="e.g. Website design"
-              {...form.getInputProps('eventName')}
+              {...form.getInputProps('title')}
             />
           </div>
 
@@ -229,7 +388,7 @@ const InfograficPage = () => {
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-article relative">
+                <div className="w-full aspect-infografic relative">
                   <Image
                     src={previewUrl}
                     fill
@@ -247,8 +406,14 @@ const InfograficPage = () => {
             >
               Cancel
             </button>
-            <button className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none">
-              Tambah Event
+            <button
+              className={`w-full py-2 ${
+                disable ? 'bg-gray-500' : 'bg-[#7F56D9]'
+              } text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none flex items-center justify-center`}
+              onClick={handleSubmit}
+              disabled={disable || loading}
+            >
+              {loading ? <Loader variant="dots" /> : `Tambah Infografik`}
             </button>
           </div>
         </div>

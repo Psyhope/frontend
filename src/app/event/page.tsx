@@ -199,7 +199,7 @@ const EventPage = () => {
             date: form.values.date,
             description: editor ? editor.getHTML() : '',
             location: form.values.location,
-            posterUrl: posterUrl,
+            posterUrl,
             time: form.values.time,
             title: form.values.eventName,
           },
@@ -447,7 +447,7 @@ const EventPage = () => {
               className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
-              Upload Poster
+              Upload Poster (3:2)
             </Input.Label>
             <FileInput
               placeholder="Click here to pick file"

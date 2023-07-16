@@ -57,6 +57,10 @@ const documents = {
     types.UpdateInfograficDocument,
   '\n    mutation RemoveInfografic($removeInfograficId: Int!) {\n        removeInfografic(id: $removeInfograficId) {\n        id\n        }\n    }\n':
     types.RemoveInfograficDocument,
+  '\n    query FindByLimitInfografic($limit: Int!) {\n        findByLimitInfografic(limit: $limit) {\n        id\n        title\n        infograficUrl\n        description\n        }\n    }\n':
+    types.FindByLimitInfograficDocument,
+  '\n    query countInfograficQuery {\n        countInfografic\n    }\n':
+    types.CountInfograficQueryDocument,
 }
 
 /**
@@ -205,6 +209,18 @@ export function gql(
 export function gql(
   source: '\n    mutation RemoveInfografic($removeInfograficId: Int!) {\n        removeInfografic(id: $removeInfograficId) {\n        id\n        }\n    }\n'
 ): (typeof documents)['\n    mutation RemoveInfografic($removeInfograficId: Int!) {\n        removeInfografic(id: $removeInfograficId) {\n        id\n        }\n    }\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n    query FindByLimitInfografic($limit: Int!) {\n        findByLimitInfografic(limit: $limit) {\n        id\n        title\n        infograficUrl\n        description\n        }\n    }\n'
+): (typeof documents)['\n    query FindByLimitInfografic($limit: Int!) {\n        findByLimitInfografic(limit: $limit) {\n        id\n        title\n        infograficUrl\n        description\n        }\n    }\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n    query countInfograficQuery {\n        countInfografic\n    }\n'
+): (typeof documents)['\n    query countInfograficQuery {\n        countInfografic\n    }\n']
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {}

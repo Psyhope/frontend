@@ -510,7 +510,7 @@ export const EventCard: React.FC<Props> = ({
               className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
-              Upload Poster
+              Upload Poster (3:2)
             </Input.Label>
             <FileInput
               placeholder="Click here to pick file"
