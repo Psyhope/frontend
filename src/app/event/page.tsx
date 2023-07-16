@@ -115,7 +115,7 @@ const EventPage = () => {
   })
 
   // Mutation
-  const [mutate, { data, loading: createLoading }] = useMutation(CREATE_EVENT, {
+  const [mutate, {}] = useMutation(CREATE_EVENT, {
     refetchQueries: [GET_BY_PAGE_EVENT],
   })
 

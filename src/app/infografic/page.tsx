@@ -31,7 +31,7 @@ import {
   GET_COUNT_INFOGRAFIC,
 } from '@/actions/infografic'
 import { useAuth } from '@/components/contexts/AuthContext'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { notifications } from '@mantine/notifications'
 import { IconCheck } from '@tabler/icons-react'
 import { uploadS3 } from '@utils'
@@ -61,8 +61,6 @@ const InfograficPage = () => {
   const searchParams = useSearchParams()
 
   const page = Number(searchParams.get('page'))
-
-  const router = useRouter()
 
   // get count
   const {} = useQuery(GET_COUNT_INFOGRAFIC, {

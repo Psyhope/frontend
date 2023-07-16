@@ -51,9 +51,8 @@ export const ArticleCard: React.FC<Props> = ({
 
   const router = useRouter()
 
-  const [mutate, { data, loading: createLoading }] = useMutation(UPDATE_ATRICLE)
-  const [mutate2, { data: data2, loading: deleteLoading }] =
-    useMutation(DELETE_ARTICLE)
+  const [mutate, {}] = useMutation(UPDATE_ATRICLE)
+  const [mutate2, {}] = useMutation(DELETE_ARTICLE)
 
   // Cover Preview
   useEffect(() => {

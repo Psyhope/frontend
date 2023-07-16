@@ -124,10 +124,9 @@ const ArticlePage = () => {
   })
 
   // Mutation
-  const [mutate, { data, loading: createLoading }] = useMutation(
-    CREATE_ARTICLE,
-    { refetchQueries: [GET_BY_PAGE_ARTICLE] }
-  )
+  const [mutate, {}] = useMutation(CREATE_ARTICLE, {
+    refetchQueries: [GET_BY_PAGE_ARTICLE],
+  })
 
   // Rich Text Editor
   const content =
