@@ -32,7 +32,7 @@ const ArticleByIdPage = () => {
   const id = pathname.slice(-1)[0]
   const [article, setArticle] = useState<Article>()
 
-  const { refetch: getAllRefetch } = useQuery(GET_BY_ID_ARTICLE, {
+  const {} = useQuery(GET_BY_ID_ARTICLE, {
     variables: {
       findOneArticleId: Number(id),
     },
