@@ -76,3 +76,23 @@ export const DELETE_EVENT = gql(`
         }
     }
 `)
+
+export const GET_BY_LIMIT_EVENT = gql(`
+    query FindByLimitEvent($limit: Int!) {
+        findByLimitEvent(limit: $limit) {
+        id
+        title
+        date
+        location
+        time
+        description
+        posterUrl
+        }
+    }
+`)
+
+export const GET_COUNT_EVENT = gql(`
+    query countEventQuery {
+        countEvent
+    }
+`)

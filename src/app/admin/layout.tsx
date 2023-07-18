@@ -91,7 +91,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               label: (
                 <Link href="/admin/clients">
                   <Center>
-                    <p className="mr-2">Daftar Klien</p> <HiUser />
+                    <p className="mr-2">Daftar Booking</p> <HiUser />
                   </Center>
                 </Link>
               ),
