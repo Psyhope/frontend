@@ -110,7 +110,7 @@ const AdminClientPage = () => {
       </section>
       <section className="p-5 overflow-x-auto md:px-10">
         <ClientTable
-          title="Daftar Klien"
+          title="Daftar Booking"
           description="Berikut merupakan daftar klien konseling Psyhope."
           headerTitle={[
             'Nama Klien',

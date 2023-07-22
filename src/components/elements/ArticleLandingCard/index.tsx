@@ -54,7 +54,7 @@ export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
           alt="Placeholder"
           src={thumbnailUrl}
           fill
-          className="relative rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-l-lg"
+          className="relative object-cover rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-l-lg"
           quality={100}
         />
       </div>
