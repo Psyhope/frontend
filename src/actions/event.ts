@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '../__generated__'
 
 export const GET_ALL_EVENT = gql(`
     query FindAllEvent {
@@ -74,5 +74,25 @@ export const DELETE_EVENT = gql(`
         removeEvent(id: $removeEventId) {
         id
         }
+    }
+`)
+
+export const GET_BY_LIMIT_EVENT = gql(`
+    query FindByLimitEvent($limit: Int!) {
+        findByLimitEvent(limit: $limit) {
+        id
+        title
+        date
+        location
+        time
+        description
+        posterUrl
+        }
+    }
+`)
+
+export const GET_COUNT_EVENT = gql(`
+    query countEventQuery {
+        countEvent
     }
 `)

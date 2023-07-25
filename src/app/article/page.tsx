@@ -4,7 +4,15 @@ import { PlusSquare } from '@icons'
 import Image from 'next/image'
 import React, { useState, SyntheticEvent, useEffect } from 'react'
 import { useDisclosure } from '@mantine/hooks'
-import { Modal, Input, TextInput, SimpleGrid, FileInput } from '@mantine/core'
+import {
+  Modal,
+  Input,
+  TextInput,
+  SimpleGrid,
+  FileInput,
+  Loader,
+  Pagination,
+} from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { RichTextEditor, Link } from '@mantine/tiptap'
@@ -17,26 +25,112 @@ import Superscript from '@tiptap/extension-superscript'
 import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
+import { useMutation, useQuery } from '@apollo/client'
+import {
+  CREATE_ARTICLE,
+  GET_BY_PAGE_ARTICLE,
+  GET_COUNT_ARTICLE,
+} from '@/actions/article'
+import { uploadS3 } from '@utils'
+import { notifications } from '@mantine/notifications'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useAuth } from '@/components/contexts/AuthContext'
+import { IconCheck } from '@tabler/icons-react'
+
+type Article = {
+  id: number
+  title: string
+  content: string
+  posterUrl: string
+  thumbnailUrl: string
+}
 
 const ArticlePage = () => {
-  const [isAdmin, setIsAdmin] = useState(true)
+  const { user } = useAuth()
+
+  const [isAdmin, setIsAdmin] = useState(
+    user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
+  )
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
-  const [files, setFiles] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState('')
+  const [thumbnail, setThumbnail] = useState<File | null>(null)
+  const [previewThumbnail, setPreviewThumbnail] = useState('')
+  const [cover, setCover] = useState<File | null>(null)
+  const [previewCover, setPreviewCover] = useState('')
+  const [listArticle, setListArticle] = useState<Array<Article>>()
 
+  const [count, setCount] = useState(1)
+
+  const searchParams = useSearchParams()
+
+  const page = Number(searchParams.get('page'))
+
+  const router = useRouter()
+
+  // get count
+  const {} = useQuery(GET_COUNT_ARTICLE, {
+    onCompleted(data) {
+      setCount(Math.ceil(data.countArticle / 10))
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
+
+  // Cover Preview
   useEffect(() => {
-    if (files) {
-      const imageSrc = URL.createObjectURL(files)
-      setPreviewUrl(imageSrc)
+    if (cover) {
+      const imageSrc = URL.createObjectURL(cover)
+      setPreviewCover(imageSrc)
     } else {
-      setPreviewUrl('')
+      setPreviewCover('')
     }
-  }, [files])
+  }, [cover])
 
-  const content = ''
+  // Thumbnail Preview
+  useEffect(() => {
+    if (thumbnail) {
+      const imageSrc = URL.createObjectURL(thumbnail)
+      setPreviewThumbnail(imageSrc)
+    } else {
+      setPreviewThumbnail('')
+    }
+  }, [thumbnail])
 
+  // Query
+  const { refetch: getAllRefetch } = useQuery(GET_BY_PAGE_ARTICLE, {
+    variables: {
+      page: page,
+    },
+    onCompleted(data) {
+      setListArticle(data.findByPageArticle)
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Page Error...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
+
+  // Mutation
+  const [mutate, {}] = useMutation(CREATE_ARTICLE, {
+    refetchQueries: [GET_BY_PAGE_ARTICLE],
+  })
+
+  // Rich Text Editor
+  const content =
+    '<h2 style="text-align: center">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/">Tiptap.dev</a> and supports all of its features:</p><p>General text formatting: </p><p>1. <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </p><p>2. Headings (h1-h6)</p><p>3. Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</p><p>4. Ordered and bullet listsText align&nbsp;And all <a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/extensions">other extensions</a></p>'
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -50,8 +144,14 @@ const ArticlePage = () => {
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: content,
+    editorProps: {
+      attributes: {
+        class: 'font-inter text-sm md:text-base',
+      },
+    },
   })
 
+  // Form
   const form = useForm({
     initialValues: {
       title: '',
@@ -65,10 +165,110 @@ const ArticlePage = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    console.log(form.values)
-    console.log(editor?.getHTML())
     setLoading(true)
+    try {
+      const thumbnailUrl = await uploadS3({
+        file: thumbnail,
+        type: 'thumbnail',
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const total2 = total ? (total as number) : 0
+          const percent = Math.round((loaded / total2) * 100)
+
+          const message = `Uploading Thumbnail... ${percent}%`
+
+          notifications.show({
+            id: 'load-data-thumbnail',
+            loading: true,
+            title: 'Upload',
+            message: message,
+            autoClose: false,
+            withCloseButton: false,
+          })
+        },
+      })
+
+      notifications.update({
+        id: 'load-data-thumbnail',
+        color: 'teal',
+        title: 'Success',
+        message: 'Thumbnail was Uploaded',
+        icon: <IconCheck size="1rem" />,
+        autoClose: 2000,
+      })
+
+      const coverUrl = await uploadS3({
+        file: cover,
+        type: 'cover',
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const total2 = total ? (total as number) : 0
+          const percent = Math.round((loaded / total2) * 100)
+
+          const message = `Uploading Cover... ${percent}%`
+
+          notifications.show({
+            id: 'load-data-cover',
+            loading: true,
+            title: 'Upload',
+            message: message,
+            autoClose: false,
+            withCloseButton: false,
+          })
+        },
+      })
+
+      notifications.update({
+        id: 'load-data-cover',
+        color: 'teal',
+        title: 'Success',
+        message: 'Cover was Uploaded',
+        icon: <IconCheck size="1rem" />,
+        autoClose: 2000,
+      })
+
+      mutate({
+        variables: {
+          createArticleInput: {
+            title: form.values.title,
+            content: editor ? editor.getHTML() : '',
+            posterUrl: coverUrl,
+            thumbnailUrl: thumbnailUrl,
+          },
+        },
+        onCompleted: () => {
+          close()
+          notifications.show({
+            title: 'Success',
+            message: 'Add Article Successfull',
+            color: 'teal',
+            autoClose: 3000,
+          })
+        },
+        onError: (e) => {
+          console.log('error', e)
+          notifications.show({
+            title: 'Failed',
+            message: e.message,
+            color: 'red',
+            autoClose: 3000,
+          })
+        },
+      })
+    } catch (error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Someting Wrong when create...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const disable = form.values.title == '' || thumbnail == null || cover == null
 
   return (
     <div className="min-h-screen p-5 lg:px-28">
@@ -105,15 +305,24 @@ const ArticlePage = () => {
       {/* Grid */}
       <div className=" flex justify-center mt-5">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
-          <ArticleCard isAdmin={isAdmin} />
+          {listArticle?.map((article: Article) => (
+            <ArticleCard
+              {...article}
+              isAdmin={isAdmin}
+              key={article.id}
+              refetch={getAllRefetch}
+            />
+          ))}
         </div>
+      </div>
+      <div className="w-full justify-center md:justify-end flex mt-5">
+        <Pagination
+          value={page}
+          total={count}
+          color="violet"
+          withControls={false}
+          onChange={(p) => router.push(`/article?page=${p}`)}
+        />
       </div>
       <Modal
         opened={opened}
@@ -156,6 +365,7 @@ const ArticlePage = () => {
                   <RichTextEditor.Italic />
                   <RichTextEditor.Underline />
                   <RichTextEditor.Strikethrough />
+
                   <RichTextEditor.ClearFormatting />
                   <RichTextEditor.Highlight />
                   <RichTextEditor.Code />
@@ -218,24 +428,55 @@ const ArticlePage = () => {
               className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
-              Upload Poster
+              Upload Thumbnail (3:2)
             </Input.Label>
             <FileInput
               placeholder="Click here to pick file"
               withAsterisk
-              value={files}
-              onChange={setFiles}
+              value={thumbnail}
+              onChange={setThumbnail}
               clearable
+              accept="image/png,image/jpeg,image/jpg"
             />
-            {previewUrl && (
+            {previewThumbnail && (
               <SimpleGrid
-                cols={4}
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-article relative">
+                <div className="w-full md:w-1/4 aspect-article relative">
                   <Image
-                    src={previewUrl}
+                    src={previewThumbnail}
+                    fill
+                    className="relative"
+                    alt="preview"
+                  />
+                </div>
+              </SimpleGrid>
+            )}
+          </div>
+          <div>
+            <Input.Label
+              className="text-black font-inter font-normal md:text-base text-sm pb-2"
+              required
+            >
+              Upload Cover (8:3)
+            </Input.Label>
+            <FileInput
+              placeholder="Click here to pick file"
+              withAsterisk
+              value={cover}
+              onChange={setCover}
+              clearable
+              accept="image/png,image/jpeg,image/jpg"
+            />
+            {previewCover && (
+              <SimpleGrid
+                breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                className="mt-5"
+              >
+                <div className="w-full md:w-1/2 aspect-articleCover relative">
+                  <Image
+                    src={previewCover}
                     fill
                     className="relative"
                     alt="preview"
@@ -252,10 +493,13 @@ const ArticlePage = () => {
               Cancel
             </button>
             <button
-              className="w-full py-2 bg-[#7F56D9] text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
+              className={`w-full py-2 ${
+                disable ? 'bg-gray-500' : 'bg-[#7F56D9]'
+              } text-white font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none flex items-center justify-center`}
               onClick={handleSubmit}
+              disabled={disable || loading}
             >
-              Tambah Event
+              {loading ? <Loader variant="dots" /> : `Tambah Article`}
             </button>
           </div>
         </div>

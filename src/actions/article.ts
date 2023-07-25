@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '../__generated__'
 
 export const GET_ALL_ARTICLE = gql(`
     query FindAllArticle {
@@ -7,6 +7,7 @@ export const GET_ALL_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -18,6 +19,7 @@ export const GET_BY_PAGE_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -29,6 +31,7 @@ export const GET_BY_ID_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -39,6 +42,7 @@ export const CREATE_ARTICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -50,6 +54,7 @@ export const UPDATE_ATRICLE = gql(`
         title
         content
         posterUrl
+        thumbnailUrl
         }
     }
 `)
@@ -59,5 +64,23 @@ export const DELETE_ARTICLE = gql(`
         removeArticle(id: $removeArticleId) {
         id
         }
+    }
+`)
+
+export const GET_BY_LIMIT_ARTICLE = gql(`
+    query FindByLimitArticle($limit: Int!) {
+        findByLimitArticle(limit: $limit) {
+        id
+        title
+        content
+        posterUrl
+        thumbnailUrl
+        }
+    }
+`)
+
+export const GET_COUNT_ARTICLE = gql(`
+    query countArticleQuery {
+        countArticle
     }
 `)

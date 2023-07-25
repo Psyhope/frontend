@@ -1,5 +1,4 @@
 'use client'
-
 import { Button, TextInput, PasswordInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { Input } from '@mantine/core'
@@ -39,19 +38,19 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="w-full min-h-screen flex xl:px-36 p-2 py-10 xl:py-0 items-center justify-center">
-      <div className="flex xl:flex-row flex-col-reverse">
-        <div className="md:w-[564px] bg-white md:p-10 p-5">
-          <p className="font-inter font-light md:text-2xl text-xl">
+    <section className="flex items-center justify-center w-full min-h-screen p-2 py-10 xl:px-36 xl:py-0">
+      <div className="flex flex-col-reverse xl:flex-row">
+        <div className="md:w-[564px] bg-white md:p-10 p-5 rounded-md">
+          <p className="text-xl font-light font-inter md:text-2xl">
             Yuk, mulai daftar konseling!
           </p>
-          <p className="font-inter font-medium md:text-3xl text-2xl mt-7">
+          <p className="text-2xl font-medium font-inter md:text-3xl mt-7">
             Login SSO
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col gap-9 mt-7">
             <div>
               <Input.Label
-                className="text-black font-inter font-normal text-base pb-2"
+                className="pb-2 text-base font-normal text-black font-inter"
                 required
               >
                 Username
@@ -65,7 +64,7 @@ export default function LoginPage() {
             </div>
             <div>
               <Input.Label
-                className="text-black font-inter font-normal text-base pb-2"
+                className="pb-2 text-base font-normal text-black font-inter"
                 required
               >
                 Password

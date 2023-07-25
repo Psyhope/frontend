@@ -23,7 +23,8 @@ const handler = async (request: NextRequest) => {
       refreshToken = tokens.refreshToken
     }
 
-    const user: { username: string; sub: string } = jwtDecode(accessToken)
+    const user: { username: string; sub: string; role: string } =
+      jwtDecode(accessToken)
 
     const response = NextResponse.json(
       { user, token: accessToken },

@@ -58,12 +58,12 @@ export const Navbar: React.FC = () => {
           <Konseling />
           Konseling
         </button>
-        <button
+        <Link
+          href="/login"
           className="flex font-inter font-semibold px-4 bg-[#0086C9] text-white py-2 rounded-md shadow-md active:shadow-none"
-          onClick={() => router.push('/login')}
         >
           Login
-        </button>
+        </Link>
       </div>
     </div>
   )

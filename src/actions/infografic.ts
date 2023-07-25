@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '../__generated__'
 
 export const GET_ALL_INFOGRAFIC = gql(`
     query FindAllInfografic {
@@ -33,7 +33,7 @@ export const GET_BY_ID_INFOGRAFIC = gql(`
     }
 `)
 
-export const CRATE_INFOGRAFIC = gql(`
+export const CREATE_INFOGRAFIC = gql(`
     mutation CreateInfografic($createInfograficInput: CreateInfograficInput!) {
         createInfografic(createInfograficInput: $createInfograficInput) {
         title
@@ -59,5 +59,22 @@ export const DELETE_INFOGRAFIC = gql(`
         removeInfografic(id: $removeInfograficId) {
         id
         }
+    }
+`)
+
+export const GET_BY_LIMIT_INFOGRAFIC = gql(`
+    query FindByLimitInfografic($limit: Int!) {
+        findByLimitInfografic(limit: $limit) {
+        id
+        title
+        infograficUrl
+        description
+        }
+    }
+`)
+
+export const GET_COUNT_INFOGRAFIC = gql(`
+    query countInfograficQuery {
+        countInfografic
     }
 `)
