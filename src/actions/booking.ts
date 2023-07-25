@@ -1,4 +1,4 @@
-import { gql } from "@/__generated__"
+import { gql } from '@/__generated__'
 
 export const GET_SCHEDULE_BY_TIME = gql(`
     query Query($getScheduleDto: GetScheduleDTO!) {
@@ -10,10 +10,10 @@ export const GET_SCHEDULE_BY_TIME = gql(`
     }
   `)
 
-export const GET_BOOKING_DAY = gql(`query BookingFilter($getBookingFilter: GetBookingFilterDto!) {
+export const GET_BOOKING_DAY =
+  gql(`query BookingFilter($getBookingFilter: GetBookingFilterDto!) {
     bookingFilter(getBookingFilter: $getBookingFilter) {
       bookingTime
       bookingTime2
     }
-  }`
-)
+  }`)
