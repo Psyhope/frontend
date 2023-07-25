@@ -6,7 +6,10 @@ import { DateSegment, DateSegmentDummy, dayNames } from '../../const'
 import { Select, SegmentedControl } from '@mantine/core'
 import { BsCalendar2Range } from 'react-icons/bs'
 import { useMediaQuery } from '@mantine/hooks'
-import { pilihanJadwal, valueDateSchedule } from './interface'
+import { BookingTime, RawJadwal, pilihanJadwal, valueDateSchedule } from './interface'
+import { useQuery, useMutation } from '@apollo/client'
+import { GET_BOOKING_DAY, GET_SCHEDULE_BY_TIME } from '@/actions/booking'
+import { CounselorType } from '@/__generated__/graphql'
 
 export const ScheduleSection: React.FC = () => {
   const pathname = usePathname()
@@ -19,9 +22,63 @@ export const ScheduleSection: React.FC = () => {
   const [pilihanJadwal, setPilihanJadwal] =
     useState<pilihanJadwal[]>(DateSegment)
 
+  const [pilihanJadwal2, setPilihanJadwal2] =
+  useState<pilihanJadwal[]>([])
+  
+
+  const [rawData, setRawData] = useState<Array<RawJadwal> | null>()
+
+  const [tempJadwal, setTemp] = useState<RawJadwal[] | null>()
+  const [tempBooking, setBooking] = useState<BookingTime[] | null>()
+
   const handleClosest = () => {
     setClosest(!closest)
   }
+  
+  const handleJadwal = (data: RawJadwal[]) => {
+    setTemp(data)
+  }
+
+  const handleBooking = (data: BookingTime[]) => {
+    setBooking(data)
+  }
+
+  const handleGetJadwal = () => {
+    getAllRefetch()
+  }
+
+  const handleGetBooking = () => {
+    getAllBooking()
+  }
+
+  const {refetch: getAllRefetch } = useQuery(GET_SCHEDULE_BY_TIME,
+    {
+      variables : {
+        getScheduleDto: {
+          counselorType: CounselorType.Psyhope,
+          day : value,
+          dayTime: "08:00",
+          dayTime2: "09:00"
+        }
+      },
+      onCompleted(data) {
+          if(data.schedule != null) handleJadwal(data.schedule)
+      },
+
+    })
+
+  const {refetch: getAllBooking } = useQuery(GET_BOOKING_DAY,
+    {
+      variables : {
+        getBookingFilter: {
+          day: value
+        }
+    },
+    onCompleted(data) {
+      if(data.bookingFilter != null) handleBooking(data.bookingFilter)
+    }
+  })
+  
 
   const handlerNext = () => {
     localStorage.setItem('date', value as string)
@@ -37,14 +94,16 @@ export const ScheduleSection: React.FC = () => {
   const pilihJadwal = () => {
     const dateNow = new Date()
     const arrayDate: valueDateSchedule[] = []
+    let counter = 0
     while (dateNow.getDay() <= 6) {
       arrayDate.push({
         label: dayNames[dateNow.getDay()],
-        value: `${dateNow.getDate()}/${dateNow.getMonth()}/${dateNow.getFullYear()}`,
+        value: `${dateNow.getFullYear()}-${dateNow.getMonth()+1}-${dateNow.getDate()}`,
       })
       dateNow.setDate(dateNow.getDate() + 1)
 
-      if (dateNow.getDay() === 1 && arrayDate.length !== 0) break
+      counter += 1
+      if (counter >= 7 ) break
     }
 
     return arrayDate
@@ -55,7 +114,7 @@ export const ScheduleSection: React.FC = () => {
       <Select
         onChange={(e) => {
           setValue(e)
-          setPilihanJadwal(DateSegmentDummy)
+          handleGetJadwal()
         }}
         placeholder="Pilih Hari Konseling"
         transitionProps={{
@@ -66,10 +125,13 @@ export const ScheduleSection: React.FC = () => {
         data={pilihJadwal()}
         icon={<BsCalendar2Range size="1rem" />}
       />
-
+      <button onClick={()=> {
+        console.log(tempJadwal)
+        console.log(tempBooking)
+        }}>KLIK</button>
       <SegmentedControl
         onChange={setValueTime}
-        data={pilihanJadwal}
+        data={pilihanJadwal2}
         color="violet"
         radius="lg"
         fullWidth={!matches}
