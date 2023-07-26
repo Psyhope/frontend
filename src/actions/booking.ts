@@ -19,7 +19,6 @@ export const GET_BOOKING_DAY =
   }
   `)
 
-
 export const MUTATION_CREATE_BOOKING = gql(`
   mutation CreateBooking($createBookingInput: CreateBookingInput!) {
     createBooking(createBookingInput: $createBookingInput) {

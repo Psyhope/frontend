@@ -21,23 +21,22 @@ export const GQHQuestionModule: React.FC = () => {
 
   const [mutate, {}] = useMutation(MUTATION_CREATE_BOOKING)
 
+  const onSubmit: SubmitHandler<GHQRespondsInterface> = (data) => {
+    const jadwal: string[] = localStorage
+      .getItem('time')
+      ?.split('--') as string[]
 
-  
-
-  const onSubmit: SubmitHandler<GHQRespondsInterface> = (data) =>  {
-
-    const jadwal: string[] = localStorage.getItem('time')?.split("--") as string[]
-
-    const tempTopic: string[] = localStorage.getItem('topic')?.split(",") as string[]
+    const tempTopic: string[] = localStorage
+      .getItem('topic')
+      ?.split(',') as string[]
 
     const topic: BookingTopic[] = []
 
     tempTopic.forEach((data) => {
-      if(data == "TOPIC_1") topic.push(BookingTopic.Topic_1)
-      if(data == "TOPIC_2") topic.push(BookingTopic.Topic_2)
-      if(data == "TOPIC_3") topic.push(BookingTopic.Topic_3)
+      if (data == 'TOPIC_1') topic.push(BookingTopic.Topic_1)
+      if (data == 'TOPIC_2') topic.push(BookingTopic.Topic_2)
+      if (data == 'TOPIC_3') topic.push(BookingTopic.Topic_3)
     })
-    
 
     // console.log(
     //   {
@@ -60,19 +59,23 @@ export const GQHQuestionModule: React.FC = () => {
     //       number_10: parseInt(data.number_10),
     //       number_11: parseInt(data.number_11),
     //       number_12: parseInt(data.number_12)
-    //     } 
+    //     }
     // )
 
     mutate({
       variables: {
-        createBookingInput:{
+        createBookingInput: {
           bookingDate: localStorage.getItem('date'),
           reasonApply: localStorage.getItem('reason') as string,
-          closestKnown: localStorage.getItem('closest') == "true" ? true : false,
+          closestKnown:
+            localStorage.getItem('closest') == 'true' ? true : false,
           bookingTopic: topic,
           bookingTime: jadwal[0],
           bookingTime2: jadwal[1],
-          counselorType: pathname.slice(5) == 'psyhope' ? CounselorType.Psyhope : CounselorType.Faculty,
+          counselorType:
+            pathname.slice(5) == 'psyhope'
+              ? CounselorType.Psyhope
+              : CounselorType.Faculty,
           number_1: parseInt(data.number_1),
           number_2: parseInt(data.number_2),
           number_3: parseInt(data.number_3),
@@ -84,14 +87,12 @@ export const GQHQuestionModule: React.FC = () => {
           number_9: parseInt(data.number_9),
           number_10: parseInt(data.number_10),
           number_11: parseInt(data.number_11),
-          number_12: parseInt(data.number_12)
-        } 
-      }
+          number_12: parseInt(data.number_12),
+        },
+      },
     })
   }
 
-
-  
   const listQuestion: GHQQuestionInterface[] = GHQ_QUESTION
 
   return (

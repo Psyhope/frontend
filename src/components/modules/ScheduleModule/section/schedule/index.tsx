@@ -32,11 +32,10 @@ export const ScheduleSection: React.FC = () => {
   const matches = useMediaQuery('(min-width: 75em)')
   const [topic, setTopic] = useState<string[]>([])
 
-  const handleCheck = (e:React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.checked){
-      setTopic([...topic, e.target.value]);
-    }
-    else {
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setTopic([...topic, e.target.value])
+    } else {
       setTopic(topic.filter((item) => item !== e.target.value))
     }
   }
@@ -99,7 +98,10 @@ export const ScheduleSection: React.FC = () => {
   const { refetch: getAllRefetch } = useQuery(GET_SCHEDULE_BY_TIME, {
     variables: {
       getScheduleDto: {
-        counselorType: pathname.slice(10) == 'psyhope' ? CounselorType.Psyhope : CounselorType.Faculty,
+        counselorType:
+          pathname.slice(10) == 'psyhope'
+            ? CounselorType.Psyhope
+            : CounselorType.Faculty,
         day: value,
         dayTime: '08:00',
         dayTime2: '09:00',
@@ -114,11 +116,15 @@ export const ScheduleSection: React.FC = () => {
     variables: {
       getBookingFilterGeneral: {
         day: value,
-        counselorType: pathname.slice(10) == 'psyhope' ? CounselorType.Psyhope : CounselorType.Faculty
+        counselorType:
+          pathname.slice(10) == 'psyhope'
+            ? CounselorType.Psyhope
+            : CounselorType.Faculty,
       },
     },
     onCompleted(data) {
-      if (data.bookingFilterGeneral != null) handleBooking(data.bookingFilterGeneral)
+      if (data.bookingFilterGeneral != null)
+        handleBooking(data.bookingFilterGeneral)
     },
   })
 
@@ -220,15 +226,27 @@ export const ScheduleSection: React.FC = () => {
 
           <div>
             <div>
-              <input type='checkbox' value='TOPIC_1' onChange={handleCheck}></input>
+              <input
+                type="checkbox"
+                value="TOPIC_1"
+                onChange={handleCheck}
+              ></input>
               123
             </div>
             <div>
-              <input type='checkbox' value='TOPIC_2' onChange={handleCheck}></input>
+              <input
+                type="checkbox"
+                value="TOPIC_2"
+                onChange={handleCheck}
+              ></input>
               123
             </div>
             <div>
-              <input type='checkbox' value='TOPIC_3' onChange={handleCheck}></input>
+              <input
+                type="checkbox"
+                value="TOPIC_3"
+                onChange={handleCheck}
+              ></input>
               123
             </div>
           </div>
@@ -236,7 +254,7 @@ export const ScheduleSection: React.FC = () => {
       ) : (
         <></>
       )}
-      
+
       <div className="flex lg:justify-end justify-center">
         <button
           disabled={value == null && valueTime == null}
