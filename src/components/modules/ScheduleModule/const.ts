@@ -147,50 +147,26 @@ export interface queryScheduleInterface {
 export const querySchedule = [
   {
     dayTime: '08:00',
-    dayTime2: '09:00',
-  },
-  {
-    dayTime: '09:00',
     dayTime2: '10:00',
   },
   {
     dayTime: '10:00',
-    dayTime2: '11:00',
-  },
-  {
-    dayTime: '11:00',
     dayTime2: '12:00',
   },
   {
     dayTime: '12:00',
-    dayTime2: '13:00',
-  },
-  {
-    dayTime: '13:00',
     dayTime2: '14:00',
   },
   {
     dayTime: '14:00',
-    dayTime2: '15:00',
-  },
-  {
-    dayTime: '15:00',
     dayTime2: '16:00',
   },
   {
     dayTime: '16:00',
-    dayTime2: '17:00',
-  },
-  {
-    dayTime: '17:00',
     dayTime2: '18:00',
   },
   {
     dayTime: '18:00',
-    dayTime2: '19:00',
-  },
-  {
-    dayTime: '19:00',
     dayTime2: '20:00',
-  },
+  }
 ]

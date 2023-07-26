@@ -1,8 +1,8 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { DateSegment, DateSegmentDummy, dayNames } from '../../const'
+import { DateSegment, DateSegmentDummy, dayNames, querySchedule, queryScheduleInterface } from '../../const'
 import { Select, SegmentedControl } from '@mantine/core'
 import { BsCalendar2Range } from 'react-icons/bs'
 import { useMediaQuery } from '@mantine/hooks'
@@ -24,12 +24,8 @@ export const ScheduleSection: React.FC = () => {
   const [reason, setReason] = useState('')
   const [closest, setClosest] = useState<boolean | null>(null)
   const matches = useMediaQuery('(min-width: 75em)')
-  const [pilihanJadwal, setPilihanJadwal] =
-    useState<pilihanJadwal[]>(DateSegment)
 
   const [pilihanJadwal2, setPilihanJadwal2] = useState<pilihanJadwal[]>([])
-
-  const [rawData, setRawData] = useState<Array<RawJadwal> | null>()
 
   const [tempJadwal, setTemp] = useState<RawJadwal[] | null>()
   const [tempBooking, setBooking] = useState<BookingTime[] | null>()
@@ -48,11 +44,42 @@ export const ScheduleSection: React.FC = () => {
 
   const handleGetJadwal = () => {
     getAllRefetch()
-  }
-
-  const handleGetBooking = () => {
     getAllBooking()
   }
+
+  useEffect(() => {
+    handleGetJadwal()
+  }, [value])
+
+  useEffect(() => {
+    
+    const tempBookingArray: String[] = []
+    const tempBookingJadwal: String[] = []
+    const jadwalFix: pilihanJadwal[] = []
+
+    tempBooking?.forEach((data) => {
+      tempBookingArray.push(data.bookingTime, data.bookingTime2)
+    })
+
+    tempJadwal?.forEach((data) => {
+      data.workTime.forEach((jdwl) => {
+        tempBookingJadwal.push(jdwl)
+      })
+    })
+
+    const test: queryScheduleInterface[] = querySchedule
+    test.forEach((data) => {
+      const data1 = tempBookingArray.filter(n => n === data.dayTime).length
+      const data2 = tempBookingJadwal.filter(n => n === data.dayTime).length
+      jadwalFix.push({
+        disabled: data2 - data1 < 1 ? true : false,
+        value: `${data.dayTime} -- ${data.dayTime2}`,
+        label: `${data.dayTime} -- ${data.dayTime2}`
+      })
+
+      setPilihanJadwal2(jadwalFix)
+    })
+  }, [tempJadwal, tempBooking])
 
   const { refetch: getAllRefetch } = useQuery(GET_SCHEDULE_BY_TIME, {
     variables: {
@@ -115,7 +142,6 @@ export const ScheduleSection: React.FC = () => {
       <Select
         onChange={(e) => {
           setValue(e)
-          handleGetJadwal()
         }}
         placeholder="Pilih Hari Konseling"
         transitionProps={{
@@ -128,8 +154,7 @@ export const ScheduleSection: React.FC = () => {
       />
       <button
         onClick={() => {
-          console.log(tempJadwal)
-          console.log(tempBooking)
+          console.log(pilihanJadwal2)
         }}
       >
         KLIK
