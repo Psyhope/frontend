@@ -30,6 +30,16 @@ export const ScheduleSection: React.FC = () => {
   const [reason, setReason] = useState('')
   const [closest, setClosest] = useState<boolean | null>(null)
   const matches = useMediaQuery('(min-width: 75em)')
+  const [topic, setTopic] = useState<string[]>([])
+
+  const handleCheck = (e:React.ChangeEvent<HTMLInputElement>) => {
+    if(e.target.checked){
+      setTopic([...topic, e.target.value]);
+    }
+    else {
+      setTopic(topic.filter((item) => item !== e.target.value))
+    }
+  }
 
   const [pilihanJadwal2, setPilihanJadwal2] = useState<pilihanJadwal[]>([])
 
@@ -63,7 +73,7 @@ export const ScheduleSection: React.FC = () => {
     const jadwalFix: pilihanJadwal[] = []
 
     tempBooking?.forEach((data) => {
-      tempBookingArray.push(data.bookingTime, data.bookingTime2)
+      tempBookingArray.push(data.bookingTime)
     })
 
     tempJadwal?.forEach((data) => {
@@ -89,7 +99,7 @@ export const ScheduleSection: React.FC = () => {
   const { refetch: getAllRefetch } = useQuery(GET_SCHEDULE_BY_TIME, {
     variables: {
       getScheduleDto: {
-        counselorType: CounselorType.Psyhope,
+        counselorType: pathname.slice(10) == 'psyhope' ? CounselorType.Psyhope : CounselorType.Faculty,
         day: value,
         dayTime: '08:00',
         dayTime2: '09:00',
@@ -102,12 +112,13 @@ export const ScheduleSection: React.FC = () => {
 
   const { refetch: getAllBooking } = useQuery(GET_BOOKING_DAY, {
     variables: {
-      getBookingFilter: {
+      getBookingFilterGeneral: {
         day: value,
+        counselorType: pathname.slice(10) == 'psyhope' ? CounselorType.Psyhope : CounselorType.Faculty
       },
     },
     onCompleted(data) {
-      if (data.bookingFilter != null) handleBooking(data.bookingFilter)
+      if (data.bookingFilterGeneral != null) handleBooking(data.bookingFilterGeneral)
     },
   })
 
@@ -116,6 +127,7 @@ export const ScheduleSection: React.FC = () => {
     localStorage.setItem('time', valueTime as string)
     localStorage.setItem('reason', reason)
     localStorage.setItem('closest', `${closest}`)
+    localStorage.setItem('topic', topic.toString())
 
     pathname.slice(10) == 'psyhope'
       ? router.push('/ghq/psyhope')
@@ -147,6 +159,7 @@ export const ScheduleSection: React.FC = () => {
       <Select
         onChange={(e) => {
           setValue(e)
+          setValueTime(null)
         }}
         placeholder="Pilih Hari Konseling"
         transitionProps={{
@@ -160,6 +173,7 @@ export const ScheduleSection: React.FC = () => {
       <button
         onClick={() => {
           console.log(pilihanJadwal2)
+          console.log(topic)
         }}
       >
         KLIK
@@ -203,10 +217,26 @@ export const ScheduleSection: React.FC = () => {
             <input name="close" type="radio" onChange={handleClosest}></input>
             <span>Tidak</span>
           </div>
+
+          <div>
+            <div>
+              <input type='checkbox' value='TOPIC_1' onChange={handleCheck}></input>
+              123
+            </div>
+            <div>
+              <input type='checkbox' value='TOPIC_2' onChange={handleCheck}></input>
+              123
+            </div>
+            <div>
+              <input type='checkbox' value='TOPIC_3' onChange={handleCheck}></input>
+              123
+            </div>
+          </div>
         </div>
       ) : (
         <></>
       )}
+      
       <div className="flex lg:justify-end justify-center">
         <button
           disabled={value == null && valueTime == null}

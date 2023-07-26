@@ -11,9 +11,28 @@ export const GET_SCHEDULE_BY_TIME = gql(`
   `)
 
 export const GET_BOOKING_DAY =
-  gql(`query BookingFilter($getBookingFilter: GetBookingFilterDto!) {
-    bookingFilter(getBookingFilter: $getBookingFilter) {
+  gql(`query BookingFilterGeneral($getBookingFilterGeneral: GetBookingFilterGeneralDto!) {
+    bookingFilterGeneral(getBookingFilterGeneral: $getBookingFilterGeneral) {
       bookingTime
       bookingTime2
     }
-  }`)
+  }
+  `)
+
+
+export const MUTATION_CREATE_BOOKING = gql(`
+  mutation CreateBooking($createBookingInput: CreateBookingInput!) {
+    createBooking(createBookingInput: $createBookingInput) {
+      id
+      bookingTime
+      bookingTime2
+      bookingDate
+      bookingDay
+      userId
+      counselorType
+      bookingTopic
+      reasonApply
+      closestKnown
+    }
+  }
+`)
