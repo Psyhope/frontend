@@ -2,7 +2,13 @@
 import React, { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { DateSegment, DateSegmentDummy, dayNames, querySchedule, queryScheduleInterface } from '../../const'
+import {
+  DateSegment,
+  DateSegmentDummy,
+  dayNames,
+  querySchedule,
+  queryScheduleInterface,
+} from '../../const'
 import { Select, SegmentedControl } from '@mantine/core'
 import { BsCalendar2Range } from 'react-icons/bs'
 import { useMediaQuery } from '@mantine/hooks'
@@ -52,7 +58,6 @@ export const ScheduleSection: React.FC = () => {
   }, [value])
 
   useEffect(() => {
-    
     const tempBookingArray: String[] = []
     const tempBookingJadwal: String[] = []
     const jadwalFix: pilihanJadwal[] = []
@@ -69,12 +74,12 @@ export const ScheduleSection: React.FC = () => {
 
     const test: queryScheduleInterface[] = querySchedule
     test.forEach((data) => {
-      const data1 = tempBookingArray.filter(n => n === data.dayTime).length
-      const data2 = tempBookingJadwal.filter(n => n === data.dayTime).length
+      const data1 = tempBookingArray.filter((n) => n === data.dayTime).length
+      const data2 = tempBookingJadwal.filter((n) => n === data.dayTime).length
       jadwalFix.push({
         disabled: data2 - data1 < 1 ? true : false,
         value: `${data.dayTime} -- ${data.dayTime2}`,
-        label: `${data.dayTime} -- ${data.dayTime2}`
+        label: `${data.dayTime} -- ${data.dayTime2}`,
       })
 
       setPilihanJadwal2(jadwalFix)

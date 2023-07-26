@@ -168,5 +168,5 @@ export const querySchedule = [
   {
     dayTime: '18:00',
     dayTime2: '20:00',
-  }
+  },
 ]
