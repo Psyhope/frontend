@@ -49,7 +49,7 @@ export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
     <div
       className={`md:w-[537px] w-[200px] md:h-[249px] h-fit flex rounded-lg ${className} flex-col md:flex-row`}
     >
-      <div className="md:w-1/3 w-full h-[100px] md:h-full relative">
+      <div className="md:w-1/3 aspect-article relative border border-red-500">
         <Image
           alt="Placeholder"
           src={thumbnailUrl}
