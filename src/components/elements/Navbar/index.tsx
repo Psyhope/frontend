@@ -12,16 +12,32 @@ import {
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Menu, rem } from '@mantine/core'
+import { Drawer, Menu, rem } from '@mantine/core'
 import { useAuth } from '@/components/contexts/AuthContext'
-import { IconLogout2, IconUserCircle } from '@tabler/icons-react'
+import {
+  IconArrowsLeftRight,
+  IconArticle,
+  IconChartInfographic,
+  IconClipboardHeart,
+  IconLogout2,
+  IconMenu2,
+  IconMessageCircle,
+  IconPhoto,
+  IconSearch,
+  IconSettings,
+  IconSmartHome,
+  IconSpeakerphone,
+  IconTrash,
+  IconUserCircle,
+} from '@tabler/icons-react'
+import { useDisclosure } from '@mantine/hooks'
 
 export const Navbar: React.FC = () => {
   const [scroll, setScroll] = useState(false)
 
   const pathname = usePathname()
 
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
 
   console.log('pathname', pathname)
   useEffect(() => {
@@ -32,15 +48,17 @@ export const Navbar: React.FC = () => {
 
   const [opened, setOpened] = useState(false)
 
+  const [openedMenu, setOpenedMenu] = useState(false)
+
   return (
     <div
-      className={`bg-[#FEFEF2] h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-10 sticky top-0 transition-all duration-1000 z-50 ${
+      className={`bg-[#FEFEF2] h-[60px] md:h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-5 md:px-10 sticky top-0 transition-all duration-1000 z-50 ${
         scroll ? 'md:top-1 md:scale-[0.99] lg:top-2' : 'top-0 scale-100'
       } ${pathname == '/login' && 'hidden'}`}
     >
-      <div>
+      <Link className="scale-75 md:scale-100" href={'/'}>
         <Psyhope />
-      </div>
+      </Link>
       <div className="items-center hidden gap-5 lg:flex">
         <Link
           href={'/'}
@@ -116,7 +134,10 @@ export const Navbar: React.FC = () => {
                 <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
                   Profile
                 </Menu.Item>
-                <Menu.Item icon={<IconLogout2 size={rem(14)} />}>
+                <Menu.Item
+                  icon={<IconLogout2 size={rem(14)} />}
+                  onClick={logout}
+                >
                   Logout
                 </Menu.Item>
               </Menu.Dropdown>
@@ -131,6 +152,64 @@ export const Navbar: React.FC = () => {
           </Link>
         )}
       </div>
+
+      <Menu
+        shadow="md"
+        width={200}
+        opened={openedMenu}
+        onChange={setOpenedMenu}
+      >
+        <Menu.Target>
+          <button
+            className={`border transition-colors ${
+              openedMenu
+                ? 'border-[#026AA2] text-[#026AA2]'
+                : 'border-[#0BA5EC] text-[#0BA5EC]'
+            } p-2 rounded-md drop-shadow-md active:drop-shadow-none shadow-black lg:hidden`}
+          >
+            <IconMenu2 />
+          </button>
+        </Menu.Target>
+
+        <Menu.Dropdown>
+          <Menu.Label>Application</Menu.Label>
+          <Link href={'/'}>
+            <Menu.Item icon={<IconSmartHome size={14} />}>Home</Menu.Item>
+          </Link>
+          <Link href={'/event?page=1'}>
+            <Menu.Item icon={<IconSpeakerphone size={14} />}>Event</Menu.Item>
+          </Link>
+          <Link href={'/infographic?page=1'}>
+            <Menu.Item icon={<IconChartInfographic size={14} />}>
+              Infografik
+            </Menu.Item>
+          </Link>
+          <Link href={'/article?page=1'}>
+            <Menu.Item icon={<IconArticle size={14} />}>Artikel</Menu.Item>
+          </Link>
+          <Link href={'/'}>
+            <Menu.Item icon={<IconClipboardHeart size={14} />}>
+              Konseling
+            </Menu.Item>
+          </Link>
+
+          <Menu.Divider />
+
+          <Menu.Label>Akun</Menu.Label>
+          <Link href={'/'}>
+            <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
+              Profile
+            </Menu.Item>
+          </Link>
+          <Menu.Item
+            icon={<IconLogout2 size={rem(14)} />}
+            onClick={logout}
+            color="red"
+          >
+            Logout
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     </div>
   )
 }
