@@ -1,22 +1,36 @@
 'use client'
 
-import { Event, Home, Konseling, Psyhope } from '@icons'
-import { usePathname, useRouter } from 'next/navigation'
+import {
+  Article,
+  Event,
+  Home,
+  Infografic,
+  Konseling,
+  Psyhope,
+  User,
+} from '@icons'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { Menu, rem } from '@mantine/core'
+import { useAuth } from '@/components/contexts/AuthContext'
+import { IconLogout2, IconUserCircle } from '@tabler/icons-react'
 
 export const Navbar: React.FC = () => {
   const [scroll, setScroll] = useState(false)
 
   const pathname = usePathname()
 
-  const router = useRouter()
+  const { user } = useAuth()
 
+  console.log('pathname', pathname)
   useEffect(() => {
     window.addEventListener('scroll', () =>
       !window.scrollY ? setScroll(false) : setScroll(true)
     )
   }, [])
+
+  const [opened, setOpened] = useState(false)
 
   return (
     <div
@@ -27,8 +41,9 @@ export const Navbar: React.FC = () => {
       <div>
         <Psyhope />
       </div>
-      <div className="items-center hidden gap-5 md:flex">
-        <button
+      <div className="items-center hidden gap-5 lg:flex">
+        <Link
+          href={'/'}
           className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
             pathname == '/'
               ? 'border-[#026AA2] text-[#026AA2]'
@@ -37,18 +52,42 @@ export const Navbar: React.FC = () => {
         >
           <Home />
           Home
-        </button>
-        <button
+        </Link>
+        <Link
+          href={'/event?page=1'}
           className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
-            pathname == '/123'
+            pathname == '/event'
               ? 'border-[#026AA2] text-[#026AA2]'
               : 'border-transparent'
           } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
         >
           <Event />
           Event
-        </button>
-        <button
+        </Link>
+        <Link
+          href={'/infographic?page=1'}
+          className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
+            pathname == '/infographic'
+              ? 'border-[#026AA2] text-[#026AA2]'
+              : 'border-transparent'
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+        >
+          <Infografic />
+          Infografik
+        </Link>
+        <Link
+          href={'/article?page=1'}
+          className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
+            pathname == '/article'
+              ? 'border-[#026AA2] text-[#026AA2]'
+              : 'border-transparent'
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+        >
+          <Article />
+          Article
+        </Link>
+        <Link
+          href={'/'}
           className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
             pathname == '/ghq' || pathname == '/schedule'
               ? 'border-[#026AA2] text-[#026AA2]'
@@ -57,13 +96,40 @@ export const Navbar: React.FC = () => {
         >
           <Konseling />
           Konseling
-        </button>
-        <Link
-          href="/login"
-          className="flex font-inter font-semibold px-4 bg-[#0086C9] text-white py-2 rounded-md shadow-md active:shadow-none"
-        >
-          Login
         </Link>
+        {user ? (
+          <>
+            <Menu opened={opened} onChange={setOpened}>
+              <Menu.Target>
+                <button
+                  className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
+                    opened
+                      ? 'border-[#026AA2] text-[#026AA2]'
+                      : 'border-transparent'
+                  } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+                >
+                  <User />
+                </button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
+                  Profile
+                </Menu.Item>
+                <Menu.Item icon={<IconLogout2 size={rem(14)} />}>
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </>
+        ) : (
+          <Link
+            href="/login"
+            className="flex font-inter font-semibold px-4 bg-[#0086C9] text-white py-2 rounded-md shadow-md active:shadow-none"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   )
