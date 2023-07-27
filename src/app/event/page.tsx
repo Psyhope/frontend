@@ -277,7 +277,7 @@ const EventPage = () => {
       </div>
       {/* Grid */}
       <div className=" flex justify-center mt-5">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 w-full">
           {listEvent &&
             listEvent.map((event) => (
               <EventCard
