@@ -12,11 +12,6 @@ const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
 })
 
-export const metadata = {
-  title: 'Psyhope',
-  description: '',
-}
-
 export default function RootLayout({
   children,
 }: {

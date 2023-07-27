@@ -30,6 +30,7 @@ import { useRouter } from 'next/navigation'
 import { DELETE_ARTICLE, UPDATE_ATRICLE } from '@/actions/article'
 import { notifications } from '@mantine/notifications'
 import { IconCheck } from '@tabler/icons-react'
+import NextLink from 'next/link'
 
 export const ArticleCard: React.FC<Props> = ({
   isAdmin,
@@ -261,8 +262,8 @@ export const ArticleCard: React.FC<Props> = ({
 
   return (
     <div>
-      <button onClick={() => router.push(`/article/${id}`)}>
-        <div className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none">
+      <NextLink href={`/article/${id}`}>
+        <div className=" rounded-lg relative flex-none">
           <div className="w-full aspect-article relative">
             <Image
               alt="Infografis"
@@ -277,7 +278,7 @@ export const ArticleCard: React.FC<Props> = ({
             </p>
           </div>
         </div>
-      </button>
+      </NextLink>
       {isAdmin && (
         <div className="flex gap-2 mt-2">
           <button

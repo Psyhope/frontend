@@ -246,7 +246,7 @@ export const EventCard: React.FC<Props> = ({
   return (
     <div>
       <button
-        className="xl:w-[345px] lg:w-[280px] w-[200px] rounded-lg relative flex-none drop-shadow-xl active:drop-shadow-none"
+        className="w-full rounded-lg relative flex-none drop-shadow-xl active:drop-shadow-none"
         onClick={open}
       >
         <div className="w-full aspect-article relative">

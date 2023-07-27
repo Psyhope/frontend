@@ -111,8 +111,64 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {/* Infografis */}
+      <div className="bg-[#53389E] lg:h-[893px] mt-16 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
+        <Image
+          alt="Plus Assets"
+          src={Plus}
+          className="z-0 absolute w-full -bottom-32"
+          quality={100}
+        />
+        <div className="lg:w-1/3 lg:p-12 p-5">
+          <p className="font-inter lg:text-6xl text-xl font-bold text-[#F4EBFF] leading-normal md:text-3xl">
+            The Mindful Mind: An Infographic
+          </p>
+          <p className="font-inter font-medium lg:text-lg text-sm md:text-base text-[#B692F6] leading-relaxed lg:mt-5 md:mt-3">
+            Infografis ini mengeksplorasi bagaimana kamu dapat membantu
+            meningkatkan kesehatan mentalmu.
+          </p>
+          <div className="w-full flex justify-end gap-10 lg:mt-20 mt-5 z-10">
+            <button
+              className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
+              onClick={() => {
+                const element = document.getElementById('infografic')
+                element!.scrollLeft -= 400
+              }}
+            >
+              <ChevronLeft />
+            </button>
+            <button
+              className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
+              onClick={() => {
+                const element = document.getElementById('infografic')
+                element!.scrollLeft += 400
+              }}
+            >
+              <ChevronRight />
+            </button>
+          </div>
+        </div>
+        <div className="lg:w-2/3 w-full flex items-center overflow-hidden max-w-full px-5">
+          <div
+            className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500"
+            id="infografic"
+          >
+            <div className="transition-transform -translate-x-0 flex gap-5">
+              {listInfografic &&
+                listInfografic.map((infografic) => (
+                  <InfograficCard
+                    isAdmin={false}
+                    key={infografic.id}
+                    refetch={getAllRefetch}
+                    {...infografic}
+                  />
+                ))}
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Article */}
-      <div className="flex flex-col w-full md:mt-32 mt-10">
+      <div className="flex flex-col w-full md:mt-32 mt-10  mb-10">
         {/* Panel Title */}
         <div className="flex flex-col items-center justify-center">
           <div className="relative">
@@ -179,62 +235,6 @@ export default function Home() {
           >
             <ChevronRight />
           </button>
-        </div>
-      </div>
-      {/* Infografis */}
-      <div className="bg-[#53389E] lg:h-[893px] mt-16 mb-10 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
-        <Image
-          alt="Plus Assets"
-          src={Plus}
-          className="z-0 absolute w-full -bottom-32"
-          quality={100}
-        />
-        <div className="lg:w-1/3 lg:p-12 p-5">
-          <p className="font-inter lg:text-6xl text-xl font-bold text-[#F4EBFF] leading-normal md:text-3xl">
-            The Mindful Mind: An Infographic
-          </p>
-          <p className="font-inter font-medium lg:text-lg text-sm md:text-base text-[#B692F6] leading-relaxed lg:mt-5 md:mt-3">
-            Infografis ini mengeksplorasi bagaimana kamu dapat membantu
-            meningkatkan kesehatan mentalmu.
-          </p>
-          <div className="w-full flex justify-end gap-10 lg:mt-20 mt-5 z-10">
-            <button
-              className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
-              onClick={() => {
-                const element = document.getElementById('infografic')
-                element!.scrollLeft -= 400
-              }}
-            >
-              <ChevronLeft />
-            </button>
-            <button
-              className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
-              onClick={() => {
-                const element = document.getElementById('infografic')
-                element!.scrollLeft += 400
-              }}
-            >
-              <ChevronRight />
-            </button>
-          </div>
-        </div>
-        <div className="lg:w-2/3 w-full flex items-center overflow-hidden max-w-full px-5">
-          <div
-            className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500"
-            id="infografic"
-          >
-            <div className="transition-transform -translate-x-0 flex gap-5">
-              {listInfografic &&
-                listInfografic.map((infografic) => (
-                  <InfograficCard
-                    isAdmin={false}
-                    key={infografic.id}
-                    refetch={getAllRefetch}
-                    {...infografic}
-                  />
-                ))}
-            </div>
-          </div>
         </div>
       </div>
     </main>
