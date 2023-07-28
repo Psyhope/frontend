@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { env } from '@/env.mjs'
 import { notifications } from '@mantine/notifications'
 import { FaTimes } from 'react-icons/fa'
+import { Psyhope } from '../icons/Psyhope'
 
 const AuthContext = createContext<{
   accessToken: string
@@ -166,7 +167,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={contextValue}>
-      {!loading ? children : <></>}
+      {!loading ? (
+        children
+      ) : (
+        <main className="flex flex-col items-center justify-center w-full h-screen gap-3 bg-white">
+          <div className="scale-150">
+            <Psyhope />
+          </div>
+          <h1 className="text-2xl font-bold">Loading...</h1>
+        </main>
+      )}
     </AuthContext.Provider>
   )
 }
