@@ -27,6 +27,7 @@ module.exports = {
         infografic: '9 / 16',
         article: '3 / 2',
         articleCover: '8 / 3',
+        infografic2: '2 / 3',
       },
     },
   },

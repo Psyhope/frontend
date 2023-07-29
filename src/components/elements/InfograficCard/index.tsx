@@ -206,7 +206,7 @@ export const InfograficCard: React.FC<Props> = ({
   return (
     <div>
       <NextLink
-        href={`/infografic/${id}`}
+        href={`/infographic/${id}`}
         className="lg:w-[445px] w-[200px] rounded-lg relative flex-none"
       >
         <div className="w-full aspect-infografic relative">

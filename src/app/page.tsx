@@ -4,7 +4,11 @@ import HeroAssets from '../../public/assets/Hero Asset.svg'
 import ArticleBubble from '../../public/assets/Article Bubble.svg'
 import Plus from '../../public/assets/Plus.svg'
 import { TypeAnimation } from 'react-type-animation'
-import { ArticleLandingCard, InfograficCard } from '@elements'
+import {
+  ArticleLandingCard,
+  InfograficCard,
+  InfographicCardLanding,
+} from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
@@ -112,7 +116,7 @@ export default function Home() {
         </div>
       </div>
       {/* Infografis */}
-      <div className="bg-[#53389E] lg:h-[893px] mt-16 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
+      <div className="bg-[#53389E] lg:h-fit mt-16 mb-10 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
         <Image
           alt="Plus Assets"
           src={Plus}
@@ -150,17 +154,15 @@ export default function Home() {
         </div>
         <div className="lg:w-2/3 w-full flex items-center overflow-hidden max-w-full px-5">
           <div
-            className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500"
+            className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500 lg:ml-10 xl:ml-0"
             id="infografic"
           >
-            <div className="transition-transform -translate-x-0 flex gap-5">
+            <div className="transition-transform -translate-x-0 flex">
               {listInfografic &&
-                listInfografic.map((infografic) => (
-                  <InfograficCard
-                    isAdmin={false}
-                    key={infografic.id}
-                    refetch={getAllRefetch}
-                    {...infografic}
+                listInfografic.map((infographic) => (
+                  <InfographicCardLanding
+                    {...infographic}
+                    key={infographic.id}
                   />
                 ))}
             </div>
