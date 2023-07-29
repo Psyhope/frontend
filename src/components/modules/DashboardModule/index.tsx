@@ -21,6 +21,9 @@ export const DashboardModule: React.FC = () => {
         setBooking({
           bookingDate: data.bookingClient?.bookingDate as Date,
           bookingId: data.bookingClient?.id as number,
+          isAccepted: data.bookingClient?.isAccepted as boolean,
+          isTerminated: data.bookingClient?.isTerminated as boolean,
+          adminAcc: data.bookingClient?.adminAcc as boolean,
           bookingTime: data.bookingClient?.bookingTime as string,
           bookingTime2: data.bookingClient?.bookingTime2 as string,
           bookingDay: data.bookingClient?.bookingDay as string,

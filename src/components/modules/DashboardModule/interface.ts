@@ -12,6 +12,9 @@ export interface BookingClient {
   bookingDate: Date
   bookingDay: string
   counselor: Councelor
+  isTerminated: Boolean
+  isAccepted: Boolean
+  adminAcc: Boolean
 }
 
 export interface Councelor {

@@ -44,6 +44,9 @@ export const GET_BOOKING_CLIENT = gql(`
       bookingTime2
       bookingDate
       bookingDay
+      isAccepted
+      isTerminated
+      adminAcc
       councelor {
         userId
         user {
