@@ -35,3 +35,22 @@ export const MUTATION_CREATE_BOOKING = gql(`
     }
   }
 `)
+
+
+export const GET_BOOKING_CLIENT = gql(`
+  query BookingClient {
+    bookingClient {
+      id
+      bookingTime
+      bookingTime2
+      bookingDate
+      bookingDay
+      councelor {
+        userId
+        user {
+          fullname
+        }
+      }
+    }
+  }
+`)
