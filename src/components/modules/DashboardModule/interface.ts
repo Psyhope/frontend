@@ -1,4 +1,4 @@
-import { Interface } from "readline/promises"
+import { Interface } from 'readline/promises'
 
 export interface DashboardModalWord {
   title: string

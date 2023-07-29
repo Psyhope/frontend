@@ -38,7 +38,6 @@ export const GQHQuestionModule: React.FC = () => {
       if (data == 'TOPIC_3') topic.push(BookingTopic.Topic_3)
     })
 
-    
     mutate({
       variables: {
         createBookingInput: {
@@ -68,8 +67,8 @@ export const GQHQuestionModule: React.FC = () => {
         },
       },
       onCompleted(data, clientOptions) {
-          console.log(data)
-          router.push('/dashboard')
+        console.log(data)
+        router.push('/dashboard')
       },
     })
   }

@@ -14,25 +14,25 @@ export const DashboardModule: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [booking, setBooking] = useState<BookingClient | null>(null)
-  const {refetch: getBookingClient} = useQuery(GET_BOOKING_CLIENT, {
-    onCompleted(data){
-      if(data != null) {
+  const { refetch: getBookingClient } = useQuery(GET_BOOKING_CLIENT, {
+    onCompleted(data) {
+      if (data != null) {
         setLoading(true)
         setBooking({
-        bookingDate: data.bookingClient?.bookingDate as Date,
-        bookingId: data.bookingClient?.id as number,
-        bookingTime: data.bookingClient?.bookingTime as string,
-        bookingTime2: data.bookingClient?.bookingTime2 as string,
-        bookingDay: data.bookingClient?.bookingDay as string,
-        counselor: {
-          userId: data.bookingClient?.councelor?.userId as string,
-          user: {
-            fullname: data.bookingClient?.councelor?.user?.fullname as string,
-          }
-        }
-      })
-    }
-  }
+          bookingDate: data.bookingClient?.bookingDate as Date,
+          bookingId: data.bookingClient?.id as number,
+          bookingTime: data.bookingClient?.bookingTime as string,
+          bookingTime2: data.bookingClient?.bookingTime2 as string,
+          bookingDay: data.bookingClient?.bookingDay as string,
+          counselor: {
+            userId: data.bookingClient?.councelor?.userId as string,
+            user: {
+              fullname: data.bookingClient?.councelor?.user?.fullname as string,
+            },
+          },
+        })
+      }
+    },
   })
   return (
     <div>
@@ -123,26 +123,29 @@ export const DashboardModule: React.FC = () => {
             </div>
           </div>
         </div>
-        {loading ? 
-        <div>
-          {
-            booking?.bookingDate !== undefined ? 
-            <div>
+        {loading ? (
+          <div>
+            {booking?.bookingDate !== undefined ? (
               <div>
-                <p>Jadwal Konseling</p>
-              </div>
-              <div>
-                <div className=' bg-gradient-to-tr rounded-lg from-[#7F56D9] to-[#F6CCDF] p-3 felx flex-col'>
-                  <span>{booking.bookingDay}</span>
-                  <p>{booking.bookingTime} -- {booking.bookingTime2}</p>
+                <div>
+                  <p>Jadwal Konseling</p>
+                </div>
+                <div>
+                  <div className=" bg-gradient-to-tr rounded-lg from-[#7F56D9] to-[#F6CCDF] p-3 felx flex-col">
+                    <span>{booking.bookingDay}</span>
+                    <p>
+                      {booking.bookingTime} -- {booking.bookingTime2}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div> : 
-            <div>
-              GAADA ORANG
-            </div>
-          }
-        </div> : <></>}
+            ) : (
+              <div>GAADA ORANG</div>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="flex flex-col gap-4">
           <div className="flex justify-center ">
             <div className="relative h-[300px] w-[300px] lg:w-[400px] lg:h-[400px]">
@@ -166,10 +169,12 @@ export const DashboardModule: React.FC = () => {
             <button className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg">
               Daftar Konseling di CSP
             </button>
-          </div>  
-          <button onClick={() => {
-            console.log(booking)
-          }}>
+          </div>
+          <button
+            onClick={() => {
+              console.log(booking)
+            }}
+          >
             klik
           </button>
 
