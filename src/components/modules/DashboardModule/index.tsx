@@ -10,13 +10,13 @@ import { GET_BOOKING_CLIENT } from '@/actions/booking'
 import { usePathname, useRouter } from 'next/navigation'
 
 export const DashboardModule: React.FC = () => {
-
   const router = useRouter()
   const pathname = usePathname()
   const hanldleReschedule = () => {
-    if (booking != null) localStorage.setItem('idBooking', booking?.id as unknown as string)
-    if(booking?.counselorType == "PSYHOPE") router.push('/reschedule/psyhope')
-    else if (booking?.counselorType == "CSP") router.push('/reschedule/csp')
+    if (booking != null)
+      localStorage.setItem('idBooking', booking?.id as unknown as string)
+    if (booking?.counselorType == 'PSYHOPE') router.push('/reschedule/psyhope')
+    else if (booking?.counselorType == 'CSP') router.push('/reschedule/csp')
   }
 
   const DashboardWording: DashboardModalWord[] = DashboardModal
@@ -49,7 +49,7 @@ export const DashboardModule: React.FC = () => {
     },
   })
   return (
-    <div className=''>
+    <div className="">
       <div className="px-10 py-4 flex flex-col gap-4">
         <div className="bg-white">
           <Modal
@@ -138,63 +138,88 @@ export const DashboardModule: React.FC = () => {
           </div>
         </div>
         {loading ? (
-          <div className='flex flex-col gap-4'>
+          <div className="flex flex-col gap-4">
             {booking?.bookingDate !== undefined ? (
-              <div className='flex flex-col gap-4'>
+              <div className="flex flex-col gap-4">
                 <div>
-                  <p className=' font-semibold text-2xl'>Jadwal Konseling</p>
+                  <p className=" font-semibold text-2xl">Jadwal Konseling</p>
                 </div>
-                <div className='w-full md:w-1/3'>
-                  <div className={`flex flex-col gap-3 w-full bg-gradient-to-l rounded-t-lg ${!booking.adminAcc && !booking.isAccepted && booking.isTerminated ? 'bg-[#FECDCA]' : 'from-[#7F56D9] from-5% via-[#F6CCDF] via-100% to-[#7F56D9] to-5%'} p-5 px-12`}>
-                    <div className='flex flex-col gap-1'>
-
-                      {!booking.adminAcc && !booking.isAccepted && booking.isTerminated ? 
-                      <div className='bg-[#FFFAEB] rounded-2xl p-1 px-3'>
-                        <span className='text-[#B42318] drop-shadow-lg font-semibold text-xl'>Jadwal konseling kamu tidak dapat diproses lebih lanjut :(</span>
-                        <p className='text-black drop-shadow-lg font-medium text-xl'>
-                          Apakah kamu mau memilih jadwal lainnya?
-                        </p>
-                      </div>
-                      :
-                      <div></div>}
-
-                      {!booking.adminAcc && !booking.isAccepted && !booking.isTerminated ? 
-                      <div className='flex flex-col justify-center'>
-                        <span className='text-[#53389E] drop-shadow-lg font-semibold text-xl'>{booking.bookingDay}</span>
-                        <p className='text-[#53389E] drop-shadow-lg font-medium text-xl'>
-                          {booking.bookingTime} - {booking.bookingTime2}
-                        </p>
-                        <div className='bg-[#FFFAEB] rounded-2xl p-1 px-3 w-fit'>
-                          <p className='text-[#B54708] font-medium text-lg'>
-                            Menunggu Persetujuan
+                <div className="w-full md:w-1/3">
+                  <div
+                    className={`flex flex-col gap-3 w-full bg-gradient-to-l rounded-t-lg ${
+                      !booking.adminAcc &&
+                      !booking.isAccepted &&
+                      booking.isTerminated
+                        ? 'bg-[#FECDCA]'
+                        : 'from-[#7F56D9] from-5% via-[#F6CCDF] via-100% to-[#7F56D9] to-5%'
+                    } p-5 px-12`}
+                  >
+                    <div className="flex flex-col gap-1">
+                      {!booking.adminAcc &&
+                      !booking.isAccepted &&
+                      booking.isTerminated ? (
+                        <div className="bg-[#FFFAEB] rounded-2xl p-1 px-3">
+                          <span className="text-[#B42318] drop-shadow-lg font-semibold text-xl">
+                            Jadwal konseling kamu tidak dapat diproses lebih
+                            lanjut :(
+                          </span>
+                          <p className="text-black drop-shadow-lg font-medium text-xl">
+                            Apakah kamu mau memilih jadwal lainnya?
                           </p>
                         </div>
-                      </div>
-                      :
-                      <div></div>}
+                      ) : (
+                        <div></div>
+                      )}
 
-                      {booking.adminAcc && booking.isAccepted ? 
-                      <div className='bg-[#FFFAEB] rounded-2xl p-1 px-3'>
-                        <span className='text-[#53389E] drop-shadow-lg font-semibold text-xl'>{booking.bookingDay}</span>
-                        <p className='text-[#53389E] drop-shadow-lg font-medium text-xl'>
-                          {booking.bookingTime} - {booking.bookingTime2}
-                        </p>
-                        <p className='text-[#B54708] font-medium text-lg'>
-                          Counselor : {booking.councelor.user.fullname}
-                        </p>
-                      </div>
-                      :
-                      <div></div>}
+                      {!booking.adminAcc &&
+                      !booking.isAccepted &&
+                      !booking.isTerminated ? (
+                        <div className="flex flex-col justify-center">
+                          <span className="text-[#53389E] drop-shadow-lg font-semibold text-xl">
+                            {booking.bookingDay}
+                          </span>
+                          <p className="text-[#53389E] drop-shadow-lg font-medium text-xl">
+                            {booking.bookingTime} - {booking.bookingTime2}
+                          </p>
+                          <div className="bg-[#FFFAEB] rounded-2xl p-1 px-3 w-fit">
+                            <p className="text-[#B54708] font-medium text-lg">
+                              Menunggu Persetujuan
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+
+                      {booking.adminAcc && booking.isAccepted ? (
+                        <div className="bg-[#FFFAEB] rounded-2xl p-1 px-3">
+                          <span className="text-[#53389E] drop-shadow-lg font-semibold text-xl">
+                            {booking.bookingDay}
+                          </span>
+                          <p className="text-[#53389E] drop-shadow-lg font-medium text-xl">
+                            {booking.bookingTime} - {booking.bookingTime2}
+                          </p>
+                          <p className="text-[#B54708] font-medium text-lg">
+                            Counselor : {booking.councelor.user.fullname}
+                          </p>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
                     </div>
-                  </div> 
-                    
-                  <div className=' rounded-b-2xl p-4 bg-[#42307D]'>
+                  </div>
+
+                  <div className=" rounded-b-2xl p-4 bg-[#42307D]">
                     <div>
-                      <div className={`bg-[#7F56D9] ${booking.adminAcc && booking.isAccepted ? ' bg-slate-600 hover:cursor-not-allowed' : ''} rounded-lg p-2 flex justify-center hover:cursor-pointer`}
-                      onClick={hanldleReschedule}>
-                        <p className=' text-white font-semibold'>
-                          Reschedule
-                        </p>
+                      <div
+                        className={`bg-[#7F56D9] ${
+                          booking.adminAcc && booking.isAccepted
+                            ? ' bg-slate-600 hover:cursor-not-allowed'
+                            : ''
+                        } rounded-lg p-2 flex justify-center hover:cursor-pointer`}
+                        onClick={hanldleReschedule}
+                      >
+                        <p className=" text-white font-semibold">Reschedule</p>
                       </div>
                     </div>
                   </div>

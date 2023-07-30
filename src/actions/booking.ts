@@ -58,8 +58,6 @@ export const GET_BOOKING_CLIENT = gql(`
   }
 `)
 
-
-
 export const RESCHEDULE_BOOKING = gql(`
 mutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {
   rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {

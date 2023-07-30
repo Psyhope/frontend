@@ -19,7 +19,11 @@ import {
   valueDateSchedule,
 } from './interface'
 import { useQuery, useMutation } from '@apollo/client'
-import { GET_BOOKING_DAY, GET_SCHEDULE_BY_TIME, RESCHEDULE_BOOKING } from '@/actions/booking'
+import {
+  GET_BOOKING_DAY,
+  GET_SCHEDULE_BY_TIME,
+  RESCHEDULE_BOOKING,
+} from '@/actions/booking'
 import { CounselorType } from '@/__generated__/graphql'
 
 export const ScheduleSection: React.FC = () => {
@@ -54,7 +58,7 @@ export const ScheduleSection: React.FC = () => {
   }
 
   const getPath = () => {
-    if (pathname.slice(1,9) == "schedule") return true
+    if (pathname.slice(1, 9) == 'schedule') return true
     else return false
   }
 
@@ -136,8 +140,7 @@ export const ScheduleSection: React.FC = () => {
   const [mutate, {}] = useMutation(RESCHEDULE_BOOKING)
 
   const handlerNext = () => {
-
-    if(getPath()){
+    if (getPath()) {
       localStorage.setItem('date', value as string)
       localStorage.setItem('time', valueTime as string)
       localStorage.setItem('reason', reason)
@@ -147,20 +150,19 @@ export const ScheduleSection: React.FC = () => {
       pathname.slice(10) == 'psyhope'
         ? router.push('/ghq/psyhope')
         : router.push('/ghq/csp')
-    }
-    else {
+    } else {
       mutate({
         variables: {
           rescheduleBookingInput: {
             bookingDate: value,
             bookingTime: valueTime?.split(' -- ')[0] as string,
             bookingTime2: valueTime?.split(' -- ')[1] as string,
-            id: parseInt(localStorage.getItem('idBooking') as string)
-          }
+            id: parseInt(localStorage.getItem('idBooking') as string),
+          },
         },
-        onCompleted(data){
+        onCompleted(data) {
           router.push('/dashboard')
-        }
+        },
       })
     }
   }
@@ -203,8 +205,8 @@ export const ScheduleSection: React.FC = () => {
       />
       <button
         onClick={() => {
-          console.log(pathname.slice(1,11))
-          console.log(pathname.slice(1,9))
+          console.log(pathname.slice(1, 11))
+          console.log(pathname.slice(1, 9))
         }}
       >
         KLIK
