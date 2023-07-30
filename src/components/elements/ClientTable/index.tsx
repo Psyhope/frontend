@@ -36,25 +36,36 @@ const ClientTable = <T extends object>({
         </div>
       </div>
       <div className="w-full overflow-x-auto">
-        <Table
-          verticalSpacing="md"
-          horizontalSpacing="lg"
-          cellPadding="12px"
-          className="min-w-full w-max"
-        >
-          <thead className="border-b-2 border-b-gray-100">
-            <tr className="text-sm">
-              {headerTitle.map((val, index) => (
-                <th key={index}>
-                  <p className="text-center">{val}</p>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-opacity-50 bg-slate-100">
-            {data.length > 0 ? data.map(rowComponent) : emptyComponent}
-          </tbody>
-        </Table>
+        {data.length > 0 ? (
+          <Table
+            verticalSpacing="md"
+            horizontalSpacing="lg"
+            cellPadding="12px"
+            className="min-w-full w-max"
+          >
+            <thead className="border-b-2 border-b-gray-100">
+              <tr className="text-sm">
+                {headerTitle.map((val, index) => (
+                  <th key={index}>
+                    <p className="text-center">{val}</p>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-opacity-50 bg-slate-100">
+              {data.map(rowComponent)}
+            </tbody>
+          </Table>
+        ) : (
+          emptyComponent ?? (
+            <div className="w-full p-3 text-center">
+              <p className="text-lg font-semibold">Tidak ada data</p>
+              <p className="text-sm text-center opacity-70">
+                Tidak ada data yang dapat ditampilkan
+              </p>
+            </div>
+          )
+        )}
       </div>
     </div>
   )
