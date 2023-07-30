@@ -7,14 +7,16 @@ export interface DashboardModalWord {
 
 export interface BookingClient {
   bookingId: number
+  id: number
   bookingTime: string
   bookingTime2: string
   bookingDate: Date
   bookingDay: string
-  counselor: Councelor
+  councelor: Councelor
   isTerminated: Boolean
   isAccepted: Boolean
   adminAcc: Boolean
+  counselorType: string
 }
 
 export interface Councelor {

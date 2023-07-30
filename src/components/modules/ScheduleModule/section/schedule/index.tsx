@@ -19,7 +19,7 @@ import {
   valueDateSchedule,
 } from './interface'
 import { useQuery, useMutation } from '@apollo/client'
-import { GET_BOOKING_DAY, GET_SCHEDULE_BY_TIME } from '@/actions/booking'
+import { GET_BOOKING_DAY, GET_SCHEDULE_BY_TIME, RESCHEDULE_BOOKING } from '@/actions/booking'
 import { CounselorType } from '@/__generated__/graphql'
 
 export const ScheduleSection: React.FC = () => {
@@ -51,6 +51,11 @@ export const ScheduleSection: React.FC = () => {
 
   const handleJadwal = (data: RawJadwal[]) => {
     setTemp(data)
+  }
+
+  const getPath = () => {
+    if (pathname.slice(1,9) == "schedule") return true
+    else return false
   }
 
   const handleBooking = (data: BookingTime[]) => {
@@ -99,7 +104,7 @@ export const ScheduleSection: React.FC = () => {
     variables: {
       getScheduleDto: {
         counselorType:
-          pathname.slice(10) == 'psyhope'
+          pathname.slice(10) == 'psyhope' || pathname.slice(12) == 'psyhope'
             ? CounselorType.Psyhope
             : CounselorType.Faculty,
         day: value,
@@ -128,16 +133,36 @@ export const ScheduleSection: React.FC = () => {
     },
   })
 
-  const handlerNext = () => {
-    localStorage.setItem('date', value as string)
-    localStorage.setItem('time', valueTime as string)
-    localStorage.setItem('reason', reason)
-    localStorage.setItem('closest', `${closest}`)
-    localStorage.setItem('topic', topic.toString())
+  const [mutate, {}] = useMutation(RESCHEDULE_BOOKING)
 
-    pathname.slice(10) == 'psyhope'
-      ? router.push('/ghq/psyhope')
-      : router.push('/ghq/csp')
+  const handlerNext = () => {
+
+    if(getPath()){
+      localStorage.setItem('date', value as string)
+      localStorage.setItem('time', valueTime as string)
+      localStorage.setItem('reason', reason)
+      localStorage.setItem('closest', `${closest}`)
+      localStorage.setItem('topic', topic.toString())
+
+      pathname.slice(10) == 'psyhope'
+        ? router.push('/ghq/psyhope')
+        : router.push('/ghq/csp')
+    }
+    else {
+      mutate({
+        variables: {
+          rescheduleBookingInput: {
+            bookingDate: value,
+            bookingTime: valueTime?.split(' -- ')[0] as string,
+            bookingTime2: valueTime?.split(' -- ')[1] as string,
+            id: parseInt(localStorage.getItem('idBooking') as string)
+          }
+        },
+        onCompleted(data){
+          router.push('/dashboard')
+        }
+      })
+    }
   }
 
   const pilihJadwal = () => {
@@ -178,8 +203,8 @@ export const ScheduleSection: React.FC = () => {
       />
       <button
         onClick={() => {
-          console.log(pilihanJadwal2)
-          console.log(topic)
+          console.log(pathname.slice(1,11))
+          console.log(pathname.slice(1,9))
         }}
       >
         KLIK
@@ -196,7 +221,7 @@ export const ScheduleSection: React.FC = () => {
         transitionTimingFunction="linear"
       ></SegmentedControl>
 
-      {value !== null && valueTime !== null ? (
+      {value !== null && valueTime !== null && getPath() ? (
         <div className="flex flex-col gap-3">
           <div>
             <p className=" font-semibold">

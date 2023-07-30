@@ -202,6 +202,10 @@ export type Event = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type GetAdminRundown = {
+  day?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type GetBookingFilterDto = {
   day?: InputMaybe<Scalars['DateTime']['input']>;
   dayTime?: InputMaybe<Scalars['String']['input']>;
@@ -331,6 +335,7 @@ export type MutationUpdateInfograficArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  adminRundown?: Maybe<Array<Booking>>;
   booking?: Maybe<Array<Booking>>;
   bookingClient?: Maybe<Booking>;
   bookingFilter?: Maybe<Array<Booking>>;
@@ -355,6 +360,11 @@ export type Query = {
   findOneInfografic: Infografic;
   schedule?: Maybe<Array<CouncelorSchedule>>;
   user: User;
+};
+
+
+export type QueryAdminRundownArgs = {
+  getBookingFilter: GetAdminRundown;
 };
 
 
@@ -448,23 +458,7 @@ export type UpdateBookingInput = {
   bookingDate: Scalars['DateTime']['input'];
   bookingTime: Scalars['String']['input'];
   bookingTime2: Scalars['String']['input'];
-  bookingTopic: Array<BookingTopic>;
-  closestKnown: Scalars['Boolean']['input'];
-  counselorType?: InputMaybe<CounselorType>;
   id: Scalars['Int']['input'];
-  number_1?: InputMaybe<Scalars['Int']['input']>;
-  number_2?: InputMaybe<Scalars['Int']['input']>;
-  number_3?: InputMaybe<Scalars['Int']['input']>;
-  number_4?: InputMaybe<Scalars['Int']['input']>;
-  number_5?: InputMaybe<Scalars['Int']['input']>;
-  number_6?: InputMaybe<Scalars['Int']['input']>;
-  number_7?: InputMaybe<Scalars['Int']['input']>;
-  number_8?: InputMaybe<Scalars['Int']['input']>;
-  number_9?: InputMaybe<Scalars['Int']['input']>;
-  number_10?: InputMaybe<Scalars['Int']['input']>;
-  number_11?: InputMaybe<Scalars['Int']['input']>;
-  number_12?: InputMaybe<Scalars['Int']['input']>;
-  reasonApply: Scalars['String']['input'];
 };
 
 export type UpdateEventInput = {
@@ -578,7 +572,14 @@ export type CreateBookingMutation = { __typename?: 'Mutation', createBooking?: {
 export type BookingClientQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BookingClientQuery = { __typename?: 'Query', bookingClient?: { __typename?: 'Booking', id: number, bookingTime: string, bookingTime2: string, bookingDate: any, bookingDay: string, isAccepted: boolean, isTerminated: boolean, adminAcc: boolean, councelor?: { __typename?: 'Councelor', userId: string, user?: { __typename?: 'User', fullname: string } | null } | null } | null };
+export type BookingClientQuery = { __typename?: 'Query', bookingClient?: { __typename?: 'Booking', id: number, bookingTime: string, bookingTime2: string, bookingDate: any, bookingDay: string, isAccepted: boolean, isTerminated: boolean, adminAcc: boolean, counselorType: CounselorType, councelor?: { __typename?: 'Councelor', userId: string, user?: { __typename?: 'User', fullname: string } | null } | null } | null };
+
+export type RescheduleBookingMutationVariables = Exact<{
+  rescheduleBookingInput: UpdateBookingInput;
+}>;
+
+
+export type RescheduleBookingMutation = { __typename?: 'Mutation', rescheduleBooking: { __typename?: 'Booking', id: number } };
 
 export type FindAllEventQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -696,7 +697,8 @@ export const CountArticleQueryDocument = {"kind":"Document","definitions":[{"kin
 export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getScheduleDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetScheduleDTO"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"schedule"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"getScheduleDTO"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getScheduleDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"workDay"}},{"kind":"Field","name":{"kind":"Name","value":"workTime"}}]}}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
 export const BookingFilterGeneralDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BookingFilterGeneral"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getBookingFilterGeneral"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetBookingFilterGeneralDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookingFilterGeneral"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"getBookingFilterGeneral"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getBookingFilterGeneral"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookingTime"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTime2"}}]}}]}}]} as unknown as DocumentNode<BookingFilterGeneralQuery, BookingFilterGeneralQueryVariables>;
 export const CreateBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createBookingInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateBookingInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createBookingInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createBookingInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTime"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTime2"}},{"kind":"Field","name":{"kind":"Name","value":"bookingDate"}},{"kind":"Field","name":{"kind":"Name","value":"bookingDay"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"counselorType"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTopic"}},{"kind":"Field","name":{"kind":"Name","value":"reasonApply"}},{"kind":"Field","name":{"kind":"Name","value":"closestKnown"}}]}}]}}]} as unknown as DocumentNode<CreateBookingMutation, CreateBookingMutationVariables>;
-export const BookingClientDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BookingClient"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookingClient"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTime"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTime2"}},{"kind":"Field","name":{"kind":"Name","value":"bookingDate"}},{"kind":"Field","name":{"kind":"Name","value":"bookingDay"}},{"kind":"Field","name":{"kind":"Name","value":"isAccepted"}},{"kind":"Field","name":{"kind":"Name","value":"isTerminated"}},{"kind":"Field","name":{"kind":"Name","value":"adminAcc"}},{"kind":"Field","name":{"kind":"Name","value":"councelor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fullname"}}]}}]}}]}}]}}]} as unknown as DocumentNode<BookingClientQuery, BookingClientQueryVariables>;
+export const BookingClientDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BookingClient"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookingClient"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTime"}},{"kind":"Field","name":{"kind":"Name","value":"bookingTime2"}},{"kind":"Field","name":{"kind":"Name","value":"bookingDate"}},{"kind":"Field","name":{"kind":"Name","value":"bookingDay"}},{"kind":"Field","name":{"kind":"Name","value":"isAccepted"}},{"kind":"Field","name":{"kind":"Name","value":"isTerminated"}},{"kind":"Field","name":{"kind":"Name","value":"adminAcc"}},{"kind":"Field","name":{"kind":"Name","value":"counselorType"}},{"kind":"Field","name":{"kind":"Name","value":"councelor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fullname"}}]}}]}}]}}]}}]} as unknown as DocumentNode<BookingClientQuery, BookingClientQueryVariables>;
+export const RescheduleBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RescheduleBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"rescheduleBookingInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateBookingInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rescheduleBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"rescheduleBookingInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"rescheduleBookingInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<RescheduleBookingMutation, RescheduleBookingMutationVariables>;
 export const FindAllEventDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindAllEvent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findAllEvent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"posterUrl"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<FindAllEventQuery, FindAllEventQueryVariables>;
 export const FindByPageEventDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindByPageEvent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findByPageEvent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"posterUrl"}}]}}]}}]} as unknown as DocumentNode<FindByPageEventQuery, FindByPageEventQueryVariables>;
 export const FindOneEventDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneEvent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"findOneEventId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneEvent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"findOneEventId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"posterUrl"}}]}}]}}]} as unknown as DocumentNode<FindOneEventQuery, FindOneEventQueryVariables>;

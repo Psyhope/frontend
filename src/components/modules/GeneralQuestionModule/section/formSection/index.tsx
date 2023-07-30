@@ -24,7 +24,7 @@ export const GQHQuestionModule: React.FC = () => {
   const onSubmit: SubmitHandler<GHQRespondsInterface> = (data) => {
     const jadwal: string[] = localStorage
       .getItem('time')
-      ?.split('--') as string[]
+      ?.split(' -- ') as string[]
 
     const tempTopic: string[] = localStorage
       .getItem('topic')

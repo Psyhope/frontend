@@ -47,6 +47,7 @@ export const GET_BOOKING_CLIENT = gql(`
       isAccepted
       isTerminated
       adminAcc
+      counselorType
       councelor {
         userId
         user {
@@ -55,4 +56,14 @@ export const GET_BOOKING_CLIENT = gql(`
       }
     }
   }
+`)
+
+
+
+export const RESCHEDULE_BOOKING = gql(`
+mutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {
+  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {
+    id
+  }
+}
 `)
