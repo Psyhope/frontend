@@ -64,12 +64,12 @@ const AdminClientPage = () => {
 
   useEffect(() => {
     if (status === 'Accepted') {
-      const newBooking = data?.bookingFilter!.filter(val => val.isAccepted);
-      setResult({ bookingFilter: newBooking });
+      const newBooking = data?.bookingFilter!.filter((val) => val.isAccepted)
+      setResult({ bookingFilter: newBooking })
     }
     if (status === 'Terminated') {
-      const newBooking = data?.bookingFilter!.filter(val => val.isTerminated);
-      setResult({ bookingFilter: newBooking });
+      const newBooking = data?.bookingFilter!.filter((val) => val.isTerminated)
+      setResult({ bookingFilter: newBooking })
     }
     if (status === 'All') {
       setResult(data)
@@ -195,7 +195,6 @@ const AdminClientPage = () => {
                         variables: {
                           adminAccInput: {
                             id: val.id,
-
                           },
                         },
                       })

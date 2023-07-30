@@ -9,28 +9,40 @@ import { HiOutlineUser } from 'react-icons/hi'
 
 const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
   arr.reduce((groups, item) => {
-    (groups[key(item)] ||= []).push(item);
-    return groups;
-  }, {} as Record<K, T[]>);
+    ;(groups[key(item)] ||= []).push(item)
+    return groups
+  }, {} as Record<K, T[]>)
 
 function selectWeek(date: Date) {
-  return Array(7).fill(date).map((el, idx) =>
-    new Date(el.setDate(el.getDate() - el.getDay() + idx)))
+  return Array(7)
+    .fill(date)
+    .map((el, idx) => new Date(el.setDate(el.getDate() - el.getDay() + idx)))
 }
 
 const AdminSchedulePage = () => {
-  const [schedule, setSchedule] = useState<{ time: String; bookings: (Booking | null)[] }[]>()
+  const [schedule, setSchedule] =
+    useState<{ time: String; bookings: (Booking | null)[] }[]>()
 
   const { loading } = useQuery(GET_ALL_SCHEDULES, {
     variables: {
-      getBookingFilter: {}
+      getBookingFilter: {},
     },
     onCompleted(data) {
       if (!data || !data.adminRundown) return
-      const grouped = groupBy(data.adminRundown, val => val.bookingTime)
-      console.log(Object.keys(grouped).map(key => ({ time: key, bookings: grouped[key] })))
-      setSchedule(Object.keys(grouped).map(key => ({ time: key, bookings: grouped[key] as Booking[] })))
-    }
+      const grouped = groupBy(data.adminRundown, (val) => val.bookingTime)
+      console.log(
+        Object.keys(grouped).map((key) => ({
+          time: key,
+          bookings: grouped[key],
+        }))
+      )
+      setSchedule(
+        Object.keys(grouped).map((key) => ({
+          time: key,
+          bookings: grouped[key] as Booking[],
+        }))
+      )
+    },
   })
 
   return (
@@ -38,7 +50,12 @@ const AdminSchedulePage = () => {
       <ClientTable
         title="Kalender Jadwal Konseling"
         description="Berikut merupakan jadwal konseling Psyhope."
-        headerTitle={['Jam/Tanggal', ...selectWeek(new Date()).slice(0, 5).map(el => el.toLocaleDateString())]}
+        headerTitle={[
+          'Jam/Tanggal',
+          ...selectWeek(new Date())
+            .slice(0, 5)
+            .map((el) => el.toLocaleDateString()),
+        ]}
         data={schedule ?? []}
         rowComponent={(val, index) => (
           <tr key={index}>

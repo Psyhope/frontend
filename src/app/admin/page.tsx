@@ -12,10 +12,9 @@ import { GET_COUNSELOR_SCHEDULE } from '@/actions/counselor'
 import { useQuery } from '@apollo/client'
 import { CounselorFilterQuery } from '@/__generated__/graphql'
 
-const date = new Date();
+const date = new Date()
 
 const AdminPage = () => {
-
   const [name, setName] = useDebouncedState('', 500)
   const [date, setDate] = useState(new Date())
 
@@ -25,7 +24,7 @@ const AdminPage = () => {
     variables: {
       getCounselorDto: {
         bookingDay: date.toISOString(),
-      }
+      },
     },
     onCompleted(data) {
       console.log(data)
@@ -79,25 +78,23 @@ const AdminPage = () => {
                 </p>
               </td>
               <td>
-                {
-                  val.Booking?.map((val, index) => (
-                    <p key={index}>Klien {index + 1}: {val.bookingDay}, {val.bookingTime}</p>
-                  ))
-                }
+                {val.Booking?.map((val, index) => (
+                  <p key={index}>
+                    Klien {index + 1}: {val.bookingDay}, {val.bookingTime}
+                  </p>
+                ))}
               </td>
               <td>
                 <div className="flex items-center justify-between gap-8">
                   <ul className="flex flex-col items-center gap-2">
-                    {
-                      val.Booking?.map((val, index) => (
-                        <li key={index} className="flex items-center gap-1">
-                          <div className="grid w-8 border-4 rounded-full aspect-square place-items-center border-primary-300 bg-primary-50">
-                            <HiOutlineUser />
-                          </div>
-                          <p>{val.user?.username}</p>
-                        </li>
-                      ))
-                    }
+                    {val.Booking?.map((val, index) => (
+                      <li key={index} className="flex items-center gap-1">
+                        <div className="grid w-8 border-4 rounded-full aspect-square place-items-center border-primary-300 bg-primary-50">
+                          <HiOutlineUser />
+                        </div>
+                        <p>{val.user?.username}</p>
+                      </li>
+                    ))}
                   </ul>
                   <button>
                     <BsThreeDotsVertical />
