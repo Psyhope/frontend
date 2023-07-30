@@ -8,6 +8,11 @@ export const dayNames = [
   'Sabtu',
 ]
 
+export enum CounselorType {
+  PSYHOPE = 'PSYHOPE',
+  FACULTY = 'FACULTY',
+}
+
 export const DateSegment = [
   {
     value: '08:00',
@@ -67,11 +72,6 @@ export const DateSegment = [
   {
     value: '19:00',
     label: '19:00',
-    disabled: false,
-  },
-  {
-    value: '20:00',
-    label: '20:00',
     disabled: false,
   },
 ]
@@ -137,9 +137,36 @@ export const DateSegmentDummy = [
     label: '19:00',
     disabled: false,
   },
+]
+
+export interface queryScheduleInterface {
+  dayTime: string
+  dayTime2: string
+}
+
+export const querySchedule = [
   {
-    value: '20:00',
-    label: '20:00',
-    disabled: false,
+    dayTime: '08:00',
+    dayTime2: '10:00',
+  },
+  {
+    dayTime: '10:00',
+    dayTime2: '12:00',
+  },
+  {
+    dayTime: '12:00',
+    dayTime2: '14:00',
+  },
+  {
+    dayTime: '14:00',
+    dayTime2: '16:00',
+  },
+  {
+    dayTime: '16:00',
+    dayTime2: '18:00',
+  },
+  {
+    dayTime: '18:00',
+    dayTime2: '20:00',
   },
 ]

@@ -29,6 +29,16 @@ const documents = {
     types.FindByLimitArticleDocument,
   '\n    query countArticleQuery {\n        countArticle\n    }\n':
     types.CountArticleQueryDocument,
+  '\n    query Query($getScheduleDto: GetScheduleDTO!) {\n        schedule(getScheduleDTO: $getScheduleDto) {\n        id\n        workDay\n        workTime\n        }\n    }\n  ':
+    types.QueryDocument,
+  'query BookingFilterGeneral($getBookingFilterGeneral: GetBookingFilterGeneralDto!) {\n    bookingFilterGeneral(getBookingFilterGeneral: $getBookingFilterGeneral) {\n      bookingTime\n      bookingTime2\n    }\n  }\n  ':
+    types.BookingFilterGeneralDocument,
+  '\n  mutation CreateBooking($createBookingInput: CreateBookingInput!) {\n    createBooking(createBookingInput: $createBookingInput) {\n      id\n      bookingTime\n      bookingTime2\n      bookingDate\n      bookingDay\n      userId\n      counselorType\n      bookingTopic\n      reasonApply\n      closestKnown\n    }\n  }\n':
+    types.CreateBookingDocument,
+  '\n  query BookingClient {\n    bookingClient {\n      id\n      bookingTime\n      bookingTime2\n      bookingDate\n      bookingDay\n      isAccepted\n      isTerminated\n      adminAcc\n      counselorType\n      councelor {\n        userId\n        user {\n          fullname\n        }\n      }\n    }\n  }\n':
+    types.BookingClientDocument,
+  '\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}\n':
+    types.RescheduleBookingDocument,
   '\n    query FindAllEvent {\n        findAllEvent {\n        id\n        title\n        location\n        date\n        time\n        posterUrl\n        description\n        }\n    }\n':
     types.FindAllEventDocument,
   '\n    query FindByPageEvent($page: Int!) {\n        findByPageEvent(page: $page) {\n        id\n        title\n        date\n        location\n        time\n        description\n        posterUrl\n        }\n    }\n':
@@ -125,6 +135,36 @@ export function gql(
 export function gql(
   source: '\n    query countArticleQuery {\n        countArticle\n    }\n'
 ): (typeof documents)['\n    query countArticleQuery {\n        countArticle\n    }\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n    query Query($getScheduleDto: GetScheduleDTO!) {\n        schedule(getScheduleDTO: $getScheduleDto) {\n        id\n        workDay\n        workTime\n        }\n    }\n  '
+): (typeof documents)['\n    query Query($getScheduleDto: GetScheduleDTO!) {\n        schedule(getScheduleDTO: $getScheduleDto) {\n        id\n        workDay\n        workTime\n        }\n    }\n  ']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: 'query BookingFilterGeneral($getBookingFilterGeneral: GetBookingFilterGeneralDto!) {\n    bookingFilterGeneral(getBookingFilterGeneral: $getBookingFilterGeneral) {\n      bookingTime\n      bookingTime2\n    }\n  }\n  '
+): (typeof documents)['query BookingFilterGeneral($getBookingFilterGeneral: GetBookingFilterGeneralDto!) {\n    bookingFilterGeneral(getBookingFilterGeneral: $getBookingFilterGeneral) {\n      bookingTime\n      bookingTime2\n    }\n  }\n  ']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation CreateBooking($createBookingInput: CreateBookingInput!) {\n    createBooking(createBookingInput: $createBookingInput) {\n      id\n      bookingTime\n      bookingTime2\n      bookingDate\n      bookingDay\n      userId\n      counselorType\n      bookingTopic\n      reasonApply\n      closestKnown\n    }\n  }\n'
+): (typeof documents)['\n  mutation CreateBooking($createBookingInput: CreateBookingInput!) {\n    createBooking(createBookingInput: $createBookingInput) {\n      id\n      bookingTime\n      bookingTime2\n      bookingDate\n      bookingDay\n      userId\n      counselorType\n      bookingTopic\n      reasonApply\n      closestKnown\n    }\n  }\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  query BookingClient {\n    bookingClient {\n      id\n      bookingTime\n      bookingTime2\n      bookingDate\n      bookingDay\n      isAccepted\n      isTerminated\n      adminAcc\n      counselorType\n      councelor {\n        userId\n        user {\n          fullname\n        }\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query BookingClient {\n    bookingClient {\n      id\n      bookingTime\n      bookingTime2\n      bookingDate\n      bookingDay\n      isAccepted\n      isTerminated\n      adminAcc\n      counselorType\n      councelor {\n        userId\n        user {\n          fullname\n        }\n      }\n    }\n  }\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}\n'
+): (typeof documents)['\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
