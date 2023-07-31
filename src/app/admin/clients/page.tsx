@@ -1,10 +1,13 @@
 'use client'
 
+import { BookingFilterQuery } from '@/__generated__/graphql'
+import { ADMIN_ACCEPT_BOOKING, GET_BOOKING } from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
-import { Select, TextInput } from '@mantine/core'
-import { DatePickerInput } from '@mantine/dates'
+import { useMutation, useQuery } from '@apollo/client'
+import { Badge, Select, TextInput, Button } from '@mantine/core'
+import { DatePickerInput, DateValue } from '@mantine/dates'
 import { useDebouncedState } from '@mantine/hooks'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { BsFilter, BsThreeDotsVertical } from 'react-icons/bs'
 import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
 
@@ -28,13 +31,50 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
 )
 
 const AdminClientPage = () => {
-  const [data, setData] = useState([...Array(10)])
-
   const [name, setName] = useDebouncedState('', 200)
   const [date, setDate] = useState(new Date())
-  const [status, setStatus] = useState<string | null>('')
+  const [status, setStatus] = useState<string | null>('All')
+  const [result, setResult] = useState<BookingFilterQuery>()
 
   Item.displayName = 'Item'
+
+  const { data, refetch } = useQuery(GET_BOOKING, {
+    variables: {
+      getBookingFilter: {
+        day: date.toISOString(),
+        // status: status ? StatusRequest[status as keyof typeof StatusRequest] : undefined,
+      },
+    },
+    onCompleted(data) {
+      setResult(data)
+    },
+  })
+
+  console.log(data)
+
+  const [adminAccept, { data: newData }] = useMutation(ADMIN_ACCEPT_BOOKING, {
+    onCompleted(data, clientOptions) {
+      refetch({
+        getBookingFilter: {
+          day: date.toISOString(),
+        },
+      })
+    },
+  })
+
+  useEffect(() => {
+    if (status === 'Accepted') {
+      const newBooking = data?.bookingFilter!.filter((val) => val.isAccepted)
+      setResult({ bookingFilter: newBooking })
+    }
+    if (status === 'Terminated') {
+      const newBooking = data?.bookingFilter!.filter((val) => val.isTerminated)
+      setResult({ bookingFilter: newBooking })
+    }
+    if (status === 'All') {
+      setResult(data)
+    }
+  }, [status])
 
   return (
     <>
@@ -53,7 +93,14 @@ const AdminClientPage = () => {
             label="Cari Hari Konseling"
             icon={<HiOutlineCalendar />}
             value={date}
-            onChange={(e) => setDate(date)}
+            onChange={(e) => {
+              setDate(e as Date)
+              refetch({
+                getBookingFilter: {
+                  day: e!.toISOString(),
+                },
+              })
+            }}
             rightSection={<HiChevronDown />}
             size="md"
             className="w-full sm:w-60 md:w-96"
@@ -64,6 +111,11 @@ const AdminClientPage = () => {
             size="md"
             data={[
               {
+                value: 'All',
+                label: 'All',
+                color: '#fff',
+              },
+              {
                 value: 'Accepted',
                 label: 'Accepted',
                 color: 'rgb(74 222 128)',
@@ -72,16 +124,6 @@ const AdminClientPage = () => {
                 value: 'Terminated',
                 label: 'Terminated',
                 color: '#B42318',
-              },
-              {
-                value: 'Need Reschedule',
-                label: 'Need Reschedule',
-                color: 'rgb(253 224 71)',
-              },
-              {
-                value: 'Rescheduled',
-                label: 'Rescheduled',
-                color: '#026AA2',
               },
             ]}
             itemComponent={Item}
@@ -110,31 +152,62 @@ const AdminClientPage = () => {
       </section>
       <section className="p-5 overflow-x-auto md:px-10">
         <ClientTable
-          title="Daftar Klien"
+          title="Daftar Booking"
           description="Berikut merupakan daftar klien konseling Psyhope."
           headerTitle={[
             'Nama Klien',
             'Nama Konselor',
             'Jadwal Konseling',
-            'Daftar Klien',
+            'Status Request',
           ]}
-          data={data}
+          data={result?.bookingFilter || []}
           rowComponent={(val, index) => (
             <tr key={index}>
-              <td>
-                <p>Nama Panggilan {index}</p>
+              <td className="min-h-[80px]">
+                <p>{val.user?.username}</p>
+                <small className="opacity-70">{val.user?.account.major}</small>
               </td>
-              <td>
-                <p>Nama Panggilan {index}</p>
+              <td className="min-h-[80px]">
+                <p>{val.councelor?.user?.fullname}</p>
+                <small className="opacity-70">
+                  {val.councelor?.user?.account.major}
+                </small>
               </td>
-              <td>
-                <p>Senin, 08:00</p>
+              <td className="min-h-[80px]">
+                <p>
+                  {val.bookingDay}, {val.bookingTime}
+                </p>
               </td>
-              <td className="flex items-center justify-between">
-                <div>Status</div>
-                <button>
+              <td className="flex items-center justify-between h-full min-h-[80px]">
+                {/* <Badge
+                  color={val.isAccepted ? 'green' : 'red'}
+                >
+                  {val.isAccepted ? 'Accepted' : 'Terminated'}
+                </Badge> */}
+                {val.adminAcc ? (
+                  <Button color="red" variant="outline">
+                    Terminasi
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() =>
+                      adminAccept({
+                        variables: {
+                          adminAccInput: {
+                            id: val.id,
+                          },
+                        },
+                      })
+                    }
+                    color="green"
+                    className="bg-green-600"
+                  >
+                    Konfirmasi
+                  </Button>
+                )}
+                {/* <button>
                   <BsThreeDotsVertical />
-                </button>
+                </button> */}
               </td>
             </tr>
           )}

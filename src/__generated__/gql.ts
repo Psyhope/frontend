@@ -37,8 +37,16 @@ const documents = {
     types.CreateBookingDocument,
   '\n  query BookingClient {\n    bookingClient {\n      id\n      bookingTime\n      bookingTime2\n      bookingDate\n      bookingDay\n      isAccepted\n      isTerminated\n      adminAcc\n      counselorType\n      councelor {\n        userId\n        user {\n          fullname\n        }\n      }\n    }\n  }\n':
     types.BookingClientDocument,
-  '\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}\n':
+  '\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}':
     types.RescheduleBookingDocument,
+  '\n  query BookingFilter($getBookingFilter: GetBookingFilterDto!) {\n  bookingFilter(getBookingFilter: $getBookingFilter) {\n    id\n  user {\n      username\n      account {\n        faculty\n        major\n      }\n    }\n    councelor {\n      user {\n        fullname\n        account {\n          faculty\n          major\n        }\n      }\n      counselorType\n    }\n    bookingDay\n    bookingDate\n    bookingTime2\n    bookingTime\n    isAccepted\n    isTerminated\n    adminAcc  \n  }\n}\n':
+    types.BookingFilterDocument,
+  '\nmutation AdminAcc($adminAccInput: AdminAccBooking!) {\n  adminAcc(adminAccInput: $adminAccInput) {\n    id\n    adminAcc\n  }\n}\n':
+    types.AdminAccDocument,
+  '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n  }  \n  user {\n    fullname\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n':
+    types.AdminRundownDocument,
+  '\n    query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    userId\n    Booking {\n      bookingDay\n      bookingTime\n      user {\n        username\n      }\n    }\n    user {\n      fullname\n    }\n    counselorType\n  }\n}\n':
+    types.CounselorFilterDocument,
   '\n    query FindAllEvent {\n        findAllEvent {\n        id\n        title\n        location\n        date\n        time\n        posterUrl\n        description\n        }\n    }\n':
     types.FindAllEventDocument,
   '\n    query FindByPageEvent($page: Int!) {\n        findByPageEvent(page: $page) {\n        id\n        title\n        date\n        location\n        time\n        description\n        posterUrl\n        }\n    }\n':
@@ -163,8 +171,32 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}\n'
-): (typeof documents)['\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}\n']
+  source: '\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}'
+): (typeof documents)['\nmutation RescheduleBooking($rescheduleBookingInput: UpdateBookingInput!) {\n  rescheduleBooking(rescheduleBookingInput: $rescheduleBookingInput) {\n    id\n  }\n}']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  query BookingFilter($getBookingFilter: GetBookingFilterDto!) {\n  bookingFilter(getBookingFilter: $getBookingFilter) {\n    id\n  user {\n      username\n      account {\n        faculty\n        major\n      }\n    }\n    councelor {\n      user {\n        fullname\n        account {\n          faculty\n          major\n        }\n      }\n      counselorType\n    }\n    bookingDay\n    bookingDate\n    bookingTime2\n    bookingTime\n    isAccepted\n    isTerminated\n    adminAcc  \n  }\n}\n'
+): (typeof documents)['\n  query BookingFilter($getBookingFilter: GetBookingFilterDto!) {\n  bookingFilter(getBookingFilter: $getBookingFilter) {\n    id\n  user {\n      username\n      account {\n        faculty\n        major\n      }\n    }\n    councelor {\n      user {\n        fullname\n        account {\n          faculty\n          major\n        }\n      }\n      counselorType\n    }\n    bookingDay\n    bookingDate\n    bookingTime2\n    bookingTime\n    isAccepted\n    isTerminated\n    adminAcc  \n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nmutation AdminAcc($adminAccInput: AdminAccBooking!) {\n  adminAcc(adminAccInput: $adminAccInput) {\n    id\n    adminAcc\n  }\n}\n'
+): (typeof documents)['\nmutation AdminAcc($adminAccInput: AdminAccBooking!) {\n  adminAcc(adminAccInput: $adminAccInput) {\n    id\n    adminAcc\n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n  }  \n  user {\n    fullname\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n'
+): (typeof documents)['\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n  }  \n  user {\n    fullname\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n    query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    userId\n    Booking {\n      bookingDay\n      bookingTime\n      user {\n        username\n      }\n    }\n    user {\n      fullname\n    }\n    counselorType\n  }\n}\n'
+): (typeof documents)['\n    query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    userId\n    Booking {\n      bookingDay\n      bookingTime\n      user {\n        username\n      }\n    }\n    user {\n      fullname\n    }\n    counselorType\n  }\n}\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

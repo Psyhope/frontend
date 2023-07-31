@@ -121,6 +121,7 @@ export type Booking = {
 
 export type Councelor = {
   __typename?: 'Councelor'
+  Booking?: Maybe<Array<Booking>>
   counselorType: CounselorType
   id: Scalars['Int']['output']
   isOn: Scalars['Boolean']['output']
@@ -666,6 +667,87 @@ export type RescheduleBookingMutationVariables = Exact<{
 export type RescheduleBookingMutation = {
   __typename?: 'Mutation'
   rescheduleBooking: { __typename?: 'Booking'; id: number }
+}
+
+export type BookingFilterQueryVariables = Exact<{
+  getBookingFilter: GetBookingFilterDto
+}>
+
+export type BookingFilterQuery = {
+  __typename?: 'Query'
+  bookingFilter?: Array<{
+    __typename?: 'Booking'
+    id: number
+    bookingDay: string
+    bookingDate: any
+    bookingTime2: string
+    bookingTime: string
+    isAccepted: boolean
+    isTerminated: boolean
+    adminAcc: boolean
+    user?: {
+      __typename?: 'User'
+      username: string
+      account: { __typename?: 'Account'; faculty: string; major: string }
+    } | null
+    councelor?: {
+      __typename?: 'Councelor'
+      counselorType: CounselorType
+      user?: {
+        __typename?: 'User'
+        fullname: string
+        account: { __typename?: 'Account'; faculty: string; major: string }
+      } | null
+    } | null
+  }> | null
+}
+
+export type AdminAccMutationVariables = Exact<{
+  adminAccInput: AdminAccBooking
+}>
+
+export type AdminAccMutation = {
+  __typename?: 'Mutation'
+  adminAcc?: { __typename?: 'Booking'; id: number; adminAcc: boolean } | null
+}
+
+export type AdminRundownQueryVariables = Exact<{
+  getBookingFilter: GetAdminRundown
+}>
+
+export type AdminRundownQuery = {
+  __typename?: 'Query'
+  adminRundown?: Array<{
+    __typename?: 'Booking'
+    bookingTime: string
+    bookingDay: string
+    bookingDate: any
+    councelor?: {
+      __typename?: 'Councelor'
+      user?: { __typename?: 'User'; fullname: string } | null
+    } | null
+    user?: { __typename?: 'User'; fullname: string } | null
+  }> | null
+}
+
+export type CounselorFilterQueryVariables = Exact<{
+  getCounselorDto: GetCouncelorFilter
+}>
+
+export type CounselorFilterQuery = {
+  __typename?: 'Query'
+  counselorFilter?: Array<{
+    __typename?: 'Councelor'
+    userId: string
+    counselorType: CounselorType
+    Booking?: Array<{
+      __typename?: 'Booking'
+      bookingDay: string
+      bookingTime: string
+      user?: { __typename?: 'User'; username: string } | null
+    }> | null
+    user?: { __typename?: 'User'; fullname: string } | null
+  }> | null
 }
 
 export type FindAllEventQueryVariables = Exact<{ [key: string]: never }>
@@ -1587,6 +1669,384 @@ export const RescheduleBookingDocument = {
 } as unknown as DocumentNode<
   RescheduleBookingMutation,
   RescheduleBookingMutationVariables
+>
+export const BookingFilterDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'BookingFilter' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'getBookingFilter' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'GetBookingFilterDto' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'bookingFilter' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'getBookingFilter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'getBookingFilter' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'account' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'faculty' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'major' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'councelor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'fullname' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'account' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'faculty' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'major' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'counselorType' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingDay' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingDate' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bookingTime2' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isAccepted' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'isTerminated' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'adminAcc' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<BookingFilterQuery, BookingFilterQueryVariables>
+export const AdminAccDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AdminAcc' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'adminAccInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AdminAccBooking' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'adminAcc' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'adminAccInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'adminAccInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'adminAcc' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AdminAccMutation, AdminAccMutationVariables>
+export const AdminRundownDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminRundown' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'getBookingFilter' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'GetAdminRundown' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'adminRundown' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'getBookingFilter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'getBookingFilter' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'councelor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'fullname' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingDay' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingDate' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AdminRundownQuery, AdminRundownQueryVariables>
+export const CounselorFilterDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'CounselorFilter' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'getCounselorDto' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'GetCouncelorFilter' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'counselorFilter' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'getCounselorDto' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'getCounselorDto' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'Booking' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingDay' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingTime' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'counselorType' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CounselorFilterQuery,
+  CounselorFilterQueryVariables
 >
 export const FindAllEventDocument = {
   kind: 'Document',
