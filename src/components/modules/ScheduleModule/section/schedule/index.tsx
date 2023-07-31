@@ -164,6 +164,7 @@ export const ScheduleSection: React.FC = () => {
           },
         },
         onCompleted(data) {
+          localStorage.removeItem('idBooking')
           router.push('/dashboard')
         },
       })
