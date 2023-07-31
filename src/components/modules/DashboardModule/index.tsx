@@ -141,7 +141,10 @@ export const DashboardModule: React.FC = () => {
         </div>
         {loading ? (
           <div className="flex flex-col gap-4">
-            {booking?.bookingDate !== undefined && !booking.isAccepted && !booking.isTerminated && !booking.adminAcc ? (
+            {booking?.bookingDate !== undefined &&
+            !booking.isAccepted &&
+            !booking.isTerminated &&
+            !booking.adminAcc ? (
               <div className="flex flex-col gap-4">
                 <div>
                   <p className=" font-semibold text-2xl">Jadwal Konseling</p>
@@ -229,72 +232,72 @@ export const DashboardModule: React.FC = () => {
               </div>
             ) : (
               <div className="flex flex-col gap-4">
-          <div className="flex justify-center ">
-            <div className="relative h-[300px] w-[300px] lg:w-[400px] lg:h-[400px]">
-              <Image
-                src="assets/DashboardCalendar.svg"
-                alt="OnBoard Hero Assets"
-                fill
-                className="z-0 relative"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col justify-center">
-            <p className="flex justify-center">
-              Yah, kamu belum memiliki jadwal konseling
-            </p>
-          </div>
-          <div className="flex justify-center gap-4">
-            <button
-              className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg"
-              onClick={() => {
-                router.push('/schedule/psyhope')
-              }}
-            >
-              Daftar Konseling di Psyhope
-            </button>
-            <button
-              className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg"
-              onClick={() => {
-                router.push('/schedule/csp')
-              }}
-            >
-              Daftar Konseling di CSP
-            </button>
-          </div>
-          <button
-            onClick={() => {
-              console.log(booking)
-            }}
-          >
-            klik
-          </button>
-          <div className="flex justify-center">
-            <div className="w-1/2">
-              <div className="w-full">
-                <Button
-                  className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded w-full"
-                  onClick={open}
-                >
-                  <div className="flex gap-1 justify-center items-center">
-                    <div>
-                      <Image
-                        src="assets/DashboardQuestionMark.svg"
-                        alt="OnBoard Question Modal"
-                        width={20}
-                        height={20}
-                        className=""
-                      />
-                    </div>
-                    <p className="lg:text-lg text-md">
-                      Apa perbedaan Psyhope dan Peer Counselor?
-                    </p>
+                <div className="flex justify-center ">
+                  <div className="relative h-[300px] w-[300px] lg:w-[400px] lg:h-[400px]">
+                    <Image
+                      src="assets/DashboardCalendar.svg"
+                      alt="OnBoard Hero Assets"
+                      fill
+                      className="z-0 relative"
+                    />
                   </div>
-                </Button>
+                </div>
+                <div className="flex flex-col justify-center">
+                  <p className="flex justify-center">
+                    Yah, kamu belum memiliki jadwal konseling
+                  </p>
+                </div>
+                <div className="flex justify-center gap-4">
+                  <button
+                    className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg"
+                    onClick={() => {
+                      router.push('/schedule/psyhope')
+                    }}
+                  >
+                    Daftar Konseling di Psyhope
+                  </button>
+                  <button
+                    className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg"
+                    onClick={() => {
+                      router.push('/schedule/csp')
+                    }}
+                  >
+                    Daftar Konseling di CSP
+                  </button>
+                </div>
+                <button
+                  onClick={() => {
+                    console.log(booking)
+                  }}
+                >
+                  klik
+                </button>
+                <div className="flex justify-center">
+                  <div className="w-1/2">
+                    <div className="w-full">
+                      <Button
+                        className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded w-full"
+                        onClick={open}
+                      >
+                        <div className="flex gap-1 justify-center items-center">
+                          <div>
+                            <Image
+                              src="assets/DashboardQuestionMark.svg"
+                              alt="OnBoard Question Modal"
+                              width={20}
+                              height={20}
+                              className=""
+                            />
+                          </div>
+                          <p className="lg:text-lg text-md">
+                            Apa perbedaan Psyhope dan Peer Counselor?
+                          </p>
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
             )}
           </div>
         ) : (
