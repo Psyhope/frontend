@@ -20,9 +20,13 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { user, accessToken } = useAuth()
 
-  console.log(accessToken)
+  // console.log(accessToken)
 
   const router = useRouter()
+
+  useEffect(() => {
+    if (user.role !== 'PSYHOPE_ADMIN') router.replace('/')
+  }, [])
 
   useEffect(() => {
     // if (!accessToken) router.replace("/login");
@@ -46,7 +50,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               <Image src="/assets/HeartBrain.svg" alt="" fill />
             </div>
             <h1 className="text-xl font-bold text-primary-500 font-inter lg:text-5xl md:text-2xl">
-              Halo, Admin Akmal
+              Halo, Admin {user.username}
             </h1>
             <p className="px-3 py-1 text-sm bg-red-800 rounded-3xl text-primary-50 w-max">
               Admin Psyhope
@@ -91,7 +95,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               label: (
                 <Link href="/admin/clients">
                   <Center>
-                    <p className="mr-2">Daftar Klien</p> <HiUser />
+                    <p className="mr-2">Daftar Booking</p> <HiUser />
                   </Center>
                 </Link>
               ),

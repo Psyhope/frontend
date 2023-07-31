@@ -17,19 +17,19 @@ const ClientByIDPage = () => {
         <article className="">
           <h1 className="py-4 text-2xl font-semibold">Data Diri Klien</h1>
           <aside className="grid grid-cols-1 text-gray-700 sm:grid-cols-2 md:grid-cols-3">
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3 list-none">
               <li>Konselor: Akmal Hakim</li>
               <li>Jenis Konselor: Konselor Psyhope</li>
               <li>Nama/Inisial: MAH</li>
               <li>Jenis Kelamin: Laki-laki</li>
             </ul>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3 list-none">
               <li>NPM: 2106750383</li>
               <li>Fakultas: Fakultas Ilmu Komputer</li>
               <li>Jenjang: S1 Reguler</li>
               <li>Program Studi: Ilmu Komputer</li>
             </ul>
-            <ul>
+            <ul className="list-none">
               <li>Kanal Curhat: Instagram</li>
               <li>
                 <div className="p-3 bg-red-100 border-2 border-gray-100 rounded-md">
@@ -120,7 +120,7 @@ const ClientByIDPage = () => {
       </section>
       <section className="">
         <h1 className="text-3xl font-semibold">Analisis GHQ</h1>
-        <p className="my-3">
+        <p className="my-3 opacity-70">
           The GHQ-12 measure has standardized instructions as well as scoring
           interpretations for the clinician to follow and is administered as a
           self-report in which the subject is asked to consider 12 questions and
@@ -129,13 +129,79 @@ const ClientByIDPage = () => {
           typical, scores &gt; 15 suggesting evidence of distress, and scores
           &gt; 20 are considered severe problems with psychological distress.
         </p>
-        <ul className="grid grid-cols-3">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+        <ul className="grid grid-cols-1 gap-5 mt-5 list-none sm:grid-cols-2 md:grid-cols-3">
+          <li>
+            <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
+              <h3>Metrics 1</h3>
+            </div>
+            <h4 className="mt-3">Nilai: {8}</h4>
+            <p>
+              Penjelasan:{' '}
+              {
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
+              }
+            </p>
+          </li>
+          <li>
+            <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
+              <h3>Metrics 1</h3>
+            </div>
+            <h4 className="mt-3">Nilai: {8}</h4>
+            <p>
+              Penjelasan:{' '}
+              {
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
+              }
+            </p>
+          </li>
+          <li>
+            <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
+              <h3>Metrics 1</h3>
+            </div>
+            <h4 className="mt-3">Nilai: {8}</h4>
+            <p>
+              Penjelasan:{' '}
+              {
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
+              }
+            </p>
+          </li>
+          <li>
+            <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
+              <h3>Metrics 1</h3>
+            </div>
+            <h4 className="mt-3">Nilai: {8}</h4>
+            <p>
+              Penjelasan:{' '}
+              {
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
+              }
+            </p>
+          </li>
+          <li>
+            <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
+              <h3>Metrics 1</h3>
+            </div>
+            <h4 className="mt-3">Nilai: {8}</h4>
+            <p>
+              Penjelasan:{' '}
+              {
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
+              }
+            </p>
+          </li>
+          <li>
+            <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
+              <h3>Metrics 1</h3>
+            </div>
+            <h4 className="mt-3">Nilai: {8}</h4>
+            <p>
+              Penjelasan:{' '}
+              {
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
+              }
+            </p>
+          </li>
         </ul>
       </section>
     </>
