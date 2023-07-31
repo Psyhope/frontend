@@ -14,8 +14,7 @@ const withAuth = <T extends object>(Component: ComponentType<T>) => {
     if (!accessToken) {
       router.replace('/login')
       return <></>
-    }
-    else if(!user.isOnboarded){
+    } else if (!user.isOnboarded) {
       router.replace('/onboarding')
       return <></>
     }
