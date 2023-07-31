@@ -65,11 +65,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (res.status !== 200) throw new Error(await res.json())
       // router.replace("/dashboard")
       const data: TokenResponse = await res.json()
-      const user = jwt_decode<{ username: string; sub: string; role: string, isOnboarded: boolean }>(
-        data.accessToken
-      )
+      const user = jwt_decode<{
+        username: string
+        sub: string
+        role: string
+        isOnboarded: boolean
+      }>(data.accessToken)
       // console.log(user)
-      setUser({ username: user.username, id: user.sub, role: user.role, isOnboarded: user.isOnboarded as boolean })
+      setUser({
+        username: user.username,
+        id: user.sub,
+        role: user.role,
+        isOnboarded: user.isOnboarded as boolean,
+      })
       setAccessToken(data.accessToken)
       notifications.show({
         title: 'Success',
@@ -104,11 +112,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!res.ok) return
       const data: TokenResponse = await res.json()
       // console.log(data)
-      const user = jwt_decode<{ username: string; sub: string; role: string, isOnboarded: boolean }>(
-        data.accessToken
-      )
+      const user = jwt_decode<{
+        username: string
+        sub: string
+        role: string
+        isOnboarded: boolean
+      }>(data.accessToken)
       // console.log(user)
-      setUser({ username: user.username, id: user.sub, role: user.role, isOnboarded: user.isOnboarded })
+      setUser({
+        username: user.username,
+        id: user.sub,
+        role: user.role,
+        isOnboarded: user.isOnboarded,
+      })
       setAccessToken(data.accessToken)
     } catch (error) {
       // const err = error as AxiosError;
@@ -140,7 +156,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         credentials: 'include',
       })
       const data: {
-        user: { username: string; sub: string; role: string, isOnboarded: boolean }
+        user: {
+          username: string
+          sub: string
+          role: string
+          isOnboarded: boolean
+        }
         token: string
       } = await res.json()
       setUser({

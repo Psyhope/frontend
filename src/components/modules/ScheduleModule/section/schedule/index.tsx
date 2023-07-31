@@ -29,7 +29,7 @@ import { useAuth } from '@/components/contexts/AuthContext'
 
 export const ScheduleSection: React.FC = () => {
   const pathname = usePathname()
-  const { user, accessToken  } = useAuth()
+  const { user, accessToken } = useAuth()
   const router = useRouter()
   const [value, setValue] = useState<string | null>(null)
   const [valueTime, setValueTime] = useState<string | null>(null)

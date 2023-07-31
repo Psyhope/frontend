@@ -39,7 +39,6 @@ export const Navbar: React.FC = () => {
 
   const { user, logout } = useAuth()
 
-  
   useEffect(() => {
     window.addEventListener('scroll', () =>
       !window.scrollY ? setScroll(false) : setScroll(true)
@@ -115,7 +114,7 @@ export const Navbar: React.FC = () => {
           <Konseling />
           Konseling
         </Link>
-        {user.id != "" && user.role != "" && user.username != "" ? (
+        {user.id != '' && user.role != '' && user.username != '' ? (
           <>
             <Menu opened={opened} onChange={setOpened}>
               <Menu.Target>

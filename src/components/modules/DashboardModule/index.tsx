@@ -251,12 +251,20 @@ export const DashboardModule: React.FC = () => {
             </p>
           </div>
           <div className="flex justify-center gap-4">
-            <button className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg"
-            onClick={()=> {router.push('/schedule/psyhope')}}>
+            <button
+              className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg"
+              onClick={() => {
+                router.push('/schedule/psyhope')
+              }}
+            >
               Daftar Konseling di Psyhope
             </button>
-            <button className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg"
-            onClick={()=> {router.push('/schedule/csp')}}>
+            <button
+              className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg"
+              onClick={() => {
+                router.push('/schedule/csp')
+              }}
+            >
               Daftar Konseling di CSP
             </button>
           </div>
