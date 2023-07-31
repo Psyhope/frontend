@@ -39,7 +39,6 @@ export const Navbar: React.FC = () => {
 
   const { user, logout } = useAuth()
 
-  console.log('pathname', pathname)
   useEffect(() => {
     window.addEventListener('scroll', () =>
       !window.scrollY ? setScroll(false) : setScroll(true)
@@ -105,7 +104,7 @@ export const Navbar: React.FC = () => {
           Article
         </Link>
         <Link
-          href={'/'}
+          href={'/dashboard'}
           className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
             pathname == '/ghq' || pathname == '/schedule'
               ? 'border-[#026AA2] text-[#026AA2]'
@@ -115,7 +114,7 @@ export const Navbar: React.FC = () => {
           <Konseling />
           Konseling
         </Link>
-        {user ? (
+        {user.id != '' && user.role != '' && user.username != '' ? (
           <>
             <Menu opened={opened} onChange={setOpened}>
               <Menu.Target>

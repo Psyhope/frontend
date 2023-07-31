@@ -68,6 +68,11 @@ export const GQHQuestionModule: React.FC = () => {
       },
       onCompleted(data, clientOptions) {
         console.log(data)
+        localStorage.removeItem('date')
+        localStorage.removeItem('reason')
+        localStorage.removeItem('closest')
+        localStorage.removeItem('time')
+        localStorage.removeItem('topic')
         router.push('/dashboard')
       },
     })

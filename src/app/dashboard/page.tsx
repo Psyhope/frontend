@@ -1,5 +1,7 @@
+'use client'
 import React from 'react'
 import { DashboardModule } from '@modules'
+import withAuth from '@/components/hoc/withAuth'
 
 const DashboardPage = () => {
   return (
@@ -9,4 +11,4 @@ const DashboardPage = () => {
   )
 }
 
-export default DashboardPage
+export default withAuth(DashboardPage)

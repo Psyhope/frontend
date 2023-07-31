@@ -25,9 +25,11 @@ import {
   RESCHEDULE_BOOKING,
 } from '@/actions/booking'
 import { CounselorType } from '@/__generated__/graphql'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 export const ScheduleSection: React.FC = () => {
   const pathname = usePathname()
+  const { user, accessToken } = useAuth()
   const router = useRouter()
   const [value, setValue] = useState<string | null>(null)
   const [valueTime, setValueTime] = useState<string | null>(null)
@@ -91,6 +93,7 @@ export const ScheduleSection: React.FC = () => {
     })
 
     const test: queryScheduleInterface[] = querySchedule
+
     test.forEach((data) => {
       const data1 = tempBookingArray.filter((n) => n === data.dayTime).length
       const data2 = tempBookingJadwal.filter((n) => n === data.dayTime).length
@@ -126,7 +129,7 @@ export const ScheduleSection: React.FC = () => {
       getBookingFilterGeneral: {
         day: value,
         counselorType:
-          pathname.slice(10) == 'psyhope'
+          pathname.slice(10) == 'psyhope' || pathname.slice(12) == 'psyhope'
             ? CounselorType.Psyhope
             : CounselorType.Faculty,
       },
@@ -161,6 +164,7 @@ export const ScheduleSection: React.FC = () => {
           },
         },
         onCompleted(data) {
+          localStorage.removeItem('idBooking')
           router.push('/dashboard')
         },
       })
@@ -203,14 +207,6 @@ export const ScheduleSection: React.FC = () => {
         data={pilihJadwal()}
         icon={<BsCalendar2Range size="1rem" />}
       />
-      <button
-        onClick={() => {
-          console.log(pathname.slice(1, 11))
-          console.log(pathname.slice(1, 9))
-        }}
-      >
-        KLIK
-      </button>
       <SegmentedControl
         onChange={setValueTime}
         data={pilihanJadwal2}

@@ -1,6 +1,8 @@
+'use client'
 import React from 'react'
 import { DashboardModule } from '@modules'
 import { GHQModule } from '@modules'
+import withAuth from '@/components/hoc/withAuth'
 
 const CSP_GHQPage = () => {
   return (
@@ -10,4 +12,4 @@ const CSP_GHQPage = () => {
   )
 }
 
-export default CSP_GHQPage
+export default withAuth(CSP_GHQPage)

@@ -1,5 +1,7 @@
+'use client'
 import React from 'react'
 import { ScheduleModule } from '@modules'
+import withAuth from '@/components/hoc/withAuth'
 
 const CSP_Reschedule = () => {
   return (
@@ -9,4 +11,4 @@ const CSP_Reschedule = () => {
   )
 }
 
-export default CSP_Reschedule
+export default withAuth(CSP_Reschedule)

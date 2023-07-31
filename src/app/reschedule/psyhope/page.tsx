@@ -1,5 +1,7 @@
+'use client'
 import React from 'react'
 import { ScheduleModule } from '@modules'
+import withAuth from '@/components/hoc/withAuth'
 
 const Psyhope_Reschedule = () => {
   return (
@@ -9,4 +11,4 @@ const Psyhope_Reschedule = () => {
   )
 }
 
-export default Psyhope_Reschedule
+export default withAuth(Psyhope_Reschedule)
