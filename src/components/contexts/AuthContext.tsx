@@ -85,7 +85,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         color: 'teal',
         autoClose: 3000,
       })
-      router.replace('/')
+      if (!user.isOnboarded) router.replace('/onboarding')
+      else router.replace('/')
     } catch (error) {
       // const err = error as AxiosError;
       console.error('Error: ', error)
