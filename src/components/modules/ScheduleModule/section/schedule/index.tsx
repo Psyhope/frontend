@@ -93,6 +93,7 @@ export const ScheduleSection: React.FC = () => {
     })
 
     const test: queryScheduleInterface[] = querySchedule
+
     test.forEach((data) => {
       const data1 = tempBookingArray.filter((n) => n === data.dayTime).length
       const data2 = tempBookingJadwal.filter((n) => n === data.dayTime).length
@@ -128,7 +129,7 @@ export const ScheduleSection: React.FC = () => {
       getBookingFilterGeneral: {
         day: value,
         counselorType:
-          pathname.slice(10) == 'psyhope'
+          pathname.slice(10) == 'psyhope' || pathname.slice(12) == 'psyhope'
             ? CounselorType.Psyhope
             : CounselorType.Faculty,
       },

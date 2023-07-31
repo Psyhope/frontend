@@ -141,7 +141,7 @@ export const DashboardModule: React.FC = () => {
         </div>
         {loading ? (
           <div className="flex flex-col gap-4">
-            {booking?.bookingDate !== undefined ? (
+            {booking?.bookingDate !== undefined && !booking.isAccepted && !booking.isTerminated && !booking.adminAcc ? (
               <div className="flex flex-col gap-4">
                 <div>
                   <p className=" font-semibold text-2xl">Jadwal Konseling</p>
@@ -228,13 +228,7 @@ export const DashboardModule: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <></>
-            )}
-          </div>
-        ) : (
-          <></>
-        )}
-        <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4">
           <div className="flex justify-center ">
             <div className="relative h-[300px] w-[300px] lg:w-[400px] lg:h-[400px]">
               <Image
@@ -301,6 +295,11 @@ export const DashboardModule: React.FC = () => {
             </div>
           </div>
         </div>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   )
