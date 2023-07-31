@@ -8,9 +8,11 @@ import { BookingClient, DashboardModalWord } from './interface'
 import { useQuery } from '@apollo/client'
 import { GET_BOOKING_CLIENT } from '@/actions/booking'
 import { usePathname, useRouter } from 'next/navigation'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 export const DashboardModule: React.FC = () => {
   const router = useRouter()
+  const { user } = useAuth()
   const pathname = usePathname()
   const hanldleReschedule = () => {
     if (booking != null)
@@ -114,7 +116,7 @@ export const DashboardModule: React.FC = () => {
             </div>
             <div className="flex justify-center lg:flex-none lg:justify-start">
               <p className="text-[#42307D] font-inter font-bold lg:text-4xl md:text-2xl text-xl drop-shadow-md">
-                Halo, Client Naput!
+                Halo, {user.username}!
               </p>
             </div>
           </div>
@@ -226,7 +228,7 @@ export const DashboardModule: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div>GAADA ORANG</div>
+              <></>
             )}
           </div>
         ) : (
@@ -249,10 +251,12 @@ export const DashboardModule: React.FC = () => {
             </p>
           </div>
           <div className="flex justify-center gap-4">
-            <button className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg">
+            <button className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg"
+            onClick={()=> {router.push('/schedule/psyhope')}}>
               Daftar Konseling di Psyhope
             </button>
-            <button className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg">
+            <button className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg"
+            onClick={()=> {router.push('/schedule/csp')}}>
               Daftar Konseling di CSP
             </button>
           </div>
@@ -263,7 +267,6 @@ export const DashboardModule: React.FC = () => {
           >
             klik
           </button>
-
           <div className="flex justify-center">
             <div className="w-1/2">
               <div className="w-full">

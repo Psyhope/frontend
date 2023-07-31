@@ -14,6 +14,7 @@ import { env } from '@/env.mjs'
 import { notifications } from '@mantine/notifications'
 import { FaTimes } from 'react-icons/fa'
 import { Psyhope } from '../icons/Psyhope'
+import { bool } from 'aws-sdk/clients/signer'
 
 const AuthContext = createContext<{
   accessToken: string
@@ -21,13 +22,14 @@ const AuthContext = createContext<{
     username: string
     id: string
     role: string
+    isOnboarded: boolean
   }
   login: (username: string, password: string) => Promise<void>
   logout: () => void
   refreshToken: () => Promise<void>
 }>({
   accessToken: '',
-  user: { username: '', id: '', role: '' },
+  user: { username: '', id: '', role: '', isOnboarded: false },
   login: undefined as unknown as (
     username: string,
     password: string
@@ -42,7 +44,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     username: string
     id: string
     role: string
-  }>({ username: '', id: '', role: '' })
+    isOnboarded: boolean
+  }>({ username: '', id: '', role: '', isOnboarded: false })
   const [loading, setLoading] = useState(true)
 
   const router = useRouter()
@@ -62,11 +65,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (res.status !== 200) throw new Error(await res.json())
       // router.replace("/dashboard")
       const data: TokenResponse = await res.json()
-      const user = jwt_decode<{ username: string; sub: string; role: string }>(
+      const user = jwt_decode<{ username: string; sub: string; role: string, isOnboarded: boolean }>(
         data.accessToken
       )
       // console.log(user)
-      setUser({ username: user.username, id: user.sub, role: user.role })
+      setUser({ username: user.username, id: user.sub, role: user.role, isOnboarded: user.isOnboarded as boolean })
       setAccessToken(data.accessToken)
       notifications.show({
         title: 'Success',
@@ -101,11 +104,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!res.ok) return
       const data: TokenResponse = await res.json()
       // console.log(data)
-      const user = jwt_decode<{ username: string; sub: string; role: string }>(
+      const user = jwt_decode<{ username: string; sub: string; role: string, isOnboarded: boolean }>(
         data.accessToken
       )
       // console.log(user)
-      setUser({ username: user.username, id: user.sub, role: user.role })
+      setUser({ username: user.username, id: user.sub, role: user.role, isOnboarded: user.isOnboarded })
       setAccessToken(data.accessToken)
     } catch (error) {
       // const err = error as AxiosError;
@@ -121,7 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true)
     router.replace('/login')
     setAccessToken('')
-    setUser({ username: '', id: '', role: '' })
+    setUser({ username: '', id: '', role: '', isOnboarded: false })
     fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
       headers: {
         'Content-Type': 'application/json',
@@ -137,13 +140,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         credentials: 'include',
       })
       const data: {
-        user: { username: string; sub: string; role: string }
+        user: { username: string; sub: string; role: string, isOnboarded: boolean }
         token: string
       } = await res.json()
       setUser({
         id: data.user.sub,
         username: data.user.username,
         role: data.user.role,
+        isOnboarded: data.user.isOnboarded,
       })
       setAccessToken(data.token)
     } catch (err) {

@@ -25,9 +25,11 @@ import {
   RESCHEDULE_BOOKING,
 } from '@/actions/booking'
 import { CounselorType } from '@/__generated__/graphql'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 export const ScheduleSection: React.FC = () => {
   const pathname = usePathname()
+  const { user, accessToken  } = useAuth()
   const router = useRouter()
   const [value, setValue] = useState<string | null>(null)
   const [valueTime, setValueTime] = useState<string | null>(null)
@@ -203,14 +205,6 @@ export const ScheduleSection: React.FC = () => {
         data={pilihJadwal()}
         icon={<BsCalendar2Range size="1rem" />}
       />
-      <button
-        onClick={() => {
-          console.log(pathname.slice(1, 11))
-          console.log(pathname.slice(1, 9))
-        }}
-      >
-        KLIK
-      </button>
       <SegmentedControl
         onChange={setValueTime}
         data={pilihanJadwal2}
