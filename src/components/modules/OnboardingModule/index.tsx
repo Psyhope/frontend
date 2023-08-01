@@ -8,6 +8,10 @@ import {
   ONBOARDING_INSTAGRAM_TEXT,
   ONBOARDING_LINE_TEXT,
 } from './const'
+import { useAuth } from '@/components/contexts/AuthContext'
+import { useMutation } from '@apollo/client'
+import { MUTATION_ONBOARDING } from '@/actions/onboarding'
+import {useRouter} from 'next/navigation'
 
 export const OnBoardingModule: React.FC = () => {
   const {
@@ -18,9 +22,26 @@ export const OnBoardingModule: React.FC = () => {
   console.log(errors)
   const [lineHandler, setLineHandler] = useState(false)
   const [igHandler, setIgHandler] = useState(false)
+  const { refreshToken } = useAuth()
   const [socmedState, setSocmedState] = useState(false)
-  const onSubmit: SubmitHandler<OnBoardingFormInterface> = (data) =>
+  const router = useRouter()
+  const onSubmit: SubmitHandler<OnBoardingFormInterface> = (data) => {
     console.log(data)
+    mutate({
+      variables: {
+        createOnboardingInput: {
+          linkSocmed: data.linkSocmed,
+          socmed: data.socmed
+        }
+      },
+      onCompleted(data, clientOptions) {
+        refreshToken().then(()=>router.push('/'))
+      },
+    })
+  }
+
+  const [mutate, {}] = useMutation(MUTATION_ONBOARDING)
+
   return (
     <div>
       <div className="p-10 flex flex-col gap-5">
