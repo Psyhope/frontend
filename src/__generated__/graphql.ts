@@ -203,6 +203,11 @@ export type CreateInfograficInput = {
   title: Scalars['String']['input']
 }
 
+export type CreateOnboardingInput = {
+  linkSocmed: Scalars['String']['input']
+  socmed: Scalars['String']['input']
+}
+
 export type Event = {
   __typename?: 'Event'
   createdAt: Scalars['DateTime']['output']
@@ -262,6 +267,7 @@ export type Mutation = {
   createCounselingLog?: Maybe<CounselingLog>
   createEvent: Event
   createInfografic: Infografic
+  createOnboarding: User
   rejectBooking?: Maybe<Booking>
   removeArticle: Article
   removeEvent: Event
@@ -298,6 +304,10 @@ export type MutationCreateEventArgs = {
 
 export type MutationCreateInfograficArgs = {
   createInfograficInput: CreateInfograficInput
+}
+
+export type MutationCreateOnboardingArgs = {
+  createOnboardingInput: CreateOnboardingInput
 }
 
 export type MutationRejectBookingArgs = {
@@ -969,6 +979,15 @@ export type CountInfograficQueryQueryVariables = Exact<{ [key: string]: never }>
 export type CountInfograficQueryQuery = {
   __typename?: 'Query'
   countInfografic: number
+}
+
+export type CreateOnboardingMutationVariables = Exact<{
+  createOnboardingInput: CreateOnboardingInput
+}>
+
+export type CreateOnboardingMutation = {
+  __typename?: 'Mutation'
+  createOnboarding: { __typename?: 'User'; id: string }
 }
 
 export const FindAllArticleDocument = {
@@ -2814,4 +2833,58 @@ export const CountInfograficQueryDocument = {
 } as unknown as DocumentNode<
   CountInfograficQueryQuery,
   CountInfograficQueryQueryVariables
+>
+export const CreateOnboardingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateOnboarding' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createOnboardingInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateOnboardingInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createOnboarding' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'createOnboardingInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'createOnboardingInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateOnboardingMutation,
+  CreateOnboardingMutationVariables
 >
