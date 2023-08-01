@@ -992,6 +992,15 @@ export type CountInfograficQueryQuery = {
   countInfografic: number
 }
 
+export type CreateOnboardingMutationVariables = Exact<{
+  createOnboardingInput: CreateOnboardingInput
+}>
+
+export type CreateOnboardingMutation = {
+  __typename?: 'Mutation'
+  createOnboarding: { __typename?: 'User'; id: string }
+}
+
 export const FindAllArticleDocument = {
   kind: 'Document',
   definitions: [
@@ -2837,4 +2846,58 @@ export const CountInfograficQueryDocument = {
 } as unknown as DocumentNode<
   CountInfograficQueryQuery,
   CountInfograficQueryQueryVariables
+>
+export const CreateOnboardingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateOnboarding' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createOnboardingInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateOnboardingInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createOnboarding' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'createOnboardingInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'createOnboardingInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateOnboardingMutation,
+  CreateOnboardingMutationVariables
 >
