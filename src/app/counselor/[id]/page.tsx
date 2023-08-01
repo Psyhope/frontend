@@ -13,9 +13,6 @@ const formatter = Intl.DateTimeFormat('id-ID', {
 })
 
 const ClientByIDPage = () => {
-
-
-
   return (
     <main className="flex flex-col min-h-screen gap-5 p-5 sm:gap-10 md:px-10 lg:px-20">
       <section>
