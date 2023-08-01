@@ -1,10 +1,15 @@
 'use client'
 
+import { useAuth } from '@/components/contexts/AuthContext'
 import ClientTable from '@/components/elements/ClientTable'
 import Image from 'next/image'
 import React from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+
 const DashboardPage = () => {
+
+  const { user } = useAuth();
+
   return (
     <main className="min-h-screen">
       <section className="p-5 md:px-10">
@@ -14,10 +19,10 @@ const DashboardPage = () => {
               <Image src="assets/HeartBrain.svg" alt="" fill />
             </div>
             <h1 className="text-xl font-bold text-primary-500 font-inter lg:text-5xl md:text-2xl">
-              Halo, Konselor Akmal
+              Halo, Konselor {user.username}
             </h1>
             <p className="px-3 py-1 text-sm rounded-3xl bg-primary-500 text-primary-50 w-max">
-              Peer Counselor
+              {user.role}
             </p>
           </div>
           <div className="absolute w-3/5 h-72 md:h-96 -right-12 md:w-2/5 md:relative sm:-top-10 sm:right-0">
