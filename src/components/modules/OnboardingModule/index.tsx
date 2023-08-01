@@ -11,7 +11,7 @@ import {
 import { useAuth } from '@/components/contexts/AuthContext'
 import { useMutation } from '@apollo/client'
 import { MUTATION_ONBOARDING } from '@/actions/onboarding'
-import {useRouter} from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export const OnBoardingModule: React.FC = () => {
   const {
@@ -31,11 +31,11 @@ export const OnBoardingModule: React.FC = () => {
       variables: {
         createOnboardingInput: {
           linkSocmed: data.linkSocmed,
-          socmed: data.socmed
-        }
+          socmed: data.socmed,
+        },
       },
       onCompleted(data, clientOptions) {
-        refreshToken().then(()=>router.push('/'))
+        refreshToken().then(() => router.push('/'))
       },
     })
   }
