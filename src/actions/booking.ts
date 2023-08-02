@@ -112,9 +112,11 @@ query AdminRundown($getBookingFilter: GetAdminRundown!) {
     user {
       fullname
     }
+    id
   }  
   user {
     fullname
+    id
   }
   bookingTime
   bookingDay
