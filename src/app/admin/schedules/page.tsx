@@ -10,15 +10,17 @@ import { HiOutlineUser } from 'react-icons/hi'
 
 const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
   arr.reduce((groups, item) => {
-    ; (groups[key(item)] ||= []).push(item)
+    ;(groups[key(item)] ||= []).push(item)
     return groups
   }, {} as Record<K, T[]>)
 
 function selectWeek(date: Date) {
-  return Array(7)
-    .fill(date)
-    // .map((el, idx) => new Date(el.setDate(el.getDate() + idx)))
-    .map((el, idx) => new Date(el.setDate(el.getDate() - el.getDay() + idx)))
+  return (
+    Array(7)
+      .fill(date)
+      // .map((el, idx) => new Date(el.setDate(el.getDate() + idx)))
+      .map((el, idx) => new Date(el.setDate(el.getDate() - el.getDay() + idx)))
+  )
 }
 
 const AdminSchedulePage = () => {
@@ -31,22 +33,32 @@ const AdminSchedulePage = () => {
     },
     onCompleted(data) {
       if (!data || !data.adminRundown) return
-      const allSchedules = Object.assign({}, ...selectWeek(new Date()).slice(0, 5).map((val, index) => {
-        return {
-          date: val.toLocaleDateString('id-ID'),
-          bookings: [null, null, null, null, null, null],
-        }
-      }).map(item => ({ [item.date]: item.bookings })));
-      const grouped = { ...allSchedules, ...groupBy(data.adminRundown, (val) => (new Date(val.bookingDate)).toLocaleDateString('id-ID')) };
+      const allSchedules = Object.assign(
+        {},
+        ...selectWeek(new Date())
+          .slice(0, 5)
+          .map((val, index) => {
+            return {
+              date: val.toLocaleDateString('id-ID'),
+              bookings: [null, null, null, null, null, null],
+            }
+          })
+          .map((item) => ({ [item.date]: item.bookings }))
+      )
+      const grouped = {
+        ...allSchedules,
+        ...groupBy(data.adminRundown, (val) =>
+          new Date(val.bookingDate).toLocaleDateString('id-ID')
+        ),
+      }
       console.log(allSchedules)
       console.log(grouped)
       setSchedule(
         Object.keys(grouped).map((key) => ({
           date: key,
-          bookings: (grouped[key] as Booking[]),
+          bookings: grouped[key] as Booking[],
         }))
       )
-
     },
   })
 
@@ -57,9 +69,11 @@ const AdminSchedulePage = () => {
         description="Berikut merupakan jadwal konseling Psyhope."
         headerTitle={[
           'Jam/Tanggal',
-          ...Array(6).fill(null).map((_, index) => (
-            `${(8 + index * 2).toString().padStart(2, "0")}:00`
-          ))
+          ...Array(6)
+            .fill(null)
+            .map(
+              (_, index) => `${(8 + index * 2).toString().padStart(2, '0')}:00`
+            ),
         ]}
         data={schedule ?? []}
         rowComponent={(val, index) => (
@@ -74,16 +88,17 @@ const AdminSchedulePage = () => {
                     <Link href={`/counselor/${el.councelor.id}`}>
                       {el.councelor?.user?.fullname}
                     </Link>
-                    <span className='mx-1'>
-                      -
-                    </span>
+                    <span className="mx-1">-</span>
                     <Link href={`/clients/${el.user.id}`}>
                       {el.user?.fullname}
                     </Link>
                   </div>
                 </td>
               ) : (
-                <td key={idx} className="min-w-[200px] text-center bg-yellow-100"></td>
+                <td
+                  key={idx}
+                  className="min-w-[200px] text-center bg-yellow-100"
+                ></td>
               )
             )}
           </tr>

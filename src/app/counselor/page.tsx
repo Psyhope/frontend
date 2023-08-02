@@ -7,8 +7,7 @@ import React from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 const DashboardPage = () => {
-
-  const { user } = useAuth();
+  const { user } = useAuth()
 
   return (
     <main className="min-h-screen">
