@@ -36,15 +36,7 @@ export const ScheduleSection: React.FC = () => {
   const [reason, setReason] = useState('')
   const [closest, setClosest] = useState<boolean | null>(null)
   const matches = useMediaQuery('(min-width: 75em)')
-  const [topic, setTopic] = useState<string[]>([])
 
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setTopic([...topic, e.target.value])
-    } else {
-      setTopic(topic.filter((item) => item !== e.target.value))
-    }
-  }
 
   const [pilihanJadwal2, setPilihanJadwal2] = useState<pilihanJadwal[]>([])
 
@@ -148,7 +140,6 @@ export const ScheduleSection: React.FC = () => {
       localStorage.setItem('time', valueTime as string)
       localStorage.setItem('reason', reason)
       localStorage.setItem('closest', `${closest}`)
-      localStorage.setItem('topic', topic.toString())
 
       pathname.slice(10) == 'psyhope'
         ? router.push('/ghq/psyhope')
@@ -238,6 +229,11 @@ export const ScheduleSection: React.FC = () => {
             className="outline outline-2 rounded-md outline-[#CBD2E0] p-2"
             type="text"
           />
+          <div>
+            <p className=" font-semibold">
+            Apakah ada orang terdekat Anda yang mengetahui masalah tersebut?
+            </p>
+          </div>
           <div className="flex gap-2">
             <input name="close" type="radio" onChange={handleClosest}></input>
             <span>Ya</span>
@@ -245,33 +241,6 @@ export const ScheduleSection: React.FC = () => {
           <div className="flex gap-2">
             <input name="close" type="radio" onChange={handleClosest}></input>
             <span>Tidak</span>
-          </div>
-
-          <div>
-            <div>
-              <input
-                type="checkbox"
-                value="TOPIC_1"
-                onChange={handleCheck}
-              ></input>
-              123
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                value="TOPIC_2"
-                onChange={handleCheck}
-              ></input>
-              123
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                value="TOPIC_3"
-                onChange={handleCheck}
-              ></input>
-              123
-            </div>
           </div>
         </div>
       ) : (

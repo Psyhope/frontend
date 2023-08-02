@@ -266,13 +266,6 @@ export const DashboardModule: React.FC = () => {
                     Daftar Konseling di CSP
                   </button>
                 </div>
-                <button
-                  onClick={() => {
-                    console.log(booking)
-                  }}
-                >
-                  klik
-                </button>
                 <div className="flex justify-center">
                   <div className="w-1/2">
                     <div className="w-full">

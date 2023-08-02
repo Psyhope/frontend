@@ -1,12 +1,12 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { GHQQuestionInterface, GHQRespondsInterface } from './interface'
 import { GHQ_QUESTION } from './const'
 import { Path } from 'react-hook-form'
 import { usePathname, useRouter } from 'next/navigation'
 import { ChevronRight } from '../../elements/ChevronRight'
-import { BookingTopic, CounselorType } from '@/__generated__/graphql'
+import {  CounselorType } from '@/__generated__/graphql'
 import { useMutation } from '@apollo/client'
 import { MUTATION_CREATE_BOOKING } from '@/actions/booking'
 
@@ -19,6 +19,12 @@ export const GQHQuestionModule: React.FC = () => {
     formState: { errors },
   } = useForm<GHQRespondsInterface>()
 
+  const [closest, setClosest] = useState<boolean | null>(null)
+
+  const handleClosest = () => {
+    setClosest(!closest)
+  }
+
   const [mutate, {}] = useMutation(MUTATION_CREATE_BOOKING)
 
   const onSubmit: SubmitHandler<GHQRespondsInterface> = (data) => {
@@ -26,26 +32,14 @@ export const GQHQuestionModule: React.FC = () => {
       .getItem('time')
       ?.split(' -- ') as string[]
 
-    const tempTopic: string[] = localStorage
-      .getItem('topic')
-      ?.split(',') as string[]
-
-    const topic: BookingTopic[] = []
-
-    tempTopic.forEach((data) => {
-      if (data == 'TOPIC_1') topic.push(BookingTopic.Topic_1)
-      if (data == 'TOPIC_2') topic.push(BookingTopic.Topic_2)
-      if (data == 'TOPIC_3') topic.push(BookingTopic.Topic_3)
-    })
-
     mutate({
       variables: {
         createBookingInput: {
           bookingDate: localStorage.getItem('date'),
           reasonApply: localStorage.getItem('reason') as string,
+          isSuicidal: closest as boolean,
           closestKnown:
             localStorage.getItem('closest') == 'true' ? true : false,
-          bookingTopic: topic,
           bookingTime: jadwal[0],
           bookingTime2: jadwal[1],
           counselorType:
@@ -72,7 +66,6 @@ export const GQHQuestionModule: React.FC = () => {
         localStorage.removeItem('reason')
         localStorage.removeItem('closest')
         localStorage.removeItem('time')
-        localStorage.removeItem('topic')
         router.push('/dashboard')
       },
     })
@@ -139,16 +132,26 @@ export const GQHQuestionModule: React.FC = () => {
               </div>
             )
           })}
+          <div>
+            <p className=" font-semibold">
+            Apakah anda pernah berpikiran untuk bunuh diri?
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <input name="close" type="radio" onChange={handleClosest}></input>
+            <span>Ya</span>
+          </div>
+          <div className="flex gap-2">
+            <input name="close" type="radio" onChange={handleClosest}></input>
+            <span>Tidak</span>
+          </div>
           <div className="">
             <div className="flex justify-end">
-              <div className="p-4 bg-[#98A2B3] rounded-lg hover:cursor-pointer flex gap-2 items-center">
                 <input
                   type="submit"
-                  className="  text-white"
+                  className="  text-white bg-[#7F56D9] p-4 rounded-lg hover:cursor-pointer flex gap-2 items-center"
                   value="Lanjut Mengisi Form"
                 />
-                <ChevronRight></ChevronRight>
-              </div>
             </div>
           </div>
         </div>

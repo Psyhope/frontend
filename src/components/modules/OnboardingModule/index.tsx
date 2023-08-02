@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { OnBoardingFormInterface } from './interface'
+import { OnBoardingFormInterface } from './interface' 
 import {
   ONBOARDING_BANNER_TEXT,
   ONBOARDING_INSTAGRAM_TEXT,
@@ -20,6 +20,12 @@ export const OnBoardingModule: React.FC = () => {
     formState: { errors },
   } = useForm<OnBoardingFormInterface>()
   console.log(errors)
+
+
+  const checkError = () => {
+    if ((errors.gender == undefined && errors.linkSocmed == undefined && errors.socmed == undefined)) return true
+    return false
+  }
   const [lineHandler, setLineHandler] = useState(false)
   const [igHandler, setIgHandler] = useState(false)
   const { refreshToken } = useAuth()
@@ -27,11 +33,13 @@ export const OnBoardingModule: React.FC = () => {
   const router = useRouter()
   const onSubmit: SubmitHandler<OnBoardingFormInterface> = (data) => {
     console.log(data)
+    console.log(123)
     mutate({
       variables: {
         createOnboardingInput: {
           linkSocmed: data.linkSocmed,
           socmed: data.socmed,
+          gender: data.gender,
         },
       },
       onCompleted(data, clientOptions) {
@@ -68,12 +76,6 @@ export const OnBoardingModule: React.FC = () => {
             className="flex flex-col gap-4 bg-white"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <label>Nama/Inisial</label>
-            <input
-              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
-              placeholder="Masukkan nama anda"
-              {...register('name', { required: true })}
-            />
             <label>Jenis Kelamin</label>
             <div className="flex flex-col gap-1">
               <div className="flex gap-4">
@@ -93,75 +95,7 @@ export const OnBoardingModule: React.FC = () => {
                 />
                 <p>Perempuan</p>
               </div>
-              <div className="flex gap-4">
-                <input
-                  {...register('gender', { required: true })}
-                  type="radio"
-                  value="Memilih tidak menjawab"
-                />
-                <p>Memilih tidak menjawab</p>
-              </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <label>NPM</label>
-              <p className="text-sm text-[#667080]">
-                Data ini dibutuhkan untuk memastikan bahwa Anda merupakan
-                mahasiswa D-3/D-4 atau S-1 Universitas Indonesia
-              </p>
-            </div>
-            <input
-              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
-              placeholder="Contoh : 2106000000"
-              {...register('npm', { required: true })}
-            />
-            <label>Jenjang Studi</label>
-            <div className="flex flex-col gap-1">
-              <div className="flex gap-4">
-                <input
-                  {...register('prodi', { required: true })}
-                  type="radio"
-                  value="S-1 Reguler"
-                />
-                <p>S-1 Reguler</p>
-              </div>
-              <div className="flex gap-4">
-                <input
-                  {...register('prodi', { required: true })}
-                  type="radio"
-                  value="S-1 Paralel"
-                />
-                <p>S-1 Paralel</p>
-              </div>
-              <div className="flex gap-4">
-                <input
-                  {...register('prodi', { required: true })}
-                  type="radio"
-                  value="S-1 KKI"
-                />
-                <p>S-1 KKI</p>
-              </div>
-              <div className="flex gap-4">
-                <input
-                  {...register('prodi', { required: true })}
-                  type="radio"
-                  value="Vokasi"
-                />
-                <p>Vokasi</p>
-              </div>
-            </div>
-            <label>Fakultas</label>
-            <input
-              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
-              {...register('fakultas', { required: true })}
-            />
-            <div className="flex flex-col gap-1">
-              <label>Jurusan</label>
-              <p className="text-sm text-[#667080]">Contoh : Ilmu Komputer</p>
-            </div>
-            <input
-              className="bg-white outline outline-2 rounded-md outline-[#CBD2E0] p-2 placeholder:text-sm"
-              {...register('jurusan', { required: true })}
-            />
             <label>Kanal Curhat</label>
             <div className="flex flex-col gap-1">
               <div className="flex gap-4">
@@ -229,13 +163,11 @@ export const OnBoardingModule: React.FC = () => {
             )}
             <div className="">
               <div className="flex justify-end">
-                <div className="p-4 bg-[#98A2B3] rounded-lg hover:cursor-pointer">
                   <input
                     type="submit"
-                    className="  text-white"
+                    className={`text-white p-4 ${checkError() ? 'bg-[#7F56D9] hover:cursor-pointer' : 'bg-[#98A2B3] hover:cursor-not-allowed'} rounded-lg`}
                     value="Berikan Data"
                   />
-                </div>
               </div>
             </div>
           </form>
