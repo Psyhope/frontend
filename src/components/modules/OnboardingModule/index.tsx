@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { OnBoardingFormInterface } from './interface' 
+import { OnBoardingFormInterface } from './interface'
 import {
   ONBOARDING_BANNER_TEXT,
   ONBOARDING_INSTAGRAM_TEXT,
@@ -21,9 +21,13 @@ export const OnBoardingModule: React.FC = () => {
   } = useForm<OnBoardingFormInterface>()
   console.log(errors)
 
-
   const checkError = () => {
-    if ((errors.gender == undefined && errors.linkSocmed == undefined && errors.socmed == undefined)) return true
+    if (
+      errors.gender == undefined &&
+      errors.linkSocmed == undefined &&
+      errors.socmed == undefined
+    )
+      return true
     return false
   }
   const [lineHandler, setLineHandler] = useState(false)
@@ -163,11 +167,15 @@ export const OnBoardingModule: React.FC = () => {
             )}
             <div className="">
               <div className="flex justify-end">
-                  <input
-                    type="submit"
-                    className={`text-white p-4 ${checkError() ? 'bg-[#7F56D9] hover:cursor-pointer' : 'bg-[#98A2B3] hover:cursor-not-allowed'} rounded-lg`}
-                    value="Berikan Data"
-                  />
+                <input
+                  type="submit"
+                  className={`text-white p-4 ${
+                    checkError()
+                      ? 'bg-[#7F56D9] hover:cursor-pointer'
+                      : 'bg-[#98A2B3] hover:cursor-not-allowed'
+                  } rounded-lg`}
+                  value="Berikan Data"
+                />
               </div>
             </div>
           </form>

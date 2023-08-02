@@ -37,7 +37,6 @@ export const ScheduleSection: React.FC = () => {
   const [closest, setClosest] = useState<boolean | null>(null)
   const matches = useMediaQuery('(min-width: 75em)')
 
-
   const [pilihanJadwal2, setPilihanJadwal2] = useState<pilihanJadwal[]>([])
 
   const [tempJadwal, setTemp] = useState<RawJadwal[] | null>()
@@ -231,7 +230,7 @@ export const ScheduleSection: React.FC = () => {
           />
           <div>
             <p className=" font-semibold">
-            Apakah ada orang terdekat Anda yang mengetahui masalah tersebut?
+              Apakah ada orang terdekat Anda yang mengetahui masalah tersebut?
             </p>
           </div>
           <div className="flex gap-2">

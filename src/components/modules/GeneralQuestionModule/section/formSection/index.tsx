@@ -6,7 +6,7 @@ import { GHQ_QUESTION } from './const'
 import { Path } from 'react-hook-form'
 import { usePathname, useRouter } from 'next/navigation'
 import { ChevronRight } from '../../elements/ChevronRight'
-import {  CounselorType } from '@/__generated__/graphql'
+import { CounselorType } from '@/__generated__/graphql'
 import { useMutation } from '@apollo/client'
 import { MUTATION_CREATE_BOOKING } from '@/actions/booking'
 
@@ -134,7 +134,7 @@ export const GQHQuestionModule: React.FC = () => {
           })}
           <div>
             <p className=" font-semibold">
-            Apakah anda pernah berpikiran untuk bunuh diri?
+              Apakah anda pernah berpikiran untuk bunuh diri?
             </p>
           </div>
           <div className="flex gap-2">
@@ -147,11 +147,11 @@ export const GQHQuestionModule: React.FC = () => {
           </div>
           <div className="">
             <div className="flex justify-end">
-                <input
-                  type="submit"
-                  className="  text-white bg-[#7F56D9] p-4 rounded-lg hover:cursor-pointer flex gap-2 items-center"
-                  value="Lanjut Mengisi Form"
-                />
+              <input
+                type="submit"
+                className="  text-white bg-[#7F56D9] p-4 rounded-lg hover:cursor-pointer flex gap-2 items-center"
+                value="Lanjut Mengisi Form"
+              />
             </div>
           </div>
         </div>
