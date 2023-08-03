@@ -218,8 +218,15 @@ export const InfograficCard: React.FC<Props> = ({
 
   useEffect(() => {
     if (files && files.length > 0) {
-      const array: string[] = files.map((file) => URL.createObjectURL(file))
-      setPreviewUrl([...array].sort((a, b) => a.localeCompare(b)))
+      const array: string[][] = files.map((file) => [
+        URL.createObjectURL(file),
+        file.name,
+      ])
+      const sortedUrls2: string[][] = [...array].sort((a, b) =>
+        a[1].localeCompare(b[1])
+      )
+      const array2: string[] = sortedUrls2.map((url) => url[0])
+      setPreviewUrl(array2)
     } else {
       setPreviewUrl([...infograficUrl].sort((a, b) => a.localeCompare(b)))
     }
