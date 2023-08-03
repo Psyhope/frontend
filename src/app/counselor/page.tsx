@@ -14,14 +14,15 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 
 type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
   ? ElementType
-  : never;
+  : never
 
 const DashboardPage = () => {
   const { user } = useAuth()
 
-  const [counselor, setCounselor] = useState<ArrElement<GetCounselorByUnameQuery["getCounselorByUname"]>>();
+  const [counselor, setCounselor] =
+    useState<ArrElement<GetCounselorByUnameQuery['getCounselorByUname']>>()
 
-  const router = useRouter();
+  const router = useRouter()
 
   const { loading } = useQuery(GET_COUNSELOR_BY_ID, {
     variables: {
@@ -32,23 +33,23 @@ const DashboardPage = () => {
     onCompleted(data) {
       console.log(data)
       if (!data.getCounselorByUname) {
-        void router.replace('/');
-        return;
+        void router.replace('/')
+        return
       }
-      setCounselor(data.getCounselorByUname[0]);
+      setCounselor(data.getCounselorByUname[0])
     },
   })
 
   const [acceptBooking] = useMutation(ACCEPT_BOOKING, {
     onCompleted(data) {
       counselor?.Booking?.filter((val) => val.id !== data.acceptBooking?.id)
-    }
+    },
   })
 
   const [rejectBooking] = useMutation(REJECT_BOOKING, {
     onCompleted(data) {
       counselor?.Booking?.filter((val) => val.id !== data.rejectBooking?.id)
-    }
+    },
   })
 
   return (
@@ -84,7 +85,9 @@ const DashboardPage = () => {
             <tr key={index}>
               <td className="">{val.user?.username}</td>
               <td className="">
-                <p>{val.bookingDay}, {val.bookingTime}</p>
+                <p>
+                  {val.bookingDay}, {val.bookingTime}
+                </p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">
                 <Badge color={val.isAccepted ? 'green' : 'red'}>
@@ -97,7 +100,11 @@ const DashboardPage = () => {
             </tr>
           )}
           // headerComponent={}
-          data={counselor?.Booking ? counselor.Booking.filter(val => val.isAccepted) : []}
+          data={
+            counselor?.Booking
+              ? counselor.Booking.filter((val) => val.isAccepted)
+              : []
+          }
           headerTitle={['Nama Klien', 'Jadwal Konseling', 'Status Request']}
           emptyComponent={
             loading ? (
@@ -122,30 +129,36 @@ const DashboardPage = () => {
             <tr key={index}>
               <td className="">{val.user?.username}</td>
               <td className="">
-                <p>{val.bookingDay}, {val.bookingTime}</p>
+                <p>
+                  {val.bookingDay}, {val.bookingTime}
+                </p>
               </td>
               <td className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => rejectBooking({
-                      variables: {
-                        rejectBookingInput: {
-                          id: val.id
-                        }
-                      }
-                    })}
+                    onClick={() =>
+                      rejectBooking({
+                        variables: {
+                          rejectBookingInput: {
+                            id: val.id,
+                          },
+                        },
+                      })
+                    }
                     className="px-3 py-2 text-red-700 bg-red-100 rounded-md shadow"
                   >
                     Tolak
                   </button>
                   <button
-                    onClick={() => acceptBooking({
-                      variables: {
-                        accBookingInput: {
-                          id: val.id
-                        }
-                      }
-                    })}
+                    onClick={() =>
+                      acceptBooking({
+                        variables: {
+                          accBookingInput: {
+                            id: val.id,
+                          },
+                        },
+                      })
+                    }
                     className="px-3 py-2 rounded-md shadow bg-primary-50 text-primary-500"
                   >
                     Setujui
@@ -158,7 +171,13 @@ const DashboardPage = () => {
             </tr>
           )}
           // headerComponent={}
-          data={counselor?.Booking ? counselor.Booking.filter(val => val.adminAcc && !val.isAccepted && !val.isTerminated) : []}
+          data={
+            counselor?.Booking
+              ? counselor.Booking.filter(
+                  (val) => val.adminAcc && !val.isAccepted && !val.isTerminated
+                )
+              : []
+          }
           emptyComponent={
             loading ? (
               <div className="flex flex-col items-center justify-center w-full h-full gap-3 p-3">

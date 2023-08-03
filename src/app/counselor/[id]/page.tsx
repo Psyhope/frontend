@@ -19,14 +19,15 @@ const formatter = Intl.DateTimeFormat('id-ID', {
 
 type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
   ? ElementType
-  : never;
+  : never
 
 const CounselorByNamePage = () => {
-  const { id } = useParams();
+  const { id } = useParams()
 
-  const [counselor, setCounselor] = useState<ArrElement<CounselorFilterQuery["counselorFilter"]>>();
+  const [counselor, setCounselor] =
+    useState<ArrElement<CounselorFilterQuery['counselorFilter']>>()
 
-  const router = useRouter();
+  const router = useRouter()
 
   const { data, refetch } = useQuery(GET_COUNSELOR, {
     variables: {
@@ -37,13 +38,12 @@ const CounselorByNamePage = () => {
     onCompleted(data) {
       console.log(data)
       if (!data.counselorFilter) {
-        void router.replace('/');
-        return;
+        void router.replace('/')
+        return
       }
-      setCounselor(data.counselorFilter[0]);
+      setCounselor(data.counselorFilter[0])
     },
   })
-
 
   return (
     <main className="flex flex-col min-h-screen gap-5 p-5 sm:gap-10 md:px-10 lg:px-20">
@@ -68,10 +68,9 @@ const CounselorByNamePage = () => {
             <ul className="flex flex-col gap-3 list-none">
               <li>NPM: {counselor?.user?.id}</li>
               <li>Fakultas: {counselor?.user?.account.faculty}</li>
-              <li>Program Studi:
-                <p>
-                  {counselor?.user?.account.major}
-                </p>
+              <li>
+                Program Studi:
+                <p>{counselor?.user?.account.major}</p>
               </li>
             </ul>
             <ul className="flex flex-col gap-2 list-none">
@@ -119,11 +118,15 @@ const CounselorByNamePage = () => {
           rowComponent={(val, index) => (
             <tr key={index}>
               <td className="min-h-[80px]">
-                <Link href={`/clients/${val.id}`} className='block'>{val.user?.username}</Link>
+                <Link href={`/clients/${val.id}`} className="block">
+                  {val.user?.username}
+                </Link>
                 <small className="opacity-70">{val.user?.account.major}</small>
               </td>
               <td className="min-h-[80px]">
-                <p>{val.bookingDay}, {val.bookingTime}</p>
+                <p>
+                  {val.bookingDay}, {val.bookingTime}
+                </p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">
                 <Badge color={val.isAccepted ? 'green' : 'red'}>

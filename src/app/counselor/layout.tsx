@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import withAuth from '@/components/hoc/withAuth'
 import React, { ReactNode } from 'react'

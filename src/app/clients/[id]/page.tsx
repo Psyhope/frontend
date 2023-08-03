@@ -13,11 +13,8 @@ const formatter = Intl.DateTimeFormat('id-ID', {
 })
 
 const ClientByIDPage = () => {
-
   const { data } = useQuery(GET_BOOKING_CLIENT, {
-    variables: {
-
-    }
+    variables: {},
   })
 
   return (
