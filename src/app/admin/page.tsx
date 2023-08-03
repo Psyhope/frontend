@@ -8,7 +8,7 @@ import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
 import { TextInput } from '@mantine/core'
 import { DatePickerInput } from '@mantine/dates'
 import { useDebouncedState } from '@mantine/hooks'
-import { GET_COUNSELOR_SCHEDULE } from '@/actions/counselor'
+import { GET_COUNSELOR } from '@/actions/counselor'
 import { useQuery } from '@apollo/client'
 import { CounselorFilterQuery } from '@/__generated__/graphql'
 import { dayNames } from '@/components/modules/ScheduleModule/const'
@@ -21,7 +21,7 @@ const AdminPage = () => {
 
   const [result, setResult] = useState<CounselorFilterQuery>()
 
-  const { refetch, loading } = useQuery(GET_COUNSELOR_SCHEDULE, {
+  const { refetch, loading } = useQuery(GET_COUNSELOR, {
     variables: {
       getCounselorDto: {
         bookingDay: dayNames[date.getDay()],

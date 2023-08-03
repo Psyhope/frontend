@@ -1,12 +1,11 @@
 'use client'
 
-import { AdminRundownQuery, Booking } from '@/__generated__/graphql'
+import { Booking } from '@/__generated__/graphql'
 import { GET_ALL_SCHEDULES } from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
 import { useQuery } from '@apollo/client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { HiOutlineUser } from 'react-icons/hi'
 
 const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
   arr.reduce((groups, item) => {
@@ -36,7 +35,7 @@ const AdminSchedulePage = () => {
       const allSchedules = Object.assign(
         {},
         ...selectWeek(new Date())
-          .slice(0, 5)
+          .slice(1, 6)
           .map((val, index) => {
             return {
               date: val.toLocaleDateString('id-ID'),
@@ -81,28 +80,37 @@ const AdminSchedulePage = () => {
             <td className="text-center bg-green-100 border-b-2 border-b-green-200 w-min">
               {val.date}
             </td>
-            {[...val.bookings, ...new Array(6)].slice(0, 6).map((el, idx) =>
-              el ? (
-                <td key={idx} className="min-w-[200px]">
-                  <div className="">
-                    <Link href={`/counselor/${el.councelor.id}`}>
-                      {el.councelor?.user?.fullname}
-                    </Link>
-                    <span className="mx-1">-</span>
-                    <Link href={`/clients/${el.user.id}`}>
-                      {el.user?.fullname}
-                    </Link>
-                  </div>
-                </td>
-              ) : (
-                <td
-                  key={idx}
-                  className="min-w-[200px] text-center bg-yellow-100"
-                ></td>
-              )
-            )}
+            {([...val.bookings, ...new Array(6)] as Partial<Booking>[])
+              .slice(0, 6)
+              .map((el, idx) =>
+                el ? (
+                  <td key={idx} className="min-w-[200px]">
+                    <div className="">
+                      <Link href={`/counselor/${el.councelor?.user?.fullname}`}>
+                        {el.councelor?.user?.fullname}
+                      </Link>
+                      <span className="mx-1">-</span>
+                      <Link href={`/clients/${el.user?.id}`}>
+                        {el.user?.fullname}
+                      </Link>
+                    </div>
+                  </td>
+                ) : (
+                  <td
+                    key={idx}
+                    className="min-w-[200px] text-center bg-yellow-100"
+                  ></td>
+                )
+              )}
           </tr>
         )}
+        emptyComponent={
+          loading ? (
+            <div className="flex items-center justify-center">
+              <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
+            </div>
+          ) : null
+        }
       />
     </section>
   )

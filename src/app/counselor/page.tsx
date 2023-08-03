@@ -1,13 +1,25 @@
 'use client'
 
+import { GET_COUNSELOR } from '@/actions/counselor'
 import { useAuth } from '@/components/contexts/AuthContext'
 import ClientTable from '@/components/elements/ClientTable'
+import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import React from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 const DashboardPage = () => {
   const { user } = useAuth()
+
+  const { data } = useQuery(GET_COUNSELOR, {
+    variables: {
+      getCounselorDto: {
+        counselorName: user.username,
+      },
+    },
+  })
+
+  console.log(data)
 
   return (
     <main className="min-h-screen">
