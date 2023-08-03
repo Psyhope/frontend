@@ -35,7 +35,7 @@ export const uploadS3 = async ({ file, type, onUploadProgress }: UploadS3) => {
     onUploadProgress,
   })
 
-  const awsUrl = `https://perak2023.s3.ap-northeast-1.amazonaws.com/${type}/${filename}`
+  const awsUrl = `https://psyhope.s3.ap-northeast-1.amazonaws.com/${type}/${filename}`
 
   if (upload?.status == 204) {
     return awsUrl

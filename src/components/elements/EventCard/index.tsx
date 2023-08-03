@@ -102,7 +102,7 @@ export const EventCard: React.FC<Props> = ({
   const form = useForm({
     initialValues: {
       eventName: title,
-      date: new Date(date),
+      date: date,
       location: location,
       time: time,
     },
@@ -394,12 +394,10 @@ export const EventCard: React.FC<Props> = ({
               >
                 Tanggal Event
               </Input.Label>
-              <DateTimePicker
-                dropdownType="modal"
-                placeholder="Pilih Tanggal Event"
+              <TextInput
                 radius="md"
                 size="lg"
-                clearable
+                placeholder="e.g. 8 - 10 Juni 2023"
                 {...form.getInputProps('date')}
               />
             </div>

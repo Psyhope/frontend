@@ -2,7 +2,7 @@ export interface Props {
   isAdmin: boolean
   id: number
   title: string
-  date: Date
+  date: string
   location: string
   time: string
   description: string

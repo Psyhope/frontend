@@ -29,7 +29,7 @@ type Infografic = {
   id: number
   title: string
   description: string
-  infograficUrl: string
+  infograficUrl: string[]
 }
 
 export default function Home() {
@@ -95,8 +95,6 @@ export default function Home() {
                 sequence={[
                   'Butuh teman bercerita? Yuk, curhat dengan konselor sebaya! 👇👇👇',
                   5000,
-                  'Butuh teman bercerita? Yuk, curhat dengan konselor sebaya! ❤️❤️❤️',
-                  5000,
                 ]}
                 repeat={Infinity}
               />
@@ -117,12 +115,6 @@ export default function Home() {
       </div>
       {/* Infografis */}
       <div className="bg-[#53389E] lg:h-fit mt-16 mb-10 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
-        <Image
-          alt="Plus Assets"
-          src={Plus}
-          className="z-0 absolute w-full -bottom-32"
-          quality={100}
-        />
         <div className="lg:w-1/3 lg:p-12 p-5">
           <p className="font-inter lg:text-6xl text-xl font-bold text-[#F4EBFF] leading-normal md:text-3xl">
             The Mindful Mind: An Infographic

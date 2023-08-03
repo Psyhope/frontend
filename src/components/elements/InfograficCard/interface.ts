@@ -3,6 +3,6 @@ export interface Props {
   id: number
   title: string
   description: string
-  infograficUrl: string
+  infograficUrl: string[]
   refetch: any
 }
