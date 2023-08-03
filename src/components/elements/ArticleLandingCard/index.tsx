@@ -11,7 +11,6 @@ import Highlight from '@tiptap/extension-highlight'
 import TextStyle from '@tiptap/extension-text-style'
 import Color from '@tiptap/extension-color'
 import TextAlign from '@tiptap/extension-text-align'
-import { useRouter } from 'next/navigation'
 import NextLink from 'next/link'
 
 export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
@@ -22,8 +21,6 @@ export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
   thumbnailUrl,
   title,
 }) => {
-  const router = useRouter()
-
   const editor = useEditor({
     editable: false,
     extensions: [
@@ -51,7 +48,7 @@ export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
     >
       <div className="md:w-1/3 aspect-article relative">
         <Image
-          alt="Placeholder"
+          alt="thumbnail"
           src={thumbnailUrl}
           fill
           className="relative object-cover rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-l-lg"

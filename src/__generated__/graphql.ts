@@ -35,10 +35,10 @@ export type AcceptBooking = {
   bookingDate?: InputMaybe<Scalars['DateTime']['input']>
   bookingTime?: InputMaybe<Scalars['String']['input']>
   bookingTime2?: InputMaybe<Scalars['String']['input']>
-  bookingTopic?: InputMaybe<Array<BookingTopic>>
   closestKnown?: InputMaybe<Scalars['Boolean']['input']>
   counselorType?: InputMaybe<CounselorType>
   id: Scalars['Int']['input']
+  isSuicidal?: InputMaybe<Scalars['Boolean']['input']>
   number_1?: InputMaybe<Scalars['Int']['input']>
   number_2?: InputMaybe<Scalars['Int']['input']>
   number_3?: InputMaybe<Scalars['Int']['input']>
@@ -66,10 +66,10 @@ export type AdminAccBooking = {
   bookingDate?: InputMaybe<Scalars['DateTime']['input']>
   bookingTime?: InputMaybe<Scalars['String']['input']>
   bookingTime2?: InputMaybe<Scalars['String']['input']>
-  bookingTopic?: InputMaybe<Array<BookingTopic>>
   closestKnown?: InputMaybe<Scalars['Boolean']['input']>
   counselorType?: InputMaybe<CounselorType>
   id: Scalars['Int']['input']
+  isSuicidal?: InputMaybe<Scalars['Boolean']['input']>
   number_1?: InputMaybe<Scalars['Int']['input']>
   number_2?: InputMaybe<Scalars['Int']['input']>
   number_3?: InputMaybe<Scalars['Int']['input']>
@@ -106,7 +106,6 @@ export type Booking = {
   bookingTime: Scalars['String']['output']
   /** The time of the booking */
   bookingTime2: Scalars['String']['output']
-  bookingTopic: Array<BookingTopic>
   closestKnown: Scalars['Boolean']['output']
   councelor?: Maybe<Councelor>
   counselorType: CounselorType
@@ -146,16 +145,6 @@ export type CounselingLog = {
   userId: Scalars['String']['output']
 }
 
-export type Counselor = {
-  __typename?: 'Counselor'
-  Booking?: Maybe<Array<Booking>>
-  counselorType: CounselorType
-  id: Scalars['Int']['output']
-  isOn: Scalars['Boolean']['output']
-  user?: Maybe<User>
-  userId: Scalars['String']['output']
-}
-
 /** The type of counselor, either PSYHOPE or FACULTY */
 export enum CounselorType {
   Faculty = 'FACULTY',
@@ -173,9 +162,9 @@ export type CreateBookingInput = {
   bookingDate: Scalars['DateTime']['input']
   bookingTime: Scalars['String']['input']
   bookingTime2: Scalars['String']['input']
-  bookingTopic: Array<BookingTopic>
   closestKnown: Scalars['Boolean']['input']
   counselorType: CounselorType
+  isSuicidal: Scalars['Boolean']['input']
   number_1: Scalars['Int']['input']
   number_2: Scalars['Int']['input']
   number_3: Scalars['Int']['input']
@@ -199,7 +188,7 @@ export type CreateCounselingLogInput = {
 }
 
 export type CreateEventInput = {
-  date: Scalars['DateTime']['input']
+  date: Scalars['String']['input']
   description: Scalars['String']['input']
   location: Scalars['String']['input']
   posterUrl: Scalars['String']['input']
@@ -209,11 +198,12 @@ export type CreateEventInput = {
 
 export type CreateInfograficInput = {
   description: Scalars['String']['input']
-  infograficUrl: Scalars['String']['input']
+  infograficUrl: Array<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
 
 export type CreateOnboardingInput = {
+  gender: Scalars['String']['input']
   linkSocmed: Scalars['String']['input']
   socmed: Scalars['String']['input']
 }
@@ -221,7 +211,7 @@ export type CreateOnboardingInput = {
 export type Event = {
   __typename?: 'Event'
   createdAt: Scalars['DateTime']['output']
-  date: Scalars['DateTime']['output']
+  date: Scalars['String']['output']
   description: Scalars['String']['output']
   id: Scalars['Int']['output']
   location: Scalars['String']['output']
@@ -263,7 +253,7 @@ export type Infografic = {
   createdAt: Scalars['DateTime']['output']
   description: Scalars['String']['output']
   id: Scalars['Int']['output']
-  infograficUrl: Scalars['String']['output']
+  infograficUrl: Array<Scalars['String']['output']>
   title: Scalars['String']['output']
   updatedAt: Scalars['DateTime']['output']
 }
@@ -360,7 +350,7 @@ export type Query = {
   bookingFilter?: Maybe<Array<Booking>>
   bookingFilterGeneral?: Maybe<Array<Booking>>
   counselingLog?: Maybe<Array<CounselingLog>>
-  counselorFilter?: Maybe<Array<Counselor>>
+  counselorFilter?: Maybe<Array<Councelor>>
   countArticle: Scalars['Float']['output']
   countEvent: Scalars['Float']['output']
   countInfografic: Scalars['Float']['output']
@@ -466,7 +456,7 @@ export type UpdateBookingInput = {
 }
 
 export type UpdateEventInput = {
-  date: Scalars['DateTime']['input']
+  date: Scalars['String']['input']
   description: Scalars['String']['input']
   id: Scalars['Int']['input']
   location: Scalars['String']['input']
@@ -478,7 +468,7 @@ export type UpdateEventInput = {
 export type UpdateInfograficInput = {
   description: Scalars['String']['input']
   id: Scalars['Int']['input']
-  infograficUrl: Scalars['String']['input']
+  infograficUrl: Array<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
 
@@ -492,12 +482,6 @@ export type User = {
   isOnboarded: Scalars['Boolean']['output']
   lineAcc?: Maybe<Scalars['String']['output']>
   username: Scalars['String']['output']
-}
-
-export enum BookingTopic {
-  Topic_1 = 'TOPIC_1',
-  Topic_2 = 'TOPIC_2',
-  Topic_3 = 'TOPIC_3',
 }
 
 export type FindAllArticleQueryVariables = Exact<{ [key: string]: never }>
@@ -651,7 +635,6 @@ export type CreateBookingMutation = {
     bookingDay: string
     userId: string
     counselorType: CounselorType
-    bookingTopic: Array<BookingTopic>
     reasonApply: string
     closestKnown: boolean
   } | null
@@ -758,7 +741,7 @@ export type CounselorFilterQueryVariables = Exact<{
 export type CounselorFilterQuery = {
   __typename?: 'Query'
   counselorFilter?: Array<{
-    __typename?: 'Counselor'
+    __typename?: 'Councelor'
     counselorType: CounselorType
     user?: {
       __typename?: 'User'
@@ -793,7 +776,7 @@ export type FindAllEventQuery = {
     id: number
     title: string
     location: string
-    date: any
+    date: string
     time: string
     posterUrl: string
     description: string
@@ -810,7 +793,7 @@ export type FindByPageEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -828,7 +811,7 @@ export type FindOneEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -845,7 +828,7 @@ export type CreateEventMutation = {
   createEvent: {
     __typename?: 'Event'
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -862,7 +845,7 @@ export type UpdateEventMutation = {
   updateEvent: {
     __typename?: 'Event'
     id: number
-    date: any
+    date: string
     title: string
     location: string
     time: string
@@ -890,7 +873,7 @@ export type FindByLimitEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -911,7 +894,7 @@ export type FindAllInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }>
 }
 
@@ -926,7 +909,7 @@ export type FindByPageInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }>
 }
 
@@ -941,7 +924,7 @@ export type FindOneInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -955,7 +938,7 @@ export type CreateInfograficMutation = {
     __typename?: 'Infografic'
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -970,7 +953,7 @@ export type UpdateInfograficMutation = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -993,7 +976,7 @@ export type FindByLimitInfograficQuery = {
     __typename?: 'Infografic'
     id: number
     title: string
-    infograficUrl: string
+    infograficUrl: Array<string>
     description: string
   }>
 }
@@ -1570,10 +1553,6 @@ export const CreateBookingDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'counselorType' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bookingTopic' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'reasonApply' } },
                 {

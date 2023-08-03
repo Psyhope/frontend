@@ -26,7 +26,6 @@ import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import { useMutation } from '@apollo/client'
 import { uploadS3 } from '@utils'
-import { useRouter } from 'next/navigation'
 import { DELETE_ARTICLE, UPDATE_ATRICLE } from '@/actions/article'
 import { notifications } from '@mantine/notifications'
 import { IconCheck } from '@tabler/icons-react'
@@ -49,8 +48,6 @@ export const ArticleCard: React.FC<Props> = ({
   const [previewThumbnail, setPreviewThumbnail] = useState(thumbnailUrl)
   const [cover, setCover] = useState<File | null>(null)
   const [previewCover, setPreviewCover] = useState(posterUrl)
-
-  const router = useRouter()
 
   const [mutate, {}] = useMutation(UPDATE_ATRICLE)
   const [mutate2, {}] = useMutation(DELETE_ARTICLE)
@@ -266,13 +263,13 @@ export const ArticleCard: React.FC<Props> = ({
         <div className=" rounded-lg relative flex-none">
           <div className="w-full aspect-article relative">
             <Image
-              alt="Infografis"
+              alt="thumbnail"
               src={thumbnailUrl}
               fill
               className="rounded-t-lg"
             />
           </div>
-          <div className="bg-[#D9D6FE] w-full lg:h-[156px] h-[100px] relative rounded-lg -mt-2 lg:p-6 p-2">
+          <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2">
             <p className="text-[#53389E] lg:text-xl xl:text-2xl text-sm md:font-bold font-semibold text-start h-full  break-words overflow-hidden">
               {title}
             </p>
@@ -315,7 +312,7 @@ export const ArticleCard: React.FC<Props> = ({
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="text-[#101828] text-lg font-bold font-inter">
-            Tambah Artikel
+            Edit Artikel
           </p>
 
           <div>

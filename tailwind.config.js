@@ -24,7 +24,7 @@ module.exports = {
         },
       },
       aspectRatio: {
-        infografic: '9 / 16',
+        infografic: '4 / 5',
         article: '3 / 2',
         articleCover: '8 / 3',
         infografic2: '2 / 3',

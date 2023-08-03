@@ -29,7 +29,6 @@ export const MUTATION_CREATE_BOOKING = gql(`
       bookingDay
       userId
       counselorType
-      bookingTopic
       reasonApply
       closestKnown
     }

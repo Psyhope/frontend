@@ -11,6 +11,7 @@ import { useDebouncedState } from '@mantine/hooks'
 import { GET_COUNSELOR } from '@/actions/counselor'
 import { useQuery } from '@apollo/client'
 import { CounselorFilterQuery } from '@/__generated__/graphql'
+import { dayNames } from '@/components/modules/ScheduleModule/const'
 
 const date = new Date()
 
@@ -23,11 +24,10 @@ const AdminPage = () => {
   const { refetch, loading } = useQuery(GET_COUNSELOR, {
     variables: {
       getCounselorDto: {
-        bookingDay: date.toISOString(),
+        bookingDay: dayNames[date.getDay()],
       },
     },
     onCompleted(data) {
-      console.log(data)
       setResult(data)
     },
   })
@@ -53,7 +53,7 @@ const AdminPage = () => {
               setDate(e as Date)
               refetch({
                 getCounselorDto: {
-                  bookingDay: e!.toISOString(),
+                  bookingDay: dayNames[e!.getDay()],
                 },
               })
             }}
