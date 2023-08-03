@@ -17,8 +17,7 @@ const formatter = Intl.DateTimeFormat('id-ID', {
 })
 
 const CounselorByNamePage = () => {
-
-  const router = useRouter();
+  const router = useRouter()
 
   const { data } = useQuery(GET_COUNSELOR, {
     variables: {
@@ -95,12 +94,8 @@ const CounselorByNamePage = () => {
         <ClientTable
           title=""
           // description="Berikut merupakan daftar klien konseling Psyhope."
-          description=''
-          headerTitle={[
-            'Nama Klien',
-            'Jadwal Konseling',
-            'Status Request',
-          ]}
+          description=""
+          headerTitle={['Nama Klien', 'Jadwal Konseling', 'Status Request']}
           data={[...Array(10)]}
           rowComponent={(val, index) => (
             <tr key={index}>
@@ -109,14 +104,10 @@ const CounselorByNamePage = () => {
                 <small className="opacity-70">S1 Reguler Ilmu Komputer</small>
               </td>
               <td className="min-h-[80px]">
-                <p>
-                  Senin, 08:00
-                </p>
+                <p>Senin, 08:00</p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">
-                <Badge
-                  color={true ? 'green' : 'red'}
-                >
+                <Badge color={true ? 'green' : 'red'}>
                   {true ? 'Accepted' : 'Terminated'}
                 </Badge>
                 <button>

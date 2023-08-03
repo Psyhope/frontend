@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 
 const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
   arr.reduce((groups, item) => {
-    ; (groups[key(item)] ||= []).push(item)
+    ;(groups[key(item)] ||= []).push(item)
     return groups
   }, {} as Record<K, T[]>)
 
@@ -80,35 +80,36 @@ const AdminSchedulePage = () => {
             <td className="text-center bg-green-100 border-b-2 border-b-green-200 w-min">
               {val.date}
             </td>
-            {([...val.bookings, ...new Array(6)] as Partial<Booking>[]).slice(0, 6).map((el, idx) =>
-              el ? (
-                <td key={idx} className="min-w-[200px]">
-                  <div className="">
-                    <Link href={`/counselor/${el.councelor?.user?.fullname}`}>
-                      {el.councelor?.user?.fullname}
-                    </Link>
-                    <span className="mx-1">-</span>
-                    <Link href={`/clients/${el.user?.id}`}>
-                      {el.user?.fullname}
-                    </Link>
-                  </div>
-                </td>
-              ) : (
-                <td
-                  key={idx}
-                  className="min-w-[200px] text-center bg-yellow-100"
-                ></td>
-              )
-            )}
+            {([...val.bookings, ...new Array(6)] as Partial<Booking>[])
+              .slice(0, 6)
+              .map((el, idx) =>
+                el ? (
+                  <td key={idx} className="min-w-[200px]">
+                    <div className="">
+                      <Link href={`/counselor/${el.councelor?.user?.fullname}`}>
+                        {el.councelor?.user?.fullname}
+                      </Link>
+                      <span className="mx-1">-</span>
+                      <Link href={`/clients/${el.user?.id}`}>
+                        {el.user?.fullname}
+                      </Link>
+                    </div>
+                  </td>
+                ) : (
+                  <td
+                    key={idx}
+                    className="min-w-[200px] text-center bg-yellow-100"
+                  ></td>
+                )
+              )}
           </tr>
         )}
         emptyComponent={
-          loading ?
+          loading ? (
             <div className="flex items-center justify-center">
               <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
             </div>
-            :
-            null
+          ) : null
         }
       />
     </section>
