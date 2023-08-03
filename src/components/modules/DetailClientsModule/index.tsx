@@ -23,35 +23,35 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
     },
     onCompleted(data) {
       console.log(data.adminGetBooking)
-      if (
-        data.adminGetBooking != null
-      )
+      if (data.adminGetBooking != null)
         setBooking({
           bookingDay: data.adminGetBooking.bookingDay as string,
           bookingTime: data.adminGetBooking.bookingTime as string,
           bookingTime2: data.adminGetBooking.bookingTime2 as string,
           counselorType: data.adminGetBooking.counselorType as string,
           isSuicidal: data.adminGetBooking.isSuicidal as boolean,
-          number_1:data.adminGetBooking.number_1 as number,
-          number_2:data.adminGetBooking.number_2 as number,
-          number_3:data.adminGetBooking.number_3 as number,
-          number_4:data.adminGetBooking.number_4 as number,
-          number_5:data.adminGetBooking.number_5 as number,
-          number_6:data.adminGetBooking.number_6 as number,
-          number_7:data.adminGetBooking.number_7 as number,
-          number_8:data.adminGetBooking.number_8 as number,
-          number_9:data.adminGetBooking.number_9 as number,
-          number_10:data.adminGetBooking.number_10 as number,
-          number_11:data.adminGetBooking.number_11 as number,
-          number_12:data.adminGetBooking.number_12 as number,
+          number_1: data.adminGetBooking.number_1 as number,
+          number_2: data.adminGetBooking.number_2 as number,
+          number_3: data.adminGetBooking.number_3 as number,
+          number_4: data.adminGetBooking.number_4 as number,
+          number_5: data.adminGetBooking.number_5 as number,
+          number_6: data.adminGetBooking.number_6 as number,
+          number_7: data.adminGetBooking.number_7 as number,
+          number_8: data.adminGetBooking.number_8 as number,
+          number_9: data.adminGetBooking.number_9 as number,
+          number_10: data.adminGetBooking.number_10 as number,
+          number_11: data.adminGetBooking.number_11 as number,
+          number_12: data.adminGetBooking.number_12 as number,
           reasonApply: data.adminGetBooking.reasonApply as string,
           councelor: {
             user: {
-              fullname: data.adminGetBooking.councelor?.user?.fullname as string,
-              username: data.adminGetBooking.councelor?.user?.username as string,
-            }
+              fullname: data.adminGetBooking.councelor?.user
+                ?.fullname as string,
+              username: data.adminGetBooking.councelor?.user
+                ?.username as string,
+            },
           },
-          user : {
+          user: {
             fullname: data.adminGetBooking.user?.fullname as string,
             username: data.adminGetBooking.user?.username as string,
             igAcc: data.adminGetBooking.user?.igAcc as string,
@@ -61,9 +61,9 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
               major: data.adminGetBooking.user?.account.major as string,
               channel: data.adminGetBooking.user?.account.channel as string,
               gender: data.adminGetBooking.user?.account.gender as string,
-            }
+            },
           },
-          CounselingLog: data.adminGetBooking.CounselingLog as CounselingLog[]
+          CounselingLog: data.adminGetBooking.CounselingLog as CounselingLog[],
         })
     },
   })
@@ -131,8 +131,20 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                 <tr key={index}>
                   <td className="w-1/2">
                     <div>
-                      <p className=' font-semibold'>{(new Date(val.time.toString())).getUTCDate()} {monthNames[(new Date(val.time.toString())).getUTCMonth()]} {(new Date(val.time.toString())).getUTCFullYear()}</p>
-                      <p className=''>{dayNames[(new Date(val.time.toString())).getDay()]}, {(new Date(val.time.toString())).getUTCHours()}:{(new Date(val.time.toString())).getUTCMinutes()} </p>
+                      <p className=" font-semibold">
+                        {new Date(val.time.toString()).getUTCDate()}{' '}
+                        {
+                          monthNames[
+                            new Date(val.time.toString()).getUTCMonth()
+                          ]
+                        }{' '}
+                        {new Date(val.time.toString()).getUTCFullYear()}
+                      </p>
+                      <p className="">
+                        {dayNames[new Date(val.time.toString()).getDay()]},{' '}
+                        {new Date(val.time.toString()).getUTCHours()}:
+                        {new Date(val.time.toString()).getUTCMinutes()}{' '}
+                      </p>
                     </div>
                   </td>
                   <td className="flex items-center justify-between w-1/2">
