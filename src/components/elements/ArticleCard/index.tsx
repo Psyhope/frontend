@@ -263,7 +263,7 @@ export const ArticleCard: React.FC<Props> = ({
         <div className=" rounded-lg relative flex-none">
           <div className="w-full aspect-article relative">
             <Image
-              alt="Infografis"
+              alt="thumbnail"
               src={thumbnailUrl}
               fill
               className="rounded-t-lg"
@@ -312,7 +312,7 @@ export const ArticleCard: React.FC<Props> = ({
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="text-[#101828] text-lg font-bold font-inter">
-            Tambah Artikel
+            Edit Artikel
           </p>
 
           <div>

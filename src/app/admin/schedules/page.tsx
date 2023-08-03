@@ -30,12 +30,6 @@ const AdminSchedulePage = () => {
     onCompleted(data) {
       if (!data || !data.adminRundown) return
       const grouped = groupBy(data.adminRundown, (val) => val.bookingTime)
-      console.log(
-        Object.keys(grouped).map((key) => ({
-          time: key,
-          bookings: grouped[key],
-        }))
-      )
       setSchedule(
         Object.keys(grouped).map((key) => ({
           time: key,

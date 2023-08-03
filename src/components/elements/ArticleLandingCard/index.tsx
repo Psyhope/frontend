@@ -48,7 +48,7 @@ export const ArticleLandingCard: React.FC<ArticleLandingCardProps> = ({
     >
       <div className="md:w-1/3 aspect-article relative">
         <Image
-          alt="Placeholder"
+          alt="thumbnail"
           src={thumbnailUrl}
           fill
           className="relative object-cover rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-l-lg"

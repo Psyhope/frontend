@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from 'next/server'
 export const GET = async (request: NextRequest) => {
   // const body = await request.json();
   const refreshToken = request.cookies.get('refreshToken')
-  // console.log(refreshToken)
 
   try {
     if (!refreshToken?.value) throw new Error()
@@ -20,7 +19,6 @@ export const GET = async (request: NextRequest) => {
     })
     if (res.status !== 200) throw new Error()
     const data: TokenResponse = await res.json()
-    // console.log(data)
     const response = NextResponse.json(data, { status: 200 })
     response.cookies.set('accessToken', data.accessToken, {
       httpOnly: true,
@@ -36,7 +34,6 @@ export const GET = async (request: NextRequest) => {
       sameSite: 'lax',
       path: '/',
     })
-    // console.log("Refresh: ", data)
     return response
   } catch (error) {
     console.log(error)

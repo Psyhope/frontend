@@ -78,12 +78,10 @@ const InfograficPage = () => {
     },
   })
 
-  console.log(files)
-
   useEffect(() => {
     if (files && files.length > 0) {
       const array: string[] = files.map((file) => URL.createObjectURL(file))
-      setPreviewUrl(array)
+      setPreviewUrl([...array].sort((a, b) => a.localeCompare(b)))
     } else {
       setPreviewUrl([])
     }
@@ -109,10 +107,9 @@ const InfograficPage = () => {
   })
 
   // Mutation
-  const [mutate, { data, loading: createLoading }] = useMutation(
-    CREATE_INFOGRAFIC,
-    { refetchQueries: [GET_BY_PAGE_INFOGRAFIC] }
-  )
+  const [mutate, {}] = useMutation(CREATE_INFOGRAFIC, {
+    refetchQueries: [GET_BY_PAGE_INFOGRAFIC],
+  })
 
   // Rich Text Editor
   const content =
@@ -204,7 +201,7 @@ const InfograficPage = () => {
           close()
           notifications.show({
             title: 'Success',
-            message: 'Add Event Successfull',
+            message: 'Add Infographic Successfull',
             color: 'teal',
             autoClose: 3000,
           })
@@ -286,7 +283,7 @@ const InfograficPage = () => {
           total={count}
           color="violet"
           withControls={false}
-          onChange={(p) => router.push(`/event?page=${p}`)}
+          onChange={(p) => router.push(`/infographic?page=${p}`)}
         />
       </div>
       <Modal
