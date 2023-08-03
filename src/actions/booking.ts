@@ -124,3 +124,23 @@ query AdminRundown($getBookingFilter: GetAdminRundown!) {
   }
 }
 `)
+
+export const ACCEPT_BOOKING = gql(`
+mutation AcceptBooking($accBookingInput: AcceptBooking!) {
+  acceptBooking(accBookingInput: $accBookingInput) {
+    id
+    isAccepted
+    isTerminated
+  }
+}
+`)
+
+export const REJECT_BOOKING = gql(`
+mutation RejectBooking($rejectBookingInput: RejectBookingDTO!) {
+  rejectBooking(rejectBookingInput: $rejectBookingInput) {
+    id
+    isAccepted
+    isTerminated
+  }
+}
+`)

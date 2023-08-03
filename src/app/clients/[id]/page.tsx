@@ -1,6 +1,8 @@
 'use client'
 
+import { GET_BOOKING_CLIENT } from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
@@ -11,6 +13,13 @@ const formatter = Intl.DateTimeFormat('id-ID', {
 })
 
 const ClientByIDPage = () => {
+
+  const { data } = useQuery(GET_BOOKING_CLIENT, {
+    variables: {
+
+    }
+  })
+
   return (
     <>
       <section className="">
