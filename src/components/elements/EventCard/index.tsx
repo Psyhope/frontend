@@ -22,7 +22,6 @@ import Superscript from '@tiptap/extension-superscript'
 import SubScript from '@tiptap/extension-subscript'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
-import { DatePickerInput, DateTimePicker } from '@mantine/dates'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import { useMutation } from '@apollo/client'
@@ -102,7 +101,7 @@ export const EventCard: React.FC<Props> = ({
   const form = useForm({
     initialValues: {
       eventName: title,
-      date: new Date(date),
+      date: date,
       location: location,
       time: time,
     },
@@ -124,7 +123,7 @@ export const EventCard: React.FC<Props> = ({
       if (files) {
         posterUrl2 = await uploadS3({
           file: files,
-          type: 'poster',
+          type: 'event',
           onUploadProgress: (progressEvent) => {
             const { loaded, total } = progressEvent
             const total2 = total ? (total as number) : 0
@@ -160,7 +159,7 @@ export const EventCard: React.FC<Props> = ({
             date: form.values.date,
             description: editor ? editor.getHTML() : '',
             location: form.values.location,
-            posterUrl: posterUrl,
+            posterUrl: posterUrl2,
             time: form.values.time,
             title: form.values.eventName,
           },
@@ -250,14 +249,9 @@ export const EventCard: React.FC<Props> = ({
         onClick={open}
       >
         <div className="w-full aspect-article relative">
-          <Image
-            alt="Infografis"
-            src={posterUrl}
-            fill
-            className="rounded-t-lg"
-          />
+          <Image alt="poster" src={posterUrl} fill className="rounded-t-lg" />
         </div>
-        <div className="bg-[#D9D6FE] w-full lg:h-[156px] h-[100px] relative rounded-lg -mt-2 lg:p-6 p-2">
+        <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2">
           <p className="text-[#53389E] lg:text-xl xl:text-2xl text-sm md:font-bold font-semibold text-start h-full  break-words overflow-hidden">
             {title}
           </p>
@@ -302,7 +296,7 @@ export const EventCard: React.FC<Props> = ({
         <div className="w-full h-full flex flex-col gap-5">
           <p className="font-inter md:text-4xl text-2xl font-bold">{title}</p>
           <div className="flex gap-7 flex-col md:flex-row">
-            <div className="relative aspect-article md:w-80 h-30 md:h-auto">
+            <div className="relative aspect-article h-[285px]">
               <Image
                 alt="Event Modal Placeholder"
                 src={posterUrl}
@@ -311,19 +305,14 @@ export const EventCard: React.FC<Props> = ({
               />
             </div>
             <RichTextEditor editor={editor}>
-              <div className="bg-[#F9F5FF] rounded-md md:w-[756px] flex flex-col gap-5 h-auto max-h-[285px] overflow-y-auto scrollbar-hidden">
+              <div className="bg-[#F9F5FF] rounded-md md:w-[756px] flex flex-col gap-5 h-[285px] overflow-y-auto">
                 <div className="flex gap-5 flex-col md:flex-row">
                   <div className="mt-5 px-5">
                     <p className="text-[#344054] font-inter text-sm font-medium">
                       Tanggal Event
                     </p>
                     <p className="text-base text-[#667085] font-inter">
-                      {date2.toLocaleDateString('id-ID', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                      {date}
                     </p>
                   </div>
                   <div className="px-5">
@@ -370,7 +359,7 @@ export const EventCard: React.FC<Props> = ({
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="text-[#101828] text-lg font-bold font-inter">
-            Tambah Event
+            Edit Event
           </p>
           <div className="flex md:flex-row flex-col gap-5">
             <div>
@@ -394,12 +383,10 @@ export const EventCard: React.FC<Props> = ({
               >
                 Tanggal Event
               </Input.Label>
-              <DateTimePicker
-                dropdownType="modal"
-                placeholder="Pilih Tanggal Event"
+              <TextInput
                 radius="md"
                 size="lg"
-                clearable
+                placeholder="e.g. 8 - 10 Juni 2023"
                 {...form.getInputProps('date')}
               />
             </div>
@@ -550,7 +537,7 @@ export const EventCard: React.FC<Props> = ({
               onClick={handleSubmit}
               disabled={disable || loading}
             >
-              {loading ? <Loader variant="dots" /> : `Tambah Event`}
+              {loading ? <Loader variant="dots" /> : `Edit Event`}
             </button>
           </div>
         </div>

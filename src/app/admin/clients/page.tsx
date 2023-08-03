@@ -50,8 +50,6 @@ const AdminClientPage = () => {
     },
   })
 
-  console.log(data)
-
   const [adminAccept, { data: newData }] = useMutation(ADMIN_ACCEPT_BOOKING, {
     onCompleted(data, clientOptions) {
       refetch({

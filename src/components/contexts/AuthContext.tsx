@@ -61,7 +61,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         method: 'POST',
         // credentials: "include",
       })
-      console.log(res.status)
       if (res.status !== 200) throw new Error(await res.json())
       // router.replace("/dashboard")
       const data: TokenResponse = await res.json()
@@ -71,7 +70,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         role: string
         isOnboarded: boolean
       }>(data.accessToken)
-      // console.log(user)
       setUser({
         username: user.username,
         id: user.sub,
@@ -112,14 +110,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       if (!res.ok) return
       const data: TokenResponse = await res.json()
-      // console.log(data)
       const user = jwt_decode<{
         username: string
         sub: string
         role: string
         isOnboarded: boolean
       }>(data.accessToken)
-      // console.log(user)
       setUser({
         username: user.username,
         id: user.sub,

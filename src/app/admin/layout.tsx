@@ -20,8 +20,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { user, accessToken } = useAuth()
 
-  // console.log(accessToken)
-
   const router = useRouter()
 
   useEffect(() => {
