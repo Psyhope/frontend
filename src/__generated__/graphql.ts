@@ -189,7 +189,7 @@ export type CreateCounselingLogInput = {
 }
 
 export type CreateEventInput = {
-  date: Scalars['DateTime']['input']
+  date: Scalars['String']['input']
   description: Scalars['String']['input']
   location: Scalars['String']['input']
   posterUrl: Scalars['String']['input']
@@ -199,7 +199,7 @@ export type CreateEventInput = {
 
 export type CreateInfograficInput = {
   description: Scalars['String']['input']
-  infograficUrl: Scalars['String']['input']
+  infograficUrl: Array<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
 
@@ -211,7 +211,7 @@ export type CreateOnboardingInput = {
 export type Event = {
   __typename?: 'Event'
   createdAt: Scalars['DateTime']['output']
-  date: Scalars['DateTime']['output']
+  date: Scalars['String']['output']
   description: Scalars['String']['output']
   id: Scalars['Int']['output']
   location: Scalars['String']['output']
@@ -253,7 +253,7 @@ export type Infografic = {
   createdAt: Scalars['DateTime']['output']
   description: Scalars['String']['output']
   id: Scalars['Int']['output']
-  infograficUrl: Scalars['String']['output']
+  infograficUrl: Array<Scalars['String']['output']>
   title: Scalars['String']['output']
   updatedAt: Scalars['DateTime']['output']
 }
@@ -456,7 +456,7 @@ export type UpdateBookingInput = {
 }
 
 export type UpdateEventInput = {
-  date: Scalars['DateTime']['input']
+  date: Scalars['String']['input']
   description: Scalars['String']['input']
   id: Scalars['Int']['input']
   location: Scalars['String']['input']
@@ -468,7 +468,7 @@ export type UpdateEventInput = {
 export type UpdateInfograficInput = {
   description: Scalars['String']['input']
   id: Scalars['Int']['input']
-  infograficUrl: Scalars['String']['input']
+  infograficUrl: Array<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
 
@@ -769,7 +769,7 @@ export type FindAllEventQuery = {
     id: number
     title: string
     location: string
-    date: any
+    date: string
     time: string
     posterUrl: string
     description: string
@@ -786,7 +786,7 @@ export type FindByPageEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -804,7 +804,7 @@ export type FindOneEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -821,7 +821,7 @@ export type CreateEventMutation = {
   createEvent: {
     __typename?: 'Event'
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -838,7 +838,7 @@ export type UpdateEventMutation = {
   updateEvent: {
     __typename?: 'Event'
     id: number
-    date: any
+    date: string
     title: string
     location: string
     time: string
@@ -866,7 +866,7 @@ export type FindByLimitEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -887,7 +887,7 @@ export type FindAllInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }>
 }
 
@@ -902,7 +902,7 @@ export type FindByPageInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }>
 }
 
@@ -917,7 +917,7 @@ export type FindOneInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -931,7 +931,7 @@ export type CreateInfograficMutation = {
     __typename?: 'Infografic'
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -946,7 +946,7 @@ export type UpdateInfograficMutation = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -969,7 +969,7 @@ export type FindByLimitInfograficQuery = {
     __typename?: 'Infografic'
     id: number
     title: string
-    infograficUrl: string
+    infograficUrl: Array<string>
     description: string
   }>
 }

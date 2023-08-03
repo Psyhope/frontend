@@ -39,23 +39,24 @@ export const InfographicCardLanding: React.FC<InfographicCardLandingProps> = ({
     },
   })
 
+  const sortedUrls: string[] = [...infograficUrl].sort((a, b) =>
+    a.localeCompare(b)
+  )
+
   return (
     <NextLink href={`/infographic/${id}`}>
       <div className="lg:w-[445px] w-[200px] rounded-lg relative flex-none pr-5 lg:my-10">
         <div className="w-full aspect-infografic relative">
           <Image
             alt="Infografis"
-            src={infograficUrl}
+            src={sortedUrls[0]}
             fill
             className="rounded-t-lg"
           />
         </div>
-        <div className="bg-[#D9D6FE] w-full lg:h-[156px] h-[100px] relative rounded-lg -mt-2 lg:p-6 p-2">
+        <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2 break-words">
           <p className="text-[#53389E] lg:text-2xl text-lg font-bold">
             {title}
-          </p>
-          <p className="lg:max-h-20 max-h-12 pb-6 overflow-hidden lg:text-base text-xs">
-            {editor && editor.getText()}
           </p>
         </div>
       </div>

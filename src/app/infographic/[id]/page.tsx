@@ -21,7 +21,7 @@ type Infografic = {
   id: number
   title: string
   description: string
-  infograficUrl: string
+  infograficUrl: string[]
 }
 
 const InfograficByIdPage = () => {
@@ -29,6 +29,7 @@ const InfograficByIdPage = () => {
   const pathname = usePathname()
   const id = pathname.slice(-1)[0]
   const [infografic, setInfografic] = useState<Infografic>()
+  const [sortedURL, setSortedURL] = useState<string[]>()
 
   const {} = useQuery(GET_BY_ID_INFOGRAFIC, {
     variables: {
@@ -36,6 +37,11 @@ const InfograficByIdPage = () => {
     },
     onCompleted(data) {
       setInfografic(data.findOneInfografic)
+      setSortedURL(
+        [...data.findOneInfografic.infograficUrl].sort((a, b) =>
+          a.localeCompare(b)
+        )
+      )
     },
     onError(error) {
       console.log('error', error)
@@ -64,10 +70,11 @@ const InfograficByIdPage = () => {
   })
 
   useEffect(() => {
-    if (infografic?.description)
+    if (infografic && infografic?.description)
       editor?.commands.setContent(infografic?.description)
   }, [infografic?.description])
 
+  console.log(sortedURL)
   return (
     <div className="min-h-screen p-5 lg:px-28 flex flex-col gap-5">
       <div className="flex items-center gap-5">
@@ -87,17 +94,16 @@ const InfograficByIdPage = () => {
           </NextLink>
         </div>
       </div>
-      <div className="flex items-center justify-center">
-        <div className="aspect-infografic w-full rounded-3xl relative max-w-[1024px]">
-          {infografic?.infograficUrl && (
-            <Image
-              alt="Article Cover"
-              src={infografic?.infograficUrl}
-              className="relative"
-              fill
-            />
-          )}
-        </div>
+      <div className="flex flex-col items-center justify-center">
+        {sortedURL &&
+          sortedURL.map((url, idx) => (
+            <div
+              className="aspect-infografic w-full rounded-3xl relative max-w-[1024px]"
+              key={idx}
+            >
+              <Image alt="Article Cover" src={url} className="relative" fill />
+            </div>
+          ))}
       </div>
       <RichTextEditor editor={editor}>
         {infografic && (

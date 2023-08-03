@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import React, { SyntheticEvent, useState } from 'react'
-import PlaceHolder from '../../../../public/assets/Placeholder.png'
+import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { Props } from './interface'
 import { Edit, Trash } from '@icons'
 import { DeleteModal } from '../DeleteModal'
@@ -44,7 +43,7 @@ export const InfograficCard: React.FC<Props> = ({
     useDisclosure(false)
   const [openedEdit, { open: openEdit, close: closeEdit }] =
     useDisclosure(false)
-  const [files, setFiles] = useState<File | null>(null)
+  const [files, setFiles] = useState<File[] | undefined>()
   const [previewUrl, setPreviewUrl] = useState(infograficUrl)
   const [loading, setLoading] = useState(false)
 
@@ -87,37 +86,45 @@ export const InfograficCard: React.FC<Props> = ({
     e.preventDefault()
     setLoading(true)
     try {
-      let infograficUrl2 = infograficUrl
-      if (files) {
-        infograficUrl2 = await uploadS3({
-          file: files,
-          type: 'infografic',
-          onUploadProgress: (progressEvent) => {
-            const { loaded, total } = progressEvent
-            const total2 = total ? (total as number) : 0
-            const percent = Math.round((loaded / total2) * 100)
+      let infograficUrl2: string[] = infograficUrl
 
-            const message = `Uploading Infografic... ${percent}%`
+      if (files && files.length > 0) {
+        infograficUrl2 = []
+        await Promise.all(
+          files.map(async (file, idx) => {
+            const url = await uploadS3({
+              file: file,
+              type: 'infografic',
+              onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent
+                const total2 = total ? (total as number) : 0
+                const percent = Math.round((loaded / total2) * 100)
 
-            notifications.show({
-              id: 'load-data-Infografic',
-              loading: true,
-              title: 'Upload',
-              message: message,
-              autoClose: false,
-              withCloseButton: false,
+                const message = `Uploading Infographic (${
+                  idx + 1
+                })... ${percent}%`
+
+                notifications.show({
+                  id: `load-data-Infografic-${idx}`,
+                  loading: true,
+                  title: 'Upload',
+                  message: message,
+                  autoClose: false,
+                  withCloseButton: false,
+                })
+              },
             })
-          },
-        })
-
-        notifications.update({
-          id: 'load-data-Infografic',
-          color: 'teal',
-          title: 'Success',
-          message: 'Infografic was Uploaded',
-          icon: <IconCheck size="1rem" />,
-          autoClose: 2000,
-        })
+            infograficUrl2.push(url)
+            notifications.update({
+              id: `load-data-Infografic-${idx}`,
+              color: 'teal',
+              title: 'Success',
+              message: `Infographic (${idx + 1}) was Uploaded`,
+              icon: <IconCheck size="1rem" />,
+              autoClose: 2000,
+            })
+          })
+        )
       }
 
       mutateUpdate({
@@ -201,28 +208,36 @@ export const InfograficCard: React.FC<Props> = ({
     }
   }
 
+  const sortedUrls: string[] = [...infograficUrl].sort((a, b) =>
+    a.localeCompare(b)
+  )
+
   const disable = form.values.title == ''
 
+  useEffect(() => {
+    if (files && files.length > 0) {
+      const array: string[] = files.map((file) => URL.createObjectURL(file))
+      setPreviewUrl(array)
+    } else {
+      setPreviewUrl(infograficUrl)
+    }
+  }, [files])
+
   return (
-    <div>
-      <NextLink
-        href={`/infographic/${id}`}
-        className="lg:w-[445px] w-[200px] rounded-lg relative flex-none"
-      >
+    <div className="">
+      <NextLink href={`/infographic/${id}`} className=" rounded-lg relative">
         <div className="w-full aspect-infografic relative">
           <Image
             alt="Infografis"
-            src={infograficUrl}
+            src={sortedUrls[0]}
             fill
             className="rounded-t-lg"
           />
         </div>
-        <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2">
-          <p className="text-[#53389E] lg:text-2xl text-base font-bold max-h-[70px] overflow-hidden">
+
+        <div className="bg-[#D9D6FE]  relative rounded-lg -mt-2 lg:p-6 p-2">
+          <p className="text-[#53389E] lg:text-2xl text-base font-bold overflow-hidden">
             {title}
-          </p>
-          <p className="lg:max-h-20 max-h-12 h-fit pb-6 overflow-hidden lg:text-base text-xs">
-            {editor && editor.getText()}
           </p>
         </div>
       </NextLink>
@@ -366,6 +381,7 @@ export const InfograficCard: React.FC<Props> = ({
               value={files}
               onChange={setFiles}
               clearable
+              multiple
             />
             {previewUrl && (
               <SimpleGrid
@@ -373,21 +389,18 @@ export const InfograficCard: React.FC<Props> = ({
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-infografic relative">
-                  <Image
-                    src={previewUrl}
-                    fill
-                    className="relative"
-                    alt="preview"
-                  />
-                </div>
+                {previewUrl.map((url, idx) => (
+                  <div className="w-full aspect-infografic relative" key={idx}>
+                    <Image src={url} fill className="relative" alt="preview" />
+                  </div>
+                ))}
               </SimpleGrid>
             )}
           </div>
           <div className="flex gap-4 md:flex-row flex-col">
             <button
               className="w-full py-2 bg-white border border-[#D0D5DD] text-[#344054] font-inter font-bold md:text-base text-sm rounded-lg drop-shadow-lg active:drop-shadow-none"
-              onClick={close}
+              onClick={closeEdit}
             >
               Cancel
             </button>

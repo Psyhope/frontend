@@ -2,13 +2,8 @@
 import Image from 'next/image'
 import HeroAssets from '../../public/assets/Hero Asset.svg'
 import ArticleBubble from '../../public/assets/Article Bubble.svg'
-import Plus from '../../public/assets/Plus.svg'
 import { TypeAnimation } from 'react-type-animation'
-import {
-  ArticleLandingCard,
-  InfograficCard,
-  InfographicCardLanding,
-} from '@elements'
+import { ArticleLandingCard, InfographicCardLanding } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
@@ -29,14 +24,14 @@ type Infografic = {
   id: number
   title: string
   description: string
-  infograficUrl: string
+  infograficUrl: string[]
 }
 
 export default function Home() {
   const [listArticle, setListArticle] = useState<Array<Article>>()
   const [listInfografic, setListInfografic] = useState<Array<Infografic>>()
 
-  const { loading: articleLoading } = useQuery(GET_BY_LIMIT_ARTICLE, {
+  const {} = useQuery(GET_BY_LIMIT_ARTICLE, {
     variables: {
       limit: 5,
     },
@@ -54,26 +49,23 @@ export default function Home() {
     },
   })
 
-  const { loading: infograficLoading, refetch: getAllRefetch } = useQuery(
-    GET_BY_LIMIT_INFOGRAFIC,
-    {
-      variables: {
-        limit: 5,
-      },
-      onCompleted(data) {
-        setListInfografic(data.findByLimitInfografic)
-      },
-      onError(error) {
-        console.log('error', error)
-        notifications.show({
-          title: 'Failed',
-          message: 'Error while load Infografic...',
-          color: 'red',
-          autoClose: 3000,
-        })
-      },
-    }
-  )
+  const {} = useQuery(GET_BY_LIMIT_INFOGRAFIC, {
+    variables: {
+      limit: 5,
+    },
+    onCompleted(data) {
+      setListInfografic(data.findByLimitInfografic)
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Error while load Infografic...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
 
   return (
     <main className="min-h-screen md:pt-5">
@@ -95,8 +87,6 @@ export default function Home() {
                 sequence={[
                   'Butuh teman bercerita? Yuk, curhat dengan konselor sebaya! 👇👇👇',
                   5000,
-                  'Butuh teman bercerita? Yuk, curhat dengan konselor sebaya! ❤️❤️❤️',
-                  5000,
                 ]}
                 repeat={Infinity}
               />
@@ -117,12 +107,6 @@ export default function Home() {
       </div>
       {/* Infografis */}
       <div className="bg-[#53389E] lg:h-fit mt-16 mb-10 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
-        <Image
-          alt="Plus Assets"
-          src={Plus}
-          className="z-0 absolute w-full -bottom-32"
-          quality={100}
-        />
         <div className="lg:w-1/3 lg:p-12 p-5">
           <p className="font-inter lg:text-6xl text-xl font-bold text-[#F4EBFF] leading-normal md:text-3xl">
             The Mindful Mind: An Infographic
