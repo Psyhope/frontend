@@ -2,13 +2,8 @@
 import Image from 'next/image'
 import HeroAssets from '../../public/assets/Hero Asset.svg'
 import ArticleBubble from '../../public/assets/Article Bubble.svg'
-import Plus from '../../public/assets/Plus.svg'
 import { TypeAnimation } from 'react-type-animation'
-import {
-  ArticleLandingCard,
-  InfograficCard,
-  InfographicCardLanding,
-} from '@elements'
+import { ArticleLandingCard, InfographicCardLanding } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
@@ -36,7 +31,7 @@ export default function Home() {
   const [listArticle, setListArticle] = useState<Array<Article>>()
   const [listInfografic, setListInfografic] = useState<Array<Infografic>>()
 
-  const { loading: articleLoading } = useQuery(GET_BY_LIMIT_ARTICLE, {
+  const {} = useQuery(GET_BY_LIMIT_ARTICLE, {
     variables: {
       limit: 5,
     },
@@ -54,26 +49,23 @@ export default function Home() {
     },
   })
 
-  const { loading: infograficLoading, refetch: getAllRefetch } = useQuery(
-    GET_BY_LIMIT_INFOGRAFIC,
-    {
-      variables: {
-        limit: 5,
-      },
-      onCompleted(data) {
-        setListInfografic(data.findByLimitInfografic)
-      },
-      onError(error) {
-        console.log('error', error)
-        notifications.show({
-          title: 'Failed',
-          message: 'Error while load Infografic...',
-          color: 'red',
-          autoClose: 3000,
-        })
-      },
-    }
-  )
+  const {} = useQuery(GET_BY_LIMIT_INFOGRAFIC, {
+    variables: {
+      limit: 5,
+    },
+    onCompleted(data) {
+      setListInfografic(data.findByLimitInfografic)
+    },
+    onError(error) {
+      console.log('error', error)
+      notifications.show({
+        title: 'Failed',
+        message: 'Error while load Infografic...',
+        color: 'red',
+        autoClose: 3000,
+      })
+    },
+  })
 
   return (
     <main className="min-h-screen md:pt-5">

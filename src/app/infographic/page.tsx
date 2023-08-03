@@ -10,6 +10,7 @@ import {
   SimpleGrid,
   FileInput,
   Loader,
+  Pagination,
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
@@ -31,7 +32,7 @@ import {
   GET_COUNT_INFOGRAFIC,
 } from '@/actions/infografic'
 import { useAuth } from '@/components/contexts/AuthContext'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { notifications } from '@mantine/notifications'
 import { IconCheck } from '@tabler/icons-react'
 import { uploadS3 } from '@utils'
@@ -45,6 +46,7 @@ type Infografic = {
 
 const InfograficPage = () => {
   const { user } = useAuth()
+  const router = useRouter()
 
   const [isAdmin, setIsAdmin] = useState(user.role == 'PSYHOPE_ADMIN')
 
@@ -277,6 +279,15 @@ const InfograficPage = () => {
               />
             ))}
         </div>
+      </div>
+      <div className="w-full justify-center md:justify-end flex mt-5">
+        <Pagination
+          value={page}
+          total={count}
+          color="violet"
+          withControls={false}
+          onChange={(p) => router.push(`/event?page=${p}`)}
+        />
       </div>
       <Modal
         opened={opened}

@@ -15,7 +15,6 @@ import {
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
-import { DatePickerInput, DateTimePicker } from '@mantine/dates'
 import { RichTextEditor, Link } from '@mantine/tiptap'
 import { useEditor } from '@tiptap/react'
 import Highlight from '@tiptap/extension-highlight'
@@ -163,7 +162,7 @@ const EventPage = () => {
     try {
       const posterUrl = await uploadS3({
         file: files,
-        type: 'poster',
+        type: 'event',
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
           const total2 = total ? (total as number) : 0
