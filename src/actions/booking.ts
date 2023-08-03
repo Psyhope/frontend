@@ -29,7 +29,6 @@ export const MUTATION_CREATE_BOOKING = gql(`
       bookingDay
       userId
       counselorType
-      bookingTopic
       reasonApply
       closestKnown
     }
@@ -113,9 +112,11 @@ query AdminRundown($getBookingFilter: GetAdminRundown!) {
     user {
       fullname
     }
+    id
   }  
   user {
     fullname
+    id
   }
   bookingTime
   bookingDay

@@ -35,10 +35,10 @@ export type AcceptBooking = {
   bookingDate?: InputMaybe<Scalars['DateTime']['input']>
   bookingTime?: InputMaybe<Scalars['String']['input']>
   bookingTime2?: InputMaybe<Scalars['String']['input']>
-  bookingTopic?: InputMaybe<Array<BookingTopic>>
   closestKnown?: InputMaybe<Scalars['Boolean']['input']>
   counselorType?: InputMaybe<CounselorType>
   id: Scalars['Int']['input']
+  isSuicidal?: InputMaybe<Scalars['Boolean']['input']>
   number_1?: InputMaybe<Scalars['Int']['input']>
   number_2?: InputMaybe<Scalars['Int']['input']>
   number_3?: InputMaybe<Scalars['Int']['input']>
@@ -66,10 +66,10 @@ export type AdminAccBooking = {
   bookingDate?: InputMaybe<Scalars['DateTime']['input']>
   bookingTime?: InputMaybe<Scalars['String']['input']>
   bookingTime2?: InputMaybe<Scalars['String']['input']>
-  bookingTopic?: InputMaybe<Array<BookingTopic>>
   closestKnown?: InputMaybe<Scalars['Boolean']['input']>
   counselorType?: InputMaybe<CounselorType>
   id: Scalars['Int']['input']
+  isSuicidal?: InputMaybe<Scalars['Boolean']['input']>
   number_1?: InputMaybe<Scalars['Int']['input']>
   number_2?: InputMaybe<Scalars['Int']['input']>
   number_3?: InputMaybe<Scalars['Int']['input']>
@@ -106,7 +106,6 @@ export type Booking = {
   bookingTime: Scalars['String']['output']
   /** The time of the booking */
   bookingTime2: Scalars['String']['output']
-  bookingTopic: Array<BookingTopic>
   closestKnown: Scalars['Boolean']['output']
   councelor?: Maybe<Councelor>
   counselorType: CounselorType
@@ -163,9 +162,9 @@ export type CreateBookingInput = {
   bookingDate: Scalars['DateTime']['input']
   bookingTime: Scalars['String']['input']
   bookingTime2: Scalars['String']['input']
-  bookingTopic: Array<BookingTopic>
   closestKnown: Scalars['Boolean']['input']
   counselorType: CounselorType
+  isSuicidal: Scalars['Boolean']['input']
   number_1: Scalars['Int']['input']
   number_2: Scalars['Int']['input']
   number_3: Scalars['Int']['input']
@@ -204,6 +203,7 @@ export type CreateInfograficInput = {
 }
 
 export type CreateOnboardingInput = {
+  gender: Scalars['String']['input']
   linkSocmed: Scalars['String']['input']
   socmed: Scalars['String']['input']
 }
@@ -484,12 +484,6 @@ export type User = {
   username: Scalars['String']['output']
 }
 
-export enum BookingTopic {
-  Topic_1 = 'TOPIC_1',
-  Topic_2 = 'TOPIC_2',
-  Topic_3 = 'TOPIC_3',
-}
-
 export type FindAllArticleQueryVariables = Exact<{ [key: string]: never }>
 
 export type FindAllArticleQuery = {
@@ -641,7 +635,6 @@ export type CreateBookingMutation = {
     bookingDay: string
     userId: string
     counselorType: CounselorType
-    bookingTopic: Array<BookingTopic>
     reasonApply: string
     closestKnown: boolean
   } | null
@@ -734,9 +727,10 @@ export type AdminRundownQuery = {
     bookingDate: any
     councelor?: {
       __typename?: 'Councelor'
+      id: number
       user?: { __typename?: 'User'; fullname: string } | null
     } | null
-    user?: { __typename?: 'User'; fullname: string } | null
+    user?: { __typename?: 'User'; fullname: string; id: string } | null
   }> | null
 }
 
@@ -748,15 +742,28 @@ export type CounselorFilterQuery = {
   __typename?: 'Query'
   counselorFilter?: Array<{
     __typename?: 'Councelor'
-    userId: string
     counselorType: CounselorType
+    user?: {
+      __typename?: 'User'
+      username: string
+      lineAcc?: string | null
+      igAcc?: string | null
+      fullname: string
+    } | null
     Booking?: Array<{
       __typename?: 'Booking'
+      bookingDate: any
       bookingDay: string
       bookingTime: string
-      user?: { __typename?: 'User'; username: string } | null
+      isTerminated: boolean
+      isAccepted: boolean
+      reasonApply: string
+      user?: {
+        __typename?: 'User'
+        username: string
+        account: { __typename?: 'Account'; major: string }
+      } | null
     }> | null
-    user?: { __typename?: 'User'; fullname: string } | null
   }> | null
 }
 
@@ -1547,10 +1554,6 @@ export const CreateBookingDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'counselorType' },
                 },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bookingTopic' },
-                },
                 { kind: 'Field', name: { kind: 'Name', value: 'reasonApply' } },
                 {
                   kind: 'Field',
@@ -1939,6 +1942,7 @@ export const AdminRundownDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -1952,6 +1956,7 @@ export const AdminRundownDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'fullname' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -2008,7 +2013,32 @@ export const CounselorFilterDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'counselorType' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineAcc' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'igAcc' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'Booking' },
@@ -2017,11 +2047,27 @@ export const CounselorFilterDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingDate' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'bookingDay' },
                       },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'bookingTime' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isTerminated' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isAccepted' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'reasonApply' },
                       },
                       {
                         kind: 'Field',
@@ -2033,28 +2079,24 @@ export const CounselorFilterDocument = {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'username' },
                             },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'account' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'major' },
+                                  },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },
                     ],
                   },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'fullname' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'counselorType' },
                 },
               ],
             },

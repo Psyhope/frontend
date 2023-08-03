@@ -23,7 +23,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (user.role !== 'PSYHOPE_ADMIN') router.replace('/')
+    if (user.role !== 'PSYHOPE_ADMIN' && user.role !== 'FACULTY_ADMIN')
+      router.replace('/')
   }, [])
 
   useEffect(() => {
