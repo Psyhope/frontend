@@ -44,7 +44,9 @@ export const InfograficCard: React.FC<Props> = ({
   const [openedEdit, { open: openEdit, close: closeEdit }] =
     useDisclosure(false)
   const [files, setFiles] = useState<File[] | undefined>()
-  const [previewUrl, setPreviewUrl] = useState(infograficUrl)
+  const [previewUrl, setPreviewUrl] = useState(
+    [...infograficUrl].sort((a, b) => a.localeCompare(b))
+  )
   const [loading, setLoading] = useState(false)
 
   const [mutateUpdate, {}] = useMutation(UPDATE_INFOGRAFIC)
@@ -140,7 +142,7 @@ export const InfograficCard: React.FC<Props> = ({
           closeEdit()
           notifications.show({
             title: 'Success',
-            message: 'Edit Infografic Successfull',
+            message: 'Edit Infographic Successfull',
             color: 'teal',
             autoClose: 3000,
           })
@@ -180,7 +182,7 @@ export const InfograficCard: React.FC<Props> = ({
           closeDelete()
           notifications.show({
             title: 'Success',
-            message: 'Delete Infografic Successfull',
+            message: 'Delete Infographic Successfull',
             color: 'teal',
             autoClose: 3000,
           })
@@ -216,10 +218,17 @@ export const InfograficCard: React.FC<Props> = ({
 
   useEffect(() => {
     if (files && files.length > 0) {
-      const array: string[] = files.map((file) => URL.createObjectURL(file))
-      setPreviewUrl(array)
+      const array: string[][] = files.map((file) => [
+        URL.createObjectURL(file),
+        file.name,
+      ])
+      const sortedUrls2: string[][] = [...array].sort((a, b) =>
+        a[1].localeCompare(b[1])
+      )
+      const array2: string[] = sortedUrls2.map((url) => url[0])
+      setPreviewUrl(array2)
     } else {
-      setPreviewUrl(infograficUrl)
+      setPreviewUrl([...infograficUrl].sort((a, b) => a.localeCompare(b)))
     }
   }, [files])
 
@@ -279,7 +288,7 @@ export const InfograficCard: React.FC<Props> = ({
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="text-[#101828] text-lg font-bold font-inter">
-            Tambah Infografik
+            Edit Infografik
           </p>
 
           <div>

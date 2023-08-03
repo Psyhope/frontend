@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
   }
 
   const { username, password }: z.infer<typeof loginData> = await req.json()
-  // console.log(req.body);
 
   try {
     const res = await fetch(`${env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
@@ -31,7 +30,6 @@ export async function POST(req: NextRequest) {
       )
     }
     const data: TokenResponse = await res.json()
-    // console.log(data)
     const response = NextResponse.json(data, { status: 200 })
     response.cookies.set('accessToken', data.accessToken, {
       httpOnly: true,

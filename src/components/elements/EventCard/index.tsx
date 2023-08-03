@@ -159,7 +159,7 @@ export const EventCard: React.FC<Props> = ({
             date: form.values.date,
             description: editor ? editor.getHTML() : '',
             location: form.values.location,
-            posterUrl: posterUrl,
+            posterUrl: posterUrl2,
             time: form.values.time,
             title: form.values.eventName,
           },
@@ -249,12 +249,7 @@ export const EventCard: React.FC<Props> = ({
         onClick={open}
       >
         <div className="w-full aspect-article relative">
-          <Image
-            alt="Infografis"
-            src={posterUrl}
-            fill
-            className="rounded-t-lg"
-          />
+          <Image alt="poster" src={posterUrl} fill className="rounded-t-lg" />
         </div>
         <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2">
           <p className="text-[#53389E] lg:text-xl xl:text-2xl text-sm md:font-bold font-semibold text-start h-full  break-words overflow-hidden">
@@ -364,7 +359,7 @@ export const EventCard: React.FC<Props> = ({
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="text-[#101828] text-lg font-bold font-inter">
-            Tambah Event
+            Edit Event
           </p>
           <div className="flex md:flex-row flex-col gap-5">
             <div>
@@ -542,7 +537,7 @@ export const EventCard: React.FC<Props> = ({
               onClick={handleSubmit}
               disabled={disable || loading}
             >
-              {loading ? <Loader variant="dots" /> : `Tambah Event`}
+              {loading ? <Loader variant="dots" /> : `Edit Event`}
             </button>
           </div>
         </div>

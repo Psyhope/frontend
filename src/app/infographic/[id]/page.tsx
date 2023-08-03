@@ -74,7 +74,6 @@ const InfograficByIdPage = () => {
       editor?.commands.setContent(infografic?.description)
   }, [infografic?.description])
 
-  console.log(sortedURL)
   return (
     <div className="min-h-screen p-5 lg:px-28 flex flex-col gap-5">
       <div className="flex items-center gap-5">
@@ -89,8 +88,8 @@ const InfograficByIdPage = () => {
             <p className="">Home</p>
           </NextLink>
           <p>/</p>
-          <NextLink href={'/infografic?page=1'}>
-            <p className="font-bold">Infografic</p>
+          <NextLink href={'/infographic?page=1'}>
+            <p className="font-bold">Infographic</p>
           </NextLink>
         </div>
       </div>

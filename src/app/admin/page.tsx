@@ -27,7 +27,6 @@ const AdminPage = () => {
       },
     },
     onCompleted(data) {
-      console.log(data)
       setResult(data)
     },
   })
