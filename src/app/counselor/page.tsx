@@ -88,7 +88,8 @@ const DashboardPage = () => {
                 <Link href={`/clients/${val.id}`} className="block">
                   {val.user?.username}
                 </Link>
-                <small className="opacity-70">{val.user?.account.major}</small></td>
+                <small className="opacity-70">{val.user?.account.major}</small>
+              </td>
               <td className="">
                 <p>
                   {val.bookingDay}, {val.bookingTime}
@@ -179,8 +180,8 @@ const DashboardPage = () => {
           data={
             counselor?.Booking
               ? counselor.Booking.filter(
-                (val) => val.adminAcc && !val.isAccepted && !val.isTerminated
-              )
+                  (val) => val.adminAcc && !val.isAccepted && !val.isTerminated
+                )
               : []
           }
           emptyComponent={

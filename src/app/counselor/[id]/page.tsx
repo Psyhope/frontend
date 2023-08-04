@@ -148,30 +148,45 @@ const CounselorByNamePage = () => {
           title=""
           description=""
           headerTitle={['Nama Klien', 'Tanggal Konseling', 'Notes']}
-          rowComponent={(val, index) => (
-            <tr key={index}>
-              <td>
-                <Link href={`/clients/${val.id}`} className="block">
-                  {val.client?.username}
-                </Link>
-                <small className="opacity-70">{val.client?.account.major}</small>
-              </td>
-              <td className="">
-                {val.time}
-              </td>
-              <td className="flex items-center justify-between">
-                <div className="flex flex-col gap-2">
-                  <p>{val.title}</p>
-                  <p>{val.detail}</p>
-                </div>
-                <button>
-                  <BsThreeDotsVertical />
-                </button>
-              </td>
-            </tr>
-          )}
+          rowComponent={(val, index) => {
+            console.log(val)
+            return (
+              <tr key={index}>
+                <td>
+                  <Link href={`/clients/${val.id}`} className="block">
+                    {val.client?.username}
+                  </Link>
+                  <small className="opacity-70">
+                    {val.client?.account.major}
+                  </small>
+                </td>
+                <td className="">{new Date(val.time).toLocaleDateString("id-ID")}</td>
+                {/* <td className="">{val.time}</td> */}
+                <td className="flex items-center justify-between">
+                  <div className="flex flex-col gap-2">
+                    <p>{val.title ?? "-"}</p>
+                    <p>{val.detail ?? "-"}</p>
+                  </div>
+                  <button>
+                    <BsThreeDotsVertical />
+                  </button>
+                </td>
+              </tr>
+            )
+          }}
           // headerComponent={}
-          data={counselor?.Booking ? (counselor.Booking.map(val => val.CounselingLog).flat() as CounselingLog[]).sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()) : []}
+          data={
+            counselor?.Booking
+              ? (
+                counselor.Booking.map(
+                  (val) => val.CounselingLog
+                ).flat() as CounselingLog[]
+              ).sort(
+                (a, b) =>
+                  new Date(a.time).getTime() - new Date(b.time).getTime()
+              )
+              : []
+          }
         />
       </section>
     </main>
