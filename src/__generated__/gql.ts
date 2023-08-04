@@ -45,6 +45,8 @@ const documents = {
     types.AdminAccDocument,
   '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n':
     types.AdminRundownDocument,
+  '\nquery AdminGetBooking($adminGetBooking: AdminGetBooking!) {\n  adminGetBooking(adminGetBooking: $adminGetBooking) {\n    bookingTime\n    bookingTime2\n    bookingDay\n    counselorType\n    reasonApply\n    CounselingLog {\n      id\n      bookingId\n      time\n      detail\n      title\n    }\n    user {\n      username\n      fullname\n      igAcc\n      lineAcc\n      account {\n        faculty\n        major\n        channel\n        gender\n      }\n    }\n    councelor {\n      user {\n        username\n        fullname\n      }\n    }\n    number_1\n    number_2\n    number_3\n    number_4\n    number_5\n    number_6\n    number_7\n    number_8\n    number_9\n    number_10\n    number_11\n    number_12\n    isSuicidal\n  }\n}\n':
+    types.AdminGetBookingDocument,
   '\n    query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    counselorType\n    user {\n      username\n      lineAcc\n      igAcc\n      fullname\n      \n    }\n    Booking {\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n    }\n  }\n}\n':
     types.CounselorFilterDocument,
   '\n    query FindAllEvent {\n        findAllEvent {\n        id\n        title\n        location\n        date\n        time\n        posterUrl\n        description\n        }\n    }\n':
@@ -193,6 +195,12 @@ export function gql(
 export function gql(
   source: '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n'
 ): (typeof documents)['\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nquery AdminGetBooking($adminGetBooking: AdminGetBooking!) {\n  adminGetBooking(adminGetBooking: $adminGetBooking) {\n    bookingTime\n    bookingTime2\n    bookingDay\n    counselorType\n    reasonApply\n    CounselingLog {\n      id\n      bookingId\n      time\n      detail\n      title\n    }\n    user {\n      username\n      fullname\n      igAcc\n      lineAcc\n      account {\n        faculty\n        major\n        channel\n        gender\n      }\n    }\n    councelor {\n      user {\n        username\n        fullname\n      }\n    }\n    number_1\n    number_2\n    number_3\n    number_4\n    number_5\n    number_6\n    number_7\n    number_8\n    number_9\n    number_10\n    number_11\n    number_12\n    isSuicidal\n  }\n}\n'
+): (typeof documents)['\nquery AdminGetBooking($adminGetBooking: AdminGetBooking!) {\n  adminGetBooking(adminGetBooking: $adminGetBooking) {\n    bookingTime\n    bookingTime2\n    bookingDay\n    counselorType\n    reasonApply\n    CounselingLog {\n      id\n      bookingId\n      time\n      detail\n      title\n    }\n    user {\n      username\n      fullname\n      igAcc\n      lineAcc\n      account {\n        faculty\n        major\n        channel\n        gender\n      }\n    }\n    councelor {\n      user {\n        username\n        fullname\n      }\n    }\n    number_1\n    number_2\n    number_3\n    number_4\n    number_5\n    number_6\n    number_7\n    number_8\n    number_9\n    number_10\n    number_11\n    number_12\n    isSuicidal\n  }\n}\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
