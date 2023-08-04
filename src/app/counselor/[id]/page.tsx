@@ -1,6 +1,6 @@
 'use client'
 
-import { CounselorFilterQuery } from '@/__generated__/graphql'
+import { CounselingLog, CounselorFilterQuery } from '@/__generated__/graphql'
 import { GET_COUNSELOR } from '@/actions/counselor'
 import ClientTable from '@/components/elements/ClientTable'
 import { useQuery } from '@apollo/client'
@@ -151,16 +151,18 @@ const CounselorByNamePage = () => {
           rowComponent={(val, index) => (
             <tr key={index}>
               <td>
-                <p>Nama panggilan</p>
-                <small className="opacity-70">S1 Reguler Ilmu Komputer</small>
+                <Link href={`/clients/${val.id}`} className="block">
+                  {val.client?.username}
+                </Link>
+                <small className="opacity-70">{val.client?.account.major}</small>
               </td>
               <td className="">
-                {formatter.format(new Date()).replace(' pukul', ',')}
+                {val.time}
               </td>
               <td className="flex items-center justify-between">
                 <div className="flex flex-col gap-2">
-                  <p>Judul</p>
-                  <p>Notes</p>
+                  <p>{val.title}</p>
+                  <p>{val.detail}</p>
                 </div>
                 <button>
                   <BsThreeDotsVertical />
@@ -169,7 +171,7 @@ const CounselorByNamePage = () => {
             </tr>
           )}
           // headerComponent={}
-          data={[...Array(5)]}
+          data={counselor?.Booking ? (counselor.Booking.map(val => val.CounselingLog).flat() as CounselingLog[]).sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()) : []}
         />
       </section>
     </main>

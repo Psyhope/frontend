@@ -8,6 +8,7 @@ import ClientTable from '@/components/elements/ClientTable'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge } from '@mantine/core'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -83,7 +84,11 @@ const DashboardPage = () => {
           description="Berikut merupakan daftar jadwal yang telah kamu setujui dengan klien."
           rowComponent={(val, index) => (
             <tr key={index}>
-              <td className="">{val.user?.username}</td>
+              <td className="">
+                <Link href={`/clients/${val.id}`} className="block">
+                  {val.user?.username}
+                </Link>
+                <small className="opacity-70">{val.user?.account.major}</small></td>
               <td className="">
                 <p>
                   {val.bookingDay}, {val.bookingTime}
@@ -174,8 +179,8 @@ const DashboardPage = () => {
           data={
             counselor?.Booking
               ? counselor.Booking.filter(
-                  (val) => val.adminAcc && !val.isAccepted && !val.isTerminated
-                )
+                (val) => val.adminAcc && !val.isAccepted && !val.isTerminated
+              )
               : []
           }
           emptyComponent={

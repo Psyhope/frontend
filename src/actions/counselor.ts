@@ -30,6 +30,18 @@ query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {
           major
         }
       }
+      CounselingLog {
+        detail
+        title
+        time
+        client {
+          username
+          account {
+            major
+          }
+        }
+        bookingId
+      }
     }
   }
 }
