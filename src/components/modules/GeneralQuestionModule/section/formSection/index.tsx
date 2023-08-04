@@ -32,6 +32,8 @@ export const GQHQuestionModule: React.FC = () => {
       .getItem('time')
       ?.split(' -- ') as string[]
 
+    const tanggal =  localStorage.getItem('date')
+
     mutate({
       variables: {
         createBookingInput: {
@@ -134,7 +136,7 @@ export const GQHQuestionModule: React.FC = () => {
           })}
           <div>
             <p className=" font-semibold">
-              Apakah anda pernah berpikiran untuk bunuh diri?
+              Apakah Anda melakukan tindakan menyakiti diri dan/atau memiliki pikiran untuk mengakhiri hidup?
             </p>
           </div>
           <div className="flex gap-2">

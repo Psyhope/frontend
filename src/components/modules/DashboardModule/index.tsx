@@ -177,7 +177,7 @@ export const DashboardModule: React.FC = () => {
                         <div></div>
                       )}
 
-                      {!booking.adminAcc &&
+                      {
                       !booking.isAccepted &&
                       !booking.isTerminated ? (
                         <div className="flex flex-col justify-center">
@@ -221,8 +221,8 @@ export const DashboardModule: React.FC = () => {
                         className={`bg-[#7F56D9] ${
                           booking.adminAcc && booking.isAccepted
                             ? ' bg-slate-600 hover:cursor-not-allowed'
-                            : ''
-                        } rounded-lg p-2 flex justify-center hover:cursor-pointer`}
+                            : 'hover:cursor-pointer'
+                        } rounded-lg p-2 flex justify-center `}
                         onClick={hanldleReschedule}
                       >
                         <p className=" text-white font-semibold">Reschedule</p>
