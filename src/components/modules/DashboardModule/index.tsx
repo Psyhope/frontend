@@ -177,9 +177,7 @@ export const DashboardModule: React.FC = () => {
                         <div></div>
                       )}
 
-                      {
-                      !booking.isAccepted &&
-                      !booking.isTerminated ? (
+                      {!booking.isAccepted && !booking.isTerminated ? (
                         <div className="flex flex-col justify-center">
                           <span className="text-[#53389E] drop-shadow-lg font-semibold text-xl">
                             {booking.bookingDay}

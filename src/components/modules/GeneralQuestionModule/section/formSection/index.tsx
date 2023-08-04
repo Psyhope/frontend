@@ -32,7 +32,7 @@ export const GQHQuestionModule: React.FC = () => {
       .getItem('time')
       ?.split(' -- ') as string[]
 
-    const tanggal =  localStorage.getItem('date')
+    const tanggal = localStorage.getItem('date')
 
     mutate({
       variables: {
@@ -136,7 +136,8 @@ export const GQHQuestionModule: React.FC = () => {
           })}
           <div>
             <p className=" font-semibold">
-              Apakah Anda melakukan tindakan menyakiti diri dan/atau memiliki pikiran untuk mengakhiri hidup?
+              Apakah Anda melakukan tindakan menyakiti diri dan/atau memiliki
+              pikiran untuk mengakhiri hidup?
             </p>
           </div>
           <div className="flex gap-2">
