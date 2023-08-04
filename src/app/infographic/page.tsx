@@ -10,6 +10,7 @@ import {
   SimpleGrid,
   FileInput,
   Loader,
+  Pagination,
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
@@ -31,7 +32,7 @@ import {
   GET_COUNT_INFOGRAFIC,
 } from '@/actions/infografic'
 import { useAuth } from '@/components/contexts/AuthContext'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { notifications } from '@mantine/notifications'
 import { IconCheck } from '@tabler/icons-react'
 import { uploadS3 } from '@utils'
@@ -40,20 +41,19 @@ type Infografic = {
   id: number
   title: string
   description: string
-  infograficUrl: string
+  infograficUrl: string[]
 }
 
 const InfograficPage = () => {
   const { user } = useAuth()
+  const router = useRouter()
 
-  const [isAdmin, setIsAdmin] = useState(
-    user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
-  )
+  const [isAdmin, setIsAdmin] = useState(user.role == 'PSYHOPE_ADMIN')
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
-  const [files, setFiles] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState('')
+  const [files, setFiles] = useState<File[] | undefined>()
+  const [previewUrl, setPreviewUrl] = useState<Array<string>>()
   const [listInfografic, setListInfografic] = useState<Array<Infografic>>()
 
   const [count, setCount] = useState(1)
@@ -79,11 +79,18 @@ const InfograficPage = () => {
   })
 
   useEffect(() => {
-    if (files) {
-      const imageSrc = URL.createObjectURL(files)
-      setPreviewUrl(imageSrc)
+    if (files && files.length > 0) {
+      const array: string[][] = files.map((file) => [
+        URL.createObjectURL(file),
+        file.name,
+      ])
+      const sortedUrls2: string[][] = [...array].sort((a, b) =>
+        a[1].localeCompare(b[1])
+      )
+      const array2: string[] = sortedUrls2.map((url) => url[0])
+      setPreviewUrl(array2)
     } else {
-      setPreviewUrl('')
+      setPreviewUrl([])
     }
   }, [files])
 
@@ -107,10 +114,9 @@ const InfograficPage = () => {
   })
 
   // Mutation
-  const [mutate, { data, loading: createLoading }] = useMutation(
-    CREATE_INFOGRAFIC,
-    { refetchQueries: [GET_BY_PAGE_INFOGRAFIC] }
-  )
+  const [mutate, {}] = useMutation(CREATE_INFOGRAFIC, {
+    refetchQueries: [GET_BY_PAGE_INFOGRAFIC],
+  })
 
   // Rich Text Editor
   const content =
@@ -150,41 +156,51 @@ const InfograficPage = () => {
     e.preventDefault()
     setLoading(true)
     try {
-      const infograficUrl = await uploadS3({
-        file: files,
-        type: 'infografic',
-        onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent
-          const total2 = total ? (total as number) : 0
-          const percent = Math.round((loaded / total2) * 100)
+      const infograficUrl: string[] = []
 
-          const message = `Uploading Infografic... ${percent}%`
+      if (files && files.length > 0) {
+        await Promise.all(
+          files.map(async (file, idx) => {
+            const url = await uploadS3({
+              file: file,
+              type: 'infografic',
+              onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent
+                const total2 = total ? (total as number) : 0
+                const percent = Math.round((loaded / total2) * 100)
 
-          notifications.show({
-            id: 'load-data-Infografic',
-            loading: true,
-            title: 'Upload',
-            message: message,
-            autoClose: false,
-            withCloseButton: false,
+                const message = `Uploading Infographic (${
+                  idx + 1
+                })... ${percent}%`
+
+                notifications.show({
+                  id: `load-data-Infografic-${idx}`,
+                  loading: true,
+                  title: 'Upload',
+                  message: message,
+                  autoClose: false,
+                  withCloseButton: false,
+                })
+              },
+            })
+            infograficUrl.push(url)
+            notifications.update({
+              id: `load-data-Infografic-${idx}`,
+              color: 'teal',
+              title: 'Success',
+              message: `Infographic (${idx + 1}) was Uploaded`,
+              icon: <IconCheck size="1rem" />,
+              autoClose: 2000,
+            })
           })
-        },
-      })
-
-      notifications.update({
-        id: 'load-data-Infografic',
-        color: 'teal',
-        title: 'Success',
-        message: 'Infografic was Uploaded',
-        icon: <IconCheck size="1rem" />,
-        autoClose: 2000,
-      })
+        )
+      }
 
       mutate({
         variables: {
           createInfograficInput: {
             description: editor ? editor.getHTML() : '',
-            infograficUrl,
+            infograficUrl: infograficUrl,
             title: form.values.title,
           },
         },
@@ -192,7 +208,7 @@ const InfograficPage = () => {
           close()
           notifications.show({
             title: 'Success',
-            message: 'Add Event Successfull',
+            message: 'Add Infographic Successfull',
             color: 'teal',
             autoClose: 3000,
           })
@@ -220,7 +236,7 @@ const InfograficPage = () => {
     }
   }
 
-  const disable = form.values.title == '' || files == null
+  const disable = form.values.title == '' || files == undefined
 
   return (
     <div className="min-h-screen p-5 lg:px-28">
@@ -256,7 +272,7 @@ const InfograficPage = () => {
       </div>
       {/* Grid */}
       <div className=" flex justify-center mt-5">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 w-full">
           {listInfografic &&
             listInfografic.map((infografic) => (
               <InfograficCard
@@ -267,6 +283,15 @@ const InfograficPage = () => {
               />
             ))}
         </div>
+      </div>
+      <div className="w-full justify-center md:justify-end flex mt-5">
+        <Pagination
+          value={page}
+          total={count}
+          color="violet"
+          withControls={false}
+          onChange={(p) => router.push(`/infographic?page=${p}`)}
+        />
       </div>
       <Modal
         opened={opened}
@@ -379,6 +404,7 @@ const InfograficPage = () => {
               value={files}
               onChange={setFiles}
               clearable
+              multiple
             />
             {previewUrl && (
               <SimpleGrid
@@ -386,14 +412,11 @@ const InfograficPage = () => {
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-infografic relative">
-                  <Image
-                    src={previewUrl}
-                    fill
-                    className="relative"
-                    alt="preview"
-                  />
-                </div>
+                {previewUrl.map((url, idx) => (
+                  <div className="w-full aspect-infografic relative" key={idx}>
+                    <Image src={url} fill className="relative" alt="preview" />
+                  </div>
+                ))}
               </SimpleGrid>
             )}
           </div>

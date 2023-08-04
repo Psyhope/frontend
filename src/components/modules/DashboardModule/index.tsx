@@ -141,10 +141,11 @@ export const DashboardModule: React.FC = () => {
         </div>
         {loading ? (
           <div className="flex flex-col gap-4">
-            {booking?.bookingDate !== undefined &&
-            !booking.isAccepted &&
-            !booking.isTerminated &&
-            !booking.adminAcc ? (
+            {booking?.bookingDate !== undefined ||
+            (booking != null &&
+              booking.isAccepted &&
+              booking.isTerminated &&
+              booking.adminAcc) ? (
               <div className="flex flex-col gap-4">
                 <div>
                   <p className=" font-semibold text-2xl">Jadwal Konseling</p>
@@ -265,13 +266,6 @@ export const DashboardModule: React.FC = () => {
                     Daftar Konseling di CSP
                   </button>
                 </div>
-                <button
-                  onClick={() => {
-                    console.log(booking)
-                  }}
-                >
-                  klik
-                </button>
                 <div className="flex justify-center">
                   <div className="w-1/2">
                     <div className="w-full">

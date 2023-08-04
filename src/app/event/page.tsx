@@ -15,7 +15,6 @@ import {
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
-import { DatePickerInput, DateTimePicker } from '@mantine/dates'
 import { RichTextEditor, Link } from '@mantine/tiptap'
 import { useEditor } from '@tiptap/react'
 import Highlight from '@tiptap/extension-highlight'
@@ -41,7 +40,7 @@ import { IconCheck } from '@tabler/icons-react'
 type Event = {
   id: number
   title: string
-  date: Date
+  date: string
   location: string
   time: string
   description: string
@@ -52,9 +51,7 @@ const EventPage = () => {
   const { user } = useAuth()
 
   const router = useRouter()
-  const [isAdmin, setIsAdmin] = useState(
-    user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
-  )
+  const [isAdmin, setIsAdmin] = useState(user.role == 'PSYHOPE_ADMIN')
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
@@ -145,7 +142,7 @@ const EventPage = () => {
   const form = useForm({
     initialValues: {
       eventName: '',
-      date: null,
+      date: '',
       location: '',
       time: '',
     },
@@ -165,7 +162,7 @@ const EventPage = () => {
     try {
       const posterUrl = await uploadS3({
         file: files,
-        type: 'poster',
+        type: 'event',
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
           const total2 = total ? (total as number) : 0
@@ -331,12 +328,10 @@ const EventPage = () => {
               >
                 Tanggal Event
               </Input.Label>
-              <DateTimePicker
-                dropdownType="modal"
-                placeholder="Pilih Tanggal Event"
+              <TextInput
                 radius="md"
                 size="lg"
-                clearable
+                placeholder="e.g. 8 - 10 Juni 2023"
                 {...form.getInputProps('date')}
               />
             </div>

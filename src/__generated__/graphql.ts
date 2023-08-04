@@ -35,10 +35,10 @@ export type AcceptBooking = {
   bookingDate?: InputMaybe<Scalars['DateTime']['input']>
   bookingTime?: InputMaybe<Scalars['String']['input']>
   bookingTime2?: InputMaybe<Scalars['String']['input']>
-  bookingTopic?: InputMaybe<Array<BookingTopic>>
   closestKnown?: InputMaybe<Scalars['Boolean']['input']>
   counselorType?: InputMaybe<CounselorType>
   id: Scalars['Int']['input']
+  isSuicidal?: InputMaybe<Scalars['Boolean']['input']>
   number_1?: InputMaybe<Scalars['Int']['input']>
   number_2?: InputMaybe<Scalars['Int']['input']>
   number_3?: InputMaybe<Scalars['Int']['input']>
@@ -56,6 +56,7 @@ export type AcceptBooking = {
 
 export type Account = {
   __typename?: 'Account'
+  channel: Channel
   faculty: Scalars['String']['output']
   gender: Scalars['String']['output']
   major: Scalars['String']['output']
@@ -66,10 +67,10 @@ export type AdminAccBooking = {
   bookingDate?: InputMaybe<Scalars['DateTime']['input']>
   bookingTime?: InputMaybe<Scalars['String']['input']>
   bookingTime2?: InputMaybe<Scalars['String']['input']>
-  bookingTopic?: InputMaybe<Array<BookingTopic>>
   closestKnown?: InputMaybe<Scalars['Boolean']['input']>
   counselorType?: InputMaybe<CounselorType>
   id: Scalars['Int']['input']
+  isSuicidal?: InputMaybe<Scalars['Boolean']['input']>
   number_1?: InputMaybe<Scalars['Int']['input']>
   number_2?: InputMaybe<Scalars['Int']['input']>
   number_3?: InputMaybe<Scalars['Int']['input']>
@@ -85,6 +86,10 @@ export type AdminAccBooking = {
   reasonApply?: InputMaybe<Scalars['String']['input']>
 }
 
+export type AdminGetBooking = {
+  id: Scalars['Int']['input']
+}
+
 export type Article = {
   __typename?: 'Article'
   content: Scalars['String']['output']
@@ -98,6 +103,7 @@ export type Article = {
 
 export type Booking = {
   __typename?: 'Booking'
+  CounselingLog?: Maybe<Array<CounselingLog>>
   adminAcc: Scalars['Boolean']['output']
   /** The time of the booking */
   bookingDate: Scalars['DateTime']['output']
@@ -106,17 +112,34 @@ export type Booking = {
   bookingTime: Scalars['String']['output']
   /** The time of the booking */
   bookingTime2: Scalars['String']['output']
-  bookingTopic: Array<BookingTopic>
   closestKnown: Scalars['Boolean']['output']
   councelor?: Maybe<Councelor>
   counselorType: CounselorType
   id: Scalars['Int']['output']
   isAccepted: Scalars['Boolean']['output']
+  isSuicidal: Scalars['Boolean']['output']
   isTerminated: Scalars['Boolean']['output']
+  number_1: Scalars['Int']['output']
+  number_2: Scalars['Int']['output']
+  number_3: Scalars['Int']['output']
+  number_4: Scalars['Int']['output']
+  number_5: Scalars['Int']['output']
+  number_6: Scalars['Int']['output']
+  number_7: Scalars['Int']['output']
+  number_8: Scalars['Int']['output']
+  number_9: Scalars['Int']['output']
+  number_10: Scalars['Int']['output']
+  number_11: Scalars['Int']['output']
+  number_12: Scalars['Int']['output']
   /** The reason for applying for a counseling session */
   reasonApply: Scalars['String']['output']
   user?: Maybe<User>
   userId: Scalars['String']['output']
+}
+
+export enum Channel {
+  Instagram = 'INSTAGRAM',
+  Line = 'LINE',
 }
 
 export type Councelor = {
@@ -143,6 +166,7 @@ export type CounselingLog = {
   detail: Scalars['String']['output']
   id: Scalars['Int']['output']
   time: Scalars['DateTime']['output']
+  title: Scalars['String']['output']
   userId: Scalars['String']['output']
 }
 
@@ -163,9 +187,9 @@ export type CreateBookingInput = {
   bookingDate: Scalars['DateTime']['input']
   bookingTime: Scalars['String']['input']
   bookingTime2: Scalars['String']['input']
-  bookingTopic: Array<BookingTopic>
   closestKnown: Scalars['Boolean']['input']
   counselorType: CounselorType
+  isSuicidal: Scalars['Boolean']['input']
   number_1: Scalars['Int']['input']
   number_2: Scalars['Int']['input']
   number_3: Scalars['Int']['input']
@@ -189,7 +213,7 @@ export type CreateCounselingLogInput = {
 }
 
 export type CreateEventInput = {
-  date: Scalars['DateTime']['input']
+  date: Scalars['String']['input']
   description: Scalars['String']['input']
   location: Scalars['String']['input']
   posterUrl: Scalars['String']['input']
@@ -199,11 +223,12 @@ export type CreateEventInput = {
 
 export type CreateInfograficInput = {
   description: Scalars['String']['input']
-  infograficUrl: Scalars['String']['input']
+  infograficUrl: Array<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
 
 export type CreateOnboardingInput = {
+  gender: Scalars['String']['input']
   linkSocmed: Scalars['String']['input']
   socmed: Scalars['String']['input']
 }
@@ -211,7 +236,7 @@ export type CreateOnboardingInput = {
 export type Event = {
   __typename?: 'Event'
   createdAt: Scalars['DateTime']['output']
-  date: Scalars['DateTime']['output']
+  date: Scalars['String']['output']
   description: Scalars['String']['output']
   id: Scalars['Int']['output']
   location: Scalars['String']['output']
@@ -236,9 +261,17 @@ export type GetBookingFilterGeneralDto = {
   day?: InputMaybe<Scalars['DateTime']['input']>
 }
 
+export type GetCouncelor = {
+  username?: InputMaybe<Scalars['String']['input']>
+}
+
 export type GetCouncelorFilter = {
   bookingDay?: InputMaybe<Scalars['String']['input']>
   counselorName?: InputMaybe<Scalars['String']['input']>
+}
+
+export type GetLogById = {
+  bookingId: Scalars['Int']['input']
 }
 
 export type GetScheduleDto = {
@@ -253,7 +286,7 @@ export type Infografic = {
   createdAt: Scalars['DateTime']['output']
   description: Scalars['String']['output']
   id: Scalars['Int']['output']
-  infograficUrl: Scalars['String']['output']
+  infograficUrl: Array<Scalars['String']['output']>
   title: Scalars['String']['output']
   updatedAt: Scalars['DateTime']['output']
 }
@@ -344,6 +377,7 @@ export type MutationUpdateInfograficArgs = {
 
 export type Query = {
   __typename?: 'Query'
+  adminGetBooking?: Maybe<Booking>
   adminRundown?: Maybe<Array<Booking>>
   booking?: Maybe<Array<Booking>>
   bookingClient?: Maybe<Booking>
@@ -367,8 +401,14 @@ export type Query = {
   findOneArticle: Article
   findOneEvent: Event
   findOneInfografic: Infografic
+  getCounselingLogById?: Maybe<Array<CounselingLog>>
+  getCounselorByUname?: Maybe<Array<Councelor>>
   schedule?: Maybe<Array<CouncelorSchedule>>
   user: User
+}
+
+export type QueryAdminGetBookingArgs = {
+  adminGetBooking: AdminGetBooking
 }
 
 export type QueryAdminRundownArgs = {
@@ -427,6 +467,14 @@ export type QueryFindOneInfograficArgs = {
   id: Scalars['Int']['input']
 }
 
+export type QueryGetCounselingLogByIdArgs = {
+  getCounselingByBookingId: GetLogById
+}
+
+export type QueryGetCounselorByUnameArgs = {
+  getCounselor: GetCouncelor
+}
+
 export type QueryScheduleArgs = {
   getScheduleDTO: GetScheduleDto
 }
@@ -456,7 +504,7 @@ export type UpdateBookingInput = {
 }
 
 export type UpdateEventInput = {
-  date: Scalars['DateTime']['input']
+  date: Scalars['String']['input']
   description: Scalars['String']['input']
   id: Scalars['Int']['input']
   location: Scalars['String']['input']
@@ -468,7 +516,7 @@ export type UpdateEventInput = {
 export type UpdateInfograficInput = {
   description: Scalars['String']['input']
   id: Scalars['Int']['input']
-  infograficUrl: Scalars['String']['input']
+  infograficUrl: Array<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
 
@@ -482,12 +530,6 @@ export type User = {
   isOnboarded: Scalars['Boolean']['output']
   lineAcc?: Maybe<Scalars['String']['output']>
   username: Scalars['String']['output']
-}
-
-export enum BookingTopic {
-  Topic_1 = 'TOPIC_1',
-  Topic_2 = 'TOPIC_2',
-  Topic_3 = 'TOPIC_3',
 }
 
 export type FindAllArticleQueryVariables = Exact<{ [key: string]: never }>
@@ -641,7 +683,6 @@ export type CreateBookingMutation = {
     bookingDay: string
     userId: string
     counselorType: CounselorType
-    bookingTopic: Array<BookingTopic>
     reasonApply: string
     closestKnown: boolean
   } | null
@@ -734,10 +775,66 @@ export type AdminRundownQuery = {
     bookingDate: any
     councelor?: {
       __typename?: 'Councelor'
+      id: number
       user?: { __typename?: 'User'; fullname: string } | null
     } | null
-    user?: { __typename?: 'User'; fullname: string } | null
+    user?: { __typename?: 'User'; fullname: string; id: string } | null
   }> | null
+}
+
+export type AdminGetBookingQueryVariables = Exact<{
+  adminGetBooking: AdminGetBooking
+}>
+
+export type AdminGetBookingQuery = {
+  __typename?: 'Query'
+  adminGetBooking?: {
+    __typename?: 'Booking'
+    bookingTime: string
+    bookingTime2: string
+    bookingDay: string
+    counselorType: CounselorType
+    reasonApply: string
+    number_1: number
+    number_2: number
+    number_3: number
+    number_4: number
+    number_5: number
+    number_6: number
+    number_7: number
+    number_8: number
+    number_9: number
+    number_10: number
+    number_11: number
+    number_12: number
+    isSuicidal: boolean
+    CounselingLog?: Array<{
+      __typename?: 'CounselingLog'
+      id: number
+      bookingId: number
+      time: any
+      detail: string
+      title: string
+    }> | null
+    user?: {
+      __typename?: 'User'
+      username: string
+      fullname: string
+      igAcc?: string | null
+      lineAcc?: string | null
+      account: {
+        __typename?: 'Account'
+        faculty: string
+        major: string
+        channel: Channel
+        gender: string
+      }
+    } | null
+    councelor?: {
+      __typename?: 'Councelor'
+      user?: { __typename?: 'User'; username: string; fullname: string } | null
+    } | null
+  } | null
 }
 
 export type CounselorFilterQueryVariables = Exact<{
@@ -748,15 +845,28 @@ export type CounselorFilterQuery = {
   __typename?: 'Query'
   counselorFilter?: Array<{
     __typename?: 'Councelor'
-    userId: string
     counselorType: CounselorType
+    user?: {
+      __typename?: 'User'
+      username: string
+      lineAcc?: string | null
+      igAcc?: string | null
+      fullname: string
+    } | null
     Booking?: Array<{
       __typename?: 'Booking'
+      bookingDate: any
       bookingDay: string
       bookingTime: string
-      user?: { __typename?: 'User'; username: string } | null
+      isTerminated: boolean
+      isAccepted: boolean
+      reasonApply: string
+      user?: {
+        __typename?: 'User'
+        username: string
+        account: { __typename?: 'Account'; major: string }
+      } | null
     }> | null
-    user?: { __typename?: 'User'; fullname: string } | null
   }> | null
 }
 
@@ -769,7 +879,7 @@ export type FindAllEventQuery = {
     id: number
     title: string
     location: string
-    date: any
+    date: string
     time: string
     posterUrl: string
     description: string
@@ -786,7 +896,7 @@ export type FindByPageEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -804,7 +914,7 @@ export type FindOneEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -821,7 +931,7 @@ export type CreateEventMutation = {
   createEvent: {
     __typename?: 'Event'
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -838,7 +948,7 @@ export type UpdateEventMutation = {
   updateEvent: {
     __typename?: 'Event'
     id: number
-    date: any
+    date: string
     title: string
     location: string
     time: string
@@ -866,7 +976,7 @@ export type FindByLimitEventQuery = {
     __typename?: 'Event'
     id: number
     title: string
-    date: any
+    date: string
     location: string
     time: string
     description: string
@@ -887,7 +997,7 @@ export type FindAllInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }>
 }
 
@@ -902,7 +1012,7 @@ export type FindByPageInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }>
 }
 
@@ -917,7 +1027,7 @@ export type FindOneInfograficQuery = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -931,7 +1041,7 @@ export type CreateInfograficMutation = {
     __typename?: 'Infografic'
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -946,7 +1056,7 @@ export type UpdateInfograficMutation = {
     id: number
     title: string
     description: string
-    infograficUrl: string
+    infograficUrl: Array<string>
   }
 }
 
@@ -969,7 +1079,7 @@ export type FindByLimitInfograficQuery = {
     __typename?: 'Infografic'
     id: number
     title: string
-    infograficUrl: string
+    infograficUrl: Array<string>
     description: string
   }>
 }
@@ -1547,10 +1657,6 @@ export const CreateBookingDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'counselorType' },
                 },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bookingTopic' },
-                },
                 { kind: 'Field', name: { kind: 'Name', value: 'reasonApply' } },
                 {
                   kind: 'Field',
@@ -1939,6 +2045,7 @@ export const AdminRundownDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -1952,6 +2059,7 @@ export const AdminRundownDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'fullname' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -1966,6 +2074,176 @@ export const AdminRundownDocument = {
     },
   ],
 } as unknown as DocumentNode<AdminRundownQuery, AdminRundownQueryVariables>
+export const AdminGetBookingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminGetBooking' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'adminGetBooking' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AdminGetBooking' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'adminGetBooking' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'adminGetBooking' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'adminGetBooking' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingTime' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bookingTime2' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingDay' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'counselorType' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'reasonApply' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'CounselingLog' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'time' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'detail' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'igAcc' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineAcc' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'account' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'faculty' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'major' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'channel' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'gender' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'councelor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'fullname' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_3' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_4' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_5' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_6' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_7' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_8' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_9' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_10' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_11' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'number_12' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuicidal' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminGetBookingQuery,
+  AdminGetBookingQueryVariables
+>
 export const CounselorFilterDocument = {
   kind: 'Document',
   definitions: [
@@ -2008,7 +2286,32 @@ export const CounselorFilterDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'counselorType' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineAcc' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'igAcc' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'Booking' },
@@ -2017,11 +2320,27 @@ export const CounselorFilterDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingDate' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'bookingDay' },
                       },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'bookingTime' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isTerminated' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isAccepted' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'reasonApply' },
                       },
                       {
                         kind: 'Field',
@@ -2033,28 +2352,24 @@ export const CounselorFilterDocument = {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'username' },
                             },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'account' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'major' },
+                                  },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },
                     ],
                   },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'user' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'fullname' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'counselorType' },
                 },
               ],
             },

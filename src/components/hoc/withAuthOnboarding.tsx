@@ -7,8 +7,6 @@ const withAuthOnboarding = <T extends object>(Component: ComponentType<T>) => {
   return function WithAuth(props: T) {
     const { user, accessToken } = useAuth()
 
-    console.log(accessToken)
-
     const router = useRouter()
 
     if (!accessToken) {

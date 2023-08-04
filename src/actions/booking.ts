@@ -29,7 +29,6 @@ export const MUTATION_CREATE_BOOKING = gql(`
       bookingDay
       userId
       counselorType
-      bookingTopic
       reasonApply
       closestKnown
     }
@@ -113,13 +112,65 @@ query AdminRundown($getBookingFilter: GetAdminRundown!) {
     user {
       fullname
     }
+    id
   }  
   user {
     fullname
+    id
   }
   bookingTime
   bookingDay
   bookingDate
+  }
+}
+`)
+
+export const GET_CLIENT_DETAIL = gql(`
+query AdminGetBooking($adminGetBooking: AdminGetBooking!) {
+  adminGetBooking(adminGetBooking: $adminGetBooking) {
+    bookingTime
+    bookingTime2
+    bookingDay
+    counselorType
+    reasonApply
+    CounselingLog {
+      id
+      bookingId
+      time
+      detail
+      title
+    }
+    user {
+      username
+      fullname
+      igAcc
+      lineAcc
+      account {
+        faculty
+        major
+        channel
+        gender
+      }
+    }
+    councelor {
+      user {
+        username
+        fullname
+      }
+    }
+    number_1
+    number_2
+    number_3
+    number_4
+    number_5
+    number_6
+    number_7
+    number_8
+    number_9
+    number_10
+    number_11
+    number_12
+    isSuicidal
   }
 }
 `)
