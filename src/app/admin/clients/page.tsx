@@ -1,7 +1,11 @@
 'use client'
 
 import { BookingFilterQuery } from '@/__generated__/graphql'
-import { ADMIN_ACCEPT_BOOKING, ADMIN_TERMINATE, GET_BOOKING } from '@/actions/booking'
+import {
+  ADMIN_ACCEPT_BOOKING,
+  ADMIN_TERMINATE,
+  GET_BOOKING,
+} from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge, Select, TextInput, Button } from '@mantine/core'
@@ -187,19 +191,23 @@ const AdminClientPage = () => {
                 </p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">
-                <Badge
-                  color={val.isAccepted ? 'green' : 'red'}
-                >
-                  {val.isAccepted   ? 'Accepted' : 'Waiting'}
+                <Badge color={val.isAccepted ? 'green' : 'red'}>
+                  {val.isAccepted ? 'Accepted' : 'Waiting'}
                 </Badge>
                 {val.adminAcc ? (
-                  <Button color="red" variant="outline" onClick={() => adminTerminate({
-                    variables: {
-                      adminTerminate: {
-                        id: val.id
-                      }
+                  <Button
+                    color="red"
+                    variant="outline"
+                    onClick={() =>
+                      adminTerminate({
+                        variables: {
+                          adminTerminate: {
+                            id: val.id,
+                          },
+                        },
+                      })
                     }
-                  })}>
+                  >
                     Terminasi
                   </Button>
                 ) : (

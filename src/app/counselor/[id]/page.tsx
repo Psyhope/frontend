@@ -160,12 +160,14 @@ const CounselorByNamePage = () => {
                     {val.client?.account.major}
                   </small>
                 </td>
-                <td className="">{new Date(val.time).toLocaleDateString("id-ID")}</td>
+                <td className="">
+                  {new Date(val.time).toLocaleDateString('id-ID')}
+                </td>
                 {/* <td className="">{val.time}</td> */}
                 <td className="flex items-center justify-between">
                   <div className="flex flex-col gap-2">
-                    <p>{val.title ?? "-"}</p>
-                    <p>{val.detail ?? "-"}</p>
+                    <p>{val.title ?? '-'}</p>
+                    <p>{val.detail ?? '-'}</p>
                   </div>
                   <button>
                     <BsThreeDotsVertical />
@@ -178,13 +180,13 @@ const CounselorByNamePage = () => {
           data={
             counselor?.Booking
               ? (
-                counselor.Booking.map(
-                  (val) => val.CounselingLog
-                ).flat() as CounselingLog[]
-              ).sort(
-                (a, b) =>
-                  new Date(a.time).getTime() - new Date(b.time).getTime()
-              )
+                  counselor.Booking.map(
+                    (val) => val.CounselingLog
+                  ).flat() as CounselingLog[]
+                ).sort(
+                  (a, b) =>
+                    new Date(a.time).getTime() - new Date(b.time).getTime()
+                )
               : []
           }
         />

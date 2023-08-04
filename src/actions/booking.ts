@@ -196,7 +196,6 @@ mutation RejectBooking($rejectBookingInput: RejectBookingDTO!) {
 }
 `)
 
-
 export const ADMIN_TERMINATE = gql(`
 mutation AdminTerminate($adminTerminate: AdminTermiate!) {
   adminTerminate(adminTerminate: $adminTerminate) {

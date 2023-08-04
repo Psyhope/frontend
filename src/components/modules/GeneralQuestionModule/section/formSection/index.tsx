@@ -32,7 +32,9 @@ export const GQHQuestionModule: React.FC = () => {
       .getItem('time')
       ?.split(' -- ') as string[]
 
-    const tanggal = new Date(decodeURI(localStorage.getItem('date') as string)).toISOString()
+    const tanggal = new Date(
+      decodeURI(localStorage.getItem('date') as string)
+    ).toISOString()
 
     mutate({
       variables: {

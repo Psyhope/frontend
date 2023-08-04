@@ -85,7 +85,7 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
     <>
       {booking != null ? (
         <>
-        <Modal
+          <Modal
             opened={opened}
             onClose={close}
             withCloseButton={false}
@@ -97,9 +97,7 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                   Tambah Log Konseling
                 </p>
               </div>
-              <div className="flex gap-4">
-                
-              </div>
+              <div className="flex gap-4"></div>
               <div className="flex justify-evenly">
                 <button
                   className="text-black bg-white border-1 p-2 drop-shadow-md border items-center rounded-lg w-1/3"
@@ -117,7 +115,6 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                     <p>Tambah Log</p>
                   </div>
                 </button>
-
               </div>
             </div>
           </Modal>
@@ -164,14 +161,18 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
           </section>
           <section className="">
             <aside className="flex items-center gap-2 mb-3">
-              <div className='flex w-full gap-4'>
+              <div className="flex w-full gap-4">
                 <h1 className="text-3xl font-semibold">Log Konseling</h1>
-                {user.role == "PSYHOPE_COUNSELOR" || user.role == "FACULTY_COUNSELOR" ? 
-                <div className='flex items-center bg-[#7F56D9] p-2 text-white rounded-lg'>
-                  <button onClick={open} className='flex gap-2 items-center'>Tambah Log <IconPlus></IconPlus></button>
-                </div> 
-                : 
-                <></>}
+                {user.role == 'PSYHOPE_COUNSELOR' ||
+                user.role == 'FACULTY_COUNSELOR' ? (
+                  <div className="flex items-center bg-[#7F56D9] p-2 text-white rounded-lg">
+                    <button onClick={open} className="flex gap-2 items-center">
+                      Tambah Log <IconPlus></IconPlus>
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
             </aside>
             <ClientTable

@@ -82,6 +82,3 @@ query GetCounselorByUname($getCounselor: GetCouncelor!) {
   }
 }
 `)
-
-
-

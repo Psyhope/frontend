@@ -91,7 +91,7 @@ const AdminSchedulePage = () => {
                       </Link>
                       <span className="mx-1">-</span>
                       <Link href={`/clients/${el?.id}`}>
-                        {el.user?.fullname} 
+                        {el.user?.fullname}
                       </Link>
                     </div>
                   </td>
