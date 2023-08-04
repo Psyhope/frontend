@@ -1,25 +1,58 @@
 'use client'
 
-import { GET_COUNSELOR } from '@/actions/counselor'
+import { GetCounselorByUnameQuery } from '@/__generated__/graphql'
+import { ACCEPT_BOOKING, REJECT_BOOKING } from '@/actions/booking'
+import { GET_COUNSELOR_BY_ID } from '@/actions/counselor'
 import { useAuth } from '@/components/contexts/AuthContext'
 import ClientTable from '@/components/elements/ClientTable'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
+import { Badge } from '@mantine/core'
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+
+type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
+  ? ElementType
+  : never
 
 const DashboardPage = () => {
   const { user } = useAuth()
 
-  const { data } = useQuery(GET_COUNSELOR, {
+  const [counselor, setCounselor] =
+    useState<ArrElement<GetCounselorByUnameQuery['getCounselorByUname']>>()
+
+  const router = useRouter()
+
+  const { loading } = useQuery(GET_COUNSELOR_BY_ID, {
     variables: {
-      getCounselorDto: {
-        counselorName: user.username,
+      getCounselor: {
+        username: user.username,
       },
+    },
+    onCompleted(data) {
+      console.log(user)
+      console.log(data)
+      if (!data.getCounselorByUname) {
+        void router.replace('/')
+        return
+      }
+      setCounselor(data.getCounselorByUname[0])
     },
   })
 
-  console.log(data)
+  const [acceptBooking] = useMutation(ACCEPT_BOOKING, {
+    onCompleted(data) {
+      counselor?.Booking?.filter((val) => val.id !== data.acceptBooking?.id)
+    },
+  })
+
+  const [rejectBooking] = useMutation(REJECT_BOOKING, {
+    onCompleted(data) {
+      counselor?.Booking?.filter((val) => val.id !== data.rejectBooking?.id)
+    },
+  })
 
   return (
     <main className="min-h-screen">
@@ -52,10 +85,21 @@ const DashboardPage = () => {
           description="Berikut merupakan daftar jadwal yang telah kamu setujui dengan klien."
           rowComponent={(val, index) => (
             <tr key={index}>
-              <td className="">Name {index}</td>
-              <td className="">{new Date().toLocaleDateString()}</td>
-              <td className="flex items-center justify-between">
-                <div>Status</div>
+              <td className="">
+                <Link href={`/clients/${val.id}`} className="block">
+                  {val.user?.username}
+                </Link>
+                <small className="opacity-70">{val.user?.account.major}</small>
+              </td>
+              <td className="">
+                <p>
+                  {val.bookingDay}, {val.bookingTime}
+                </p>
+              </td>
+              <td className="flex items-center justify-between h-full min-h-[80px]">
+                <Badge color={val.isAccepted ? 'green' : 'red'}>
+                  {val.isAccepted ? 'Accepted' : 'Terminated'}
+                </Badge>
                 <button>
                   <BsThreeDotsVertical />
                 </button>
@@ -63,8 +107,20 @@ const DashboardPage = () => {
             </tr>
           )}
           // headerComponent={}
-          data={[...Array(10)]}
+          data={
+            counselor?.Booking
+              ? counselor.Booking.filter((val) => val.isAccepted)
+              : []
+          }
           headerTitle={['Nama Klien', 'Jadwal Konseling', 'Status Request']}
+          emptyComponent={
+            loading ? (
+              <div className="flex flex-col items-center justify-center w-full h-full gap-3 p-3">
+                <div className="grid w-16 h-16 rounded-full place-items-center animate-pulse bg-primary-300"></div>
+                <p className="text-lg font-semibold">Loading...</p>
+              </div>
+            ) : null
+          }
         />
       </section>
       <section className="p-5 md:px-10">
@@ -78,14 +134,40 @@ const DashboardPage = () => {
           ]}
           rowComponent={(val, index) => (
             <tr key={index}>
-              <td className="">Name {index}</td>
-              <td className="">{new Date().toLocaleDateString()}</td>
+              <td className="">{val.user?.username}</td>
+              <td className="">
+                <p>
+                  {val.bookingDay}, {val.bookingTime}
+                </p>
+              </td>
               <td className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <button className="px-3 py-2 text-red-700 bg-red-100 rounded-md shadow">
+                  <button
+                    onClick={() =>
+                      rejectBooking({
+                        variables: {
+                          rejectBookingInput: {
+                            id: val.id,
+                          },
+                        },
+                      })
+                    }
+                    className="px-3 py-2 text-red-700 bg-red-100 rounded-md shadow"
+                  >
                     Tolak
                   </button>
-                  <button className="px-3 py-2 rounded-md shadow bg-primary-50 text-primary-500">
+                  <button
+                    onClick={() =>
+                      acceptBooking({
+                        variables: {
+                          accBookingInput: {
+                            id: val.id,
+                          },
+                        },
+                      })
+                    }
+                    className="px-3 py-2 rounded-md shadow bg-primary-50 text-primary-500"
+                  >
                     Setujui
                   </button>
                 </div>
@@ -96,7 +178,21 @@ const DashboardPage = () => {
             </tr>
           )}
           // headerComponent={}
-          data={[...Array(10)]}
+          data={
+            counselor?.Booking
+              ? counselor.Booking.filter(
+                  (val) => val.adminAcc && !val.isAccepted && !val.isTerminated
+                )
+              : []
+          }
+          emptyComponent={
+            loading ? (
+              <div className="flex flex-col items-center justify-center w-full h-full gap-3 p-3">
+                <div className="grid w-16 h-16 rounded-full place-items-center animate-pulse bg-primary-300"></div>
+                <p className="text-lg font-semibold">Loading...</p>
+              </div>
+            ) : null
+          }
         />
       </section>
     </main>

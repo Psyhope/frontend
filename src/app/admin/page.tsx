@@ -105,7 +105,7 @@ const AdminPage = () => {
           )}
           emptyComponent={
             loading ? (
-              <div className="flex flex-col items-center justify-center w-full h-full gap-3">
+              <div className="flex flex-col items-center justify-center w-full h-full gap-3 p-3">
                 <div className="grid w-16 h-16 rounded-full place-items-center animate-pulse bg-primary-300"></div>
                 <p className="text-lg font-semibold">Loading...</p>
               </div>

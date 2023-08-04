@@ -6,14 +6,21 @@ import { useParams } from 'next/navigation'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_CLIENT_DETAIL } from '@/actions/booking'
+import { Button, Modal } from '@mantine/core'
 import { Booking, CounselingLog, DetailClientModule } from './interface'
 import { monthNames } from './const'
 import { dayNames } from '../ScheduleModule/const'
+import { useAuth } from '@/components/contexts/AuthContext'
+import { IconPlus } from '@tabler/icons-react'
+import { useDisclosure } from '@mantine/hooks'
+import Image from 'next/image'
 
 export const DetailClientsModule: React.FC<DetailClientModule> = ({
   bookingId,
 }) => {
   const [booking, setBooking] = useState<Booking>()
+  const [opened, { open, close }] = useDisclosure(false)
+  const { user } = useAuth()
 
   const { refetch: getBooking } = useQuery(GET_CLIENT_DETAIL, {
     variables: {
@@ -78,6 +85,42 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
     <>
       {booking != null ? (
         <>
+        <Modal
+            opened={opened}
+            onClose={close}
+            withCloseButton={false}
+            size="50%"
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-center">
+                <p className=" text-2xl font-semibold text-center">
+                  Tambah Log Konseling
+                </p>
+              </div>
+              <div className="flex gap-4">
+                
+              </div>
+              <div className="flex justify-evenly">
+                <button
+                  className="text-black bg-white border-1 p-2 drop-shadow-md border items-center rounded-lg w-1/3"
+                  onClick={close}
+                >
+                  <div className="flex gap-1 justify-center items-center">
+                    <p>Oke, Mengerti</p>
+                  </div>
+                </button>
+                <button
+                  className="text-white bg-[#7F56D9] border-1 p-2 drop-shadow-md border-[#667085] items-center rounded-lg w-1/3"
+                  onClick={close}
+                >
+                  <div className="flex gap-1 justify-center items-center">
+                    <p>Tambah Log</p>
+                  </div>
+                </button>
+
+              </div>
+            </div>
+          </Modal>
           <section className="">
             <article className="">
               <h1 className="py-4 text-2xl font-semibold">Data Diri Klien</h1>
@@ -121,7 +164,15 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
           </section>
           <section className="">
             <aside className="flex items-center gap-2 mb-3">
-              <h1 className="text-3xl font-semibold">Log Konseling</h1>
+              <div className='flex w-full gap-4'>
+                <h1 className="text-3xl font-semibold">Log Konseling</h1>
+                {user.role == "PSYHOPE_COUNSELOR" || user.role == "FACULTY_COUNSELOR" ? 
+                <div className='flex items-center bg-[#7F56D9] p-2 text-white rounded-lg'>
+                  <button onClick={open} className='flex gap-2 items-center'>Tambah Log <IconPlus></IconPlus></button>
+                </div> 
+                : 
+                <></>}
+              </div>
             </aside>
             <ClientTable
               title=""
