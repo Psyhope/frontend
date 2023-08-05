@@ -1,19 +1,20 @@
-;`use client`
-import React, { useEffect, useState } from 'react'
+`use client`
+import React, { useState } from 'react'
 import ClientTable from '@/components/elements/ClientTable'
-import { IdentityStore } from 'aws-sdk'
-import { useParams } from 'next/navigation'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_CLIENT_DETAIL } from '@/actions/booking'
-import { Button, Modal } from '@mantine/core'
+import {  Modal } from '@mantine/core'
 import { Booking, CounselingLog, DetailClientModule } from './interface'
 import { monthNames } from './const'
 import { dayNames } from '../ScheduleModule/const'
 import { useAuth } from '@/components/contexts/AuthContext'
 import { IconPlus } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
-import Image from 'next/image'
+import { DatePickerInput } from '@mantine/dates'
+import { HiOutlineCalendar } from 'react-icons/hi'
+import { HiChevronDown } from 'react-icons/hi'
+import { TextInput, Textarea } from '@mantine/core'
 
 export const DetailClientsModule: React.FC<DetailClientModule> = ({
   bookingId,
@@ -21,6 +22,7 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
   const [booking, setBooking] = useState<Booking>()
   const [opened, { open, close }] = useDisclosure(false)
   const { user } = useAuth()
+  const [date, setDate] = useState(new Date(new Date().toISOString()))
 
   const { refetch: getBooking } = useQuery(GET_CLIENT_DETAIL, {
     variables: {
@@ -89,15 +91,57 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
             opened={opened}
             onClose={close}
             withCloseButton={false}
-            size="50%"
+            size="lg"
+            sx={{
+              height: 100,
+            }}
           >
             <div className="flex flex-col gap-4">
-              <div className="flex justify-center">
-                <p className=" text-2xl font-semibold text-center">
+              <div className="flex flex-col justify-center">
+                <p className=" text-2xl font-semibold">
                   Tambah Log Konseling
                 </p>
+                <p>
+                  Silakan tambah log konseling dengan mengisi data berikut.
+                </p>
               </div>
-              <div className="flex gap-4"></div>
+              <div>
+                <div className='bg-[#FFFAEB] p-2 rounded-lg border'>
+                  <p>{booking.user.account.channel} : {booking.user.account.channel == "LINE" ? booking.user.lineAcc : booking.user.igAcc}</p>
+                  <p>Jadwal Konseling: {booking.bookingDay}, {booking.bookingTime} WIB</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <DatePickerInput
+                  label="Cari Hari Konseling"
+                  icon={<HiOutlineCalendar />}
+                  value={date}
+                  onChange={(e) => {
+                    setDate(e as Date)
+                  }}
+                  rightSection={<HiChevronDown />}
+                  size="md"
+                  className="w-full"
+                />
+                < TextInput
+                  label="Judul"
+                  size='md'
+                  placeholder="e.g. Website design"
+                  onChange={(e) => {
+          
+                  }}
+                />
+                <Textarea
+                  placeholder="Enter a description..."
+                  label="Detail Konseling"
+                  size='md'
+                  withAsterisk
+                  onChange={(e) => {
+                    
+                  }}
+                />
+                
+              </div>
               <div className="flex justify-evenly">
                 <button
                   className="text-black bg-white border-1 p-2 drop-shadow-md border items-center rounded-lg w-1/3"
