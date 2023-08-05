@@ -1,10 +1,10 @@
-`use client`
+;`use client`
 import React, { useState } from 'react'
 import ClientTable from '@/components/elements/ClientTable'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_CLIENT_DETAIL } from '@/actions/booking'
-import {  Modal } from '@mantine/core'
+import { Modal } from '@mantine/core'
 import { Booking, CounselingLog, DetailClientModule } from './interface'
 import { monthNames } from './const'
 import { dayNames } from '../ScheduleModule/const'
@@ -98,17 +98,21 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
           >
             <div className="flex flex-col gap-4">
               <div className="flex flex-col justify-center">
-                <p className=" text-2xl font-semibold">
-                  Tambah Log Konseling
-                </p>
-                <p>
-                  Silakan tambah log konseling dengan mengisi data berikut.
-                </p>
+                <p className=" text-2xl font-semibold">Tambah Log Konseling</p>
+                <p>Silakan tambah log konseling dengan mengisi data berikut.</p>
               </div>
               <div>
-                <div className='bg-[#FFFAEB] p-2 rounded-lg border'>
-                  <p>{booking.user.account.channel} : {booking.user.account.channel == "LINE" ? booking.user.lineAcc : booking.user.igAcc}</p>
-                  <p>Jadwal Konseling: {booking.bookingDay}, {booking.bookingTime} WIB</p>
+                <div className="bg-[#FFFAEB] p-2 rounded-lg border">
+                  <p>
+                    {booking.user.account.channel} :{' '}
+                    {booking.user.account.channel == 'LINE'
+                      ? booking.user.lineAcc
+                      : booking.user.igAcc}
+                  </p>
+                  <p>
+                    Jadwal Konseling: {booking.bookingDay},{' '}
+                    {booking.bookingTime} WIB
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col gap-4">
@@ -123,24 +127,19 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                   size="md"
                   className="w-full"
                 />
-                < TextInput
+                <TextInput
                   label="Judul"
-                  size='md'
+                  size="md"
                   placeholder="e.g. Website design"
-                  onChange={(e) => {
-          
-                  }}
+                  onChange={(e) => {}}
                 />
                 <Textarea
                   placeholder="Enter a description..."
                   label="Detail Konseling"
-                  size='md'
+                  size="md"
                   withAsterisk
-                  onChange={(e) => {
-                    
-                  }}
+                  onChange={(e) => {}}
                 />
-                
               </div>
               <div className="flex justify-evenly">
                 <button
