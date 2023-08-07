@@ -23,9 +23,9 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
   const [booking, setBooking] = useState<Booking>()
   const [opened, { open, close }] = useDisclosure(false)
   const { user } = useAuth()
-  const [ date, setDate ] = useState(new Date(new Date().toISOString()))
-  const [ title, setTitle ] = useState('')
-  const [ desc, setDesct ] = useState('')
+  const [date, setDate] = useState(new Date(new Date().toISOString()))
+  const [title, setTitle] = useState('')
+  const [desc, setDesct] = useState('')
 
   const [mutate, {}] = useMutation(CREATE_LOG)
 
@@ -135,14 +135,18 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                   label="Judul"
                   size="md"
                   placeholder="e.g. Website design"
-                  onChange={(e) => {setTitle(e.target.value)}}
+                  onChange={(e) => {
+                    setTitle(e.target.value)
+                  }}
                 />
                 <Textarea
                   placeholder="Enter a description..."
                   label="Detail Konseling"
                   size="md"
                   withAsterisk
-                  onChange={(e) => {setDesct(e.target.value)}}
+                  onChange={(e) => {
+                    setDesct(e.target.value)
+                  }}
                 />
               </div>
               <div className="flex justify-evenly">
@@ -159,12 +163,12 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                   onClick={() => {
                     mutate({
                       variables: {
-                        createCounselingLogInput:{
+                        createCounselingLogInput: {
                           bookingId: parseInt(bookingId),
                           detail: desc,
                           title,
-                          time: date.toISOString()
-                        }
+                          time: date.toISOString(),
+                        },
                       },
                       onCompleted(data, clientOptions) {
                         getBooking()
