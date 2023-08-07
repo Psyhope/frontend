@@ -15,6 +15,7 @@ import { DatePickerInput } from '@mantine/dates'
 import { HiOutlineCalendar } from 'react-icons/hi'
 import { HiChevronDown } from 'react-icons/hi'
 import { TextInput, Textarea } from '@mantine/core'
+import { CREATE_LOG } from '@/actions/counselingLog'
 
 export const DetailClientsModule: React.FC<DetailClientModule> = ({
   bookingId,
@@ -22,7 +23,11 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
   const [booking, setBooking] = useState<Booking>()
   const [opened, { open, close }] = useDisclosure(false)
   const { user } = useAuth()
-  const [date, setDate] = useState(new Date(new Date().toISOString()))
+  const [ date, setDate ] = useState(new Date(new Date().toISOString()))
+  const [ title, setTitle ] = useState('')
+  const [ desc, setDesct ] = useState('')
+
+  const [mutate, {}] = useMutation(CREATE_LOG)
 
   const { refetch: getBooking } = useQuery(GET_CLIENT_DETAIL, {
     variables: {
@@ -31,7 +36,6 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
       },
     },
     onCompleted(data) {
-      console.log(data.adminGetBooking)
       if (data.adminGetBooking != null)
         setBooking({
           bookingDay: data.adminGetBooking.bookingDay as string,
@@ -131,14 +135,14 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                   label="Judul"
                   size="md"
                   placeholder="e.g. Website design"
-                  onChange={(e) => {}}
+                  onChange={(e) => {setTitle(e.target.value)}}
                 />
                 <Textarea
                   placeholder="Enter a description..."
                   label="Detail Konseling"
                   size="md"
                   withAsterisk
-                  onChange={(e) => {}}
+                  onChange={(e) => {setDesct(e.target.value)}}
                 />
               </div>
               <div className="flex justify-evenly">
@@ -152,7 +156,21 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                 </button>
                 <button
                   className="text-white bg-[#7F56D9] border-1 p-2 drop-shadow-md border-[#667085] items-center rounded-lg w-1/3"
-                  onClick={close}
+                  onClick={() => {
+                    mutate({
+                      variables: {
+                        createCounselingLogInput:{
+                          bookingId: parseInt(bookingId),
+                          detail: desc,
+                          title,
+                          time: date.toISOString()
+                        }
+                      },
+                      onCompleted(data, clientOptions) {
+                        getBooking()
+                      },
+                    })
+                  }}
                 >
                   <div className="flex gap-1 justify-center items-center">
                     <p>Tambah Log</p>
