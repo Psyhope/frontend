@@ -12,6 +12,7 @@ import { GET_COUNSELOR } from '@/actions/counselor'
 import { useQuery } from '@apollo/client'
 import { CounselorFilterQuery } from '@/__generated__/graphql'
 import { dayNames } from '@/components/modules/ScheduleModule/const'
+import Link from 'next/link'
 
 const date = new Date()
 
@@ -72,10 +73,12 @@ const AdminPage = () => {
           rowComponent={(val, index) => (
             <tr key={index}>
               <td>
-                <p>{val.user?.fullname}</p>
-                <p className="px-3 py-1 mt-1 text-sm bg-primary-500 rounded-3xl text-primary-50 w-max">
-                  {val.counselorType}
-                </p>
+                <Link href={`/counselor/${val.user?.fullname}`}>
+                  <p>{val.user?.fullname}</p>
+                  <p className="px-3 py-1 mt-1 text-sm bg-primary-500 rounded-3xl text-primary-50 w-max">
+                    {val.counselorType}
+                  </p>
+                </Link>
               </td>
               <td>
                 {val.Booking?.map((val, index) => (

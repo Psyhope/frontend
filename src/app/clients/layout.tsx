@@ -1,5 +1,6 @@
 'use client'
 import { useAuth } from '@/components/contexts/AuthContext'
+import counselorAdminHoc from '@/components/hoc/superUserHoc'
 import Link from 'next/link'
 import React, { ReactNode } from 'react'
 import { HiArrowLeft } from 'react-icons/hi'
@@ -25,4 +26,4 @@ const ClientsLayout = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export default ClientsLayout
+export default counselorAdminHoc(ClientsLayout)

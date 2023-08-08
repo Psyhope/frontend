@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { Modal, Button } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { DashboardModal } from './const'
-import { BookingClient, DashboardModalWord } from './interface'
+import { DashboardModal, FacultyCounseling } from './const'
+import { BookingClient, DashboardModalWord, FacultyKeys } from './interface'
 import { useQuery } from '@apollo/client'
 import { GET_BOOKING_CLIENT } from '@/actions/booking'
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,6 +13,7 @@ import { useAuth } from '@/components/contexts/AuthContext'
 export const DashboardModule: React.FC = () => {
   const router = useRouter()
   const { user } = useAuth()
+  const facultyKeys: FacultyKeys = FacultyCounseling
   const pathname = usePathname()
   const hanldleReschedule = () => {
     if (booking != null)
@@ -256,12 +257,18 @@ export const DashboardModule: React.FC = () => {
                     Daftar Konseling di Psyhope
                   </button>
                   <button
-                    className="w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg"
+                    className={`w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg ${user.faculty == "PSIKOLOGI" || user.faculty == 'KEDOKTERAN GIGI' ? 'hidden':''}`}
                     onClick={() => {
-                      router.push('/schedule/csp')
+                      if(user.faculty == "ILMU KOMPUTER" || user.faculty == "VOKASI" || user.faculty == "MATEMATIKA & ILMU PENGETAHUAN ALAM"
+                      || user.faculty == "ILMU KEPERAWATAN" || user.faculty == "TEKNIK" ){
+                        router.push('/schedule/csp')
+                      }
+                    else {
+                      window.open(facultyKeys?.[user.faculty as keyof FacultyKeys]?.link, "_blank")
+                    }
                     }}
                   >
-                    Daftar Konseling di CSP
+                    Daftar Konseling di {facultyKeys?.[user.faculty as keyof FacultyKeys]?.title}
                   </button>
                 </div>
                 <div className="flex justify-center">
@@ -282,7 +289,7 @@ export const DashboardModule: React.FC = () => {
                             />
                           </div>
                           <p className="lg:text-lg text-md">
-                            Apa perbedaan Psyhope dan Peer Counselor?
+                            Apa perbedaan Psyhope dan {facultyKeys?.[user.faculty as keyof FacultyKeys]?.title}?
                           </p>
                         </div>
                       </Button>

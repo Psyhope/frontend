@@ -28,6 +28,7 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
   const [title, setTitle] = useState('')
   const [desc, setDesct] = useState('')
   const [dateVal, setDateVal] = useState<DateValue>(new Date())
+  const [totalVal, setTotal] = useState(0)
 
   const [mutate, {}] = useMutation(CREATE_LOG)
 
@@ -295,76 +296,17 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
             </p>
             <ul className="grid grid-cols-1 gap-5 mt-5 list-none sm:grid-cols-2 md:grid-cols-3">
               <li>
+              <h4 className="mt-3">Nilai: {booking.number_1 + booking.number_2 + booking.number_3
+                + booking.number_4 + booking.number_5 + booking.number_6 + booking.number_7 + booking.number_8 + booking.number_9
+                + booking.number_10 + booking.number_11 + booking.number_12}</h4>
                 <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
+                  <h3>{booking.number_1 + booking.number_2 + booking.number_3
+                + booking.number_4 + booking.number_5 + booking.number_6 + booking.number_7 + booking.number_8 + booking.number_9
+                + booking.number_10 + booking.number_11 + booking.number_12 > 12 ? booking.number_1 + booking.number_2 + booking.number_3
+                + booking.number_4 + booking.number_5 + booking.number_6 + booking.number_7 + booking.number_8 + booking.number_9
+                + booking.number_10 + booking.number_11 + booking.number_12 > 24 ? 'Tingkat Stres Tinggi': 'Tingkat Stres Menengah': 'Tingkat Stres Rendah'}</h3>
                 </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
+                
               </li>
             </ul>
           </section>

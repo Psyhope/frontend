@@ -11,6 +11,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { Badge, Select, TextInput, Button } from '@mantine/core'
 import { DatePickerInput, DateValue } from '@mantine/dates'
 import { useDebouncedState } from '@mantine/hooks'
+import Link from 'next/link'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { BsFilter, BsThreeDotsVertical } from 'react-icons/bs'
 import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
@@ -176,8 +177,10 @@ const AdminClientPage = () => {
           rowComponent={(val, index) => (
             <tr key={index}>
               <td className="min-h-[80px]">
-                <p>{val.user?.username}</p>
-                <small className="opacity-70">{val.user?.account.major}</small>
+                <Link href={`/clients/${val.id}`}>
+                  <p>{val.user?.username}</p>
+                  <small className="opacity-70">{val.user?.account.major}</small>
+                </Link>
               </td>
               <td className="min-h-[80px]">
                 <p>{val.councelor?.user?.fullname}</p>

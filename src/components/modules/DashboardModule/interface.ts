@@ -27,3 +27,12 @@ export interface Councelor {
 export interface User {
   fullname: string
 }
+
+export interface FacultyKeys {
+  [key : string]: FacultyType | undefined
+}
+
+export interface FacultyType {
+  title: string
+  link: string
+}

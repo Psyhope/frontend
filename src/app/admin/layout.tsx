@@ -10,6 +10,7 @@ import { LuCalendarHeart, LuFileHeart } from 'react-icons/lu'
 import { useViewportSize } from '@mantine/hooks'
 import withAuth from '@/components/hoc/withAuth'
 import { useAuth } from '@/components/contexts/AuthContext'
+import adminHoc from '@/components/hoc/adminHoc'
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname()
@@ -124,4 +125,4 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default withAuth(AdminLayout)
+export default adminHoc(AdminLayout)
