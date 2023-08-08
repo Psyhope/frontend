@@ -112,14 +112,6 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="md:w-2/5 w-full h-32 md:h-auto relative">
-            <Image
-              src={HeroAssets}
-              alt="Hero Assets"
-              fill
-              className="relative z-0"
-            />
-          </div>
         </div>
         {/* Infografis */}
         <div className="bg-[#53389E] lg:h-fit mt-16 mb-10 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
