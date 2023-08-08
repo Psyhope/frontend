@@ -15,19 +15,14 @@ import React, { useEffect, useState } from 'react'
 import { Drawer, Menu, rem } from '@mantine/core'
 import { useAuth } from '@/components/contexts/AuthContext'
 import {
-  IconArrowsLeftRight,
   IconArticle,
   IconChartInfographic,
   IconClipboardHeart,
   IconLogout2,
   IconMenu2,
-  IconMessageCircle,
-  IconPhoto,
-  IconSearch,
-  IconSettings,
   IconSmartHome,
   IconSpeakerphone,
-  IconTrash,
+  IconCategory,
   IconUserCircle,
 } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
@@ -130,9 +125,27 @@ export const Navbar: React.FC = () => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
-                  Profile
-                </Menu.Item>
+                {(user.role == 'FACULTY_COUNSELOR' ||
+                  user.role == 'PSYHOPE_COUNSELOR') && (
+                  <Link href={'/counselor'}>
+                    <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                      Menu Konselor
+                    </Menu.Item>
+                  </Link>
+                )}
+                {(user.role == 'FACULTY_ADMIN' ||
+                  user.role == 'PSYHOPE_ADMIN') && (
+                  <Link href={'/admin'}>
+                    <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                      Menu Admin
+                    </Menu.Item>
+                  </Link>
+                )}
+                <Link href={'/onboarding'}>
+                  <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
+                    Edit Profile
+                  </Menu.Item>
+                </Link>
                 <Menu.Item
                   icon={<IconLogout2 size={rem(14)} />}
                   onClick={logout}
@@ -186,18 +199,33 @@ export const Navbar: React.FC = () => {
           <Link href={'/article?page=1'}>
             <Menu.Item icon={<IconArticle size={14} />}>Artikel</Menu.Item>
           </Link>
-          <Link href={'/'}>
+          <Link href={'/dashboard'}>
             <Menu.Item icon={<IconClipboardHeart size={14} />}>
               Konseling
             </Menu.Item>
           </Link>
+          {(user.role == 'FACULTY_COUNSELOR' ||
+            user.role == 'PSYHOPE_COUNSELOR') && (
+            <Link href={'/counselor'}>
+              <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                Menu Konselor
+              </Menu.Item>
+            </Link>
+          )}
+          {(user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN') && (
+            <Link href={'/admin'}>
+              <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                Menu Admin
+              </Menu.Item>
+            </Link>
+          )}
 
           <Menu.Divider />
 
           <Menu.Label>Akun</Menu.Label>
-          <Link href={'/'}>
+          <Link href={'/onboarding'}>
             <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
-              Profile
+              Edit Profile
             </Menu.Item>
           </Link>
           <Menu.Item
