@@ -5,9 +5,14 @@ import withAuth from '@/components/hoc/withAuth'
 
 const Psyhope_Reschedule = () => {
   return (
-    <main className="min-h-screen md:pt-5">
-      <ScheduleModule></ScheduleModule>
-    </main>
+    <>
+      <head>
+        <title>Re-Schedule | Empower U&I</title>
+      </head>
+      <main className="min-h-screen md:pt-5">
+        <ScheduleModule></ScheduleModule>
+      </main>
+    </>
   )
 }
 

@@ -62,57 +62,65 @@ const AdminSchedulePage = () => {
   })
 
   return (
-    <section className="p-5 md:px-10">
-      <ClientTable
-        title="Kalender Jadwal Konseling"
-        description="Berikut merupakan jadwal konseling Psyhope."
-        headerTitle={[
-          'Jam/Tanggal',
-          ...Array(6)
-            .fill(null)
-            .map(
-              (_, index) => `${(8 + index * 2).toString().padStart(2, '0')}:00`
-            ),
-        ]}
-        data={schedule ?? []}
-        rowComponent={(val, index) => (
-          <tr key={index}>
-            <td className="text-center bg-green-100 border-b-2 border-b-green-200 w-min">
-              {val.date}
-            </td>
-            {([...val.bookings, ...new Array(6)] as Partial<Booking>[])
-              .slice(0, 6)
-              .map((el, idx) =>
-                el ? (
-                  <td key={idx} className="min-w-[200px]">
-                    <div className="">
-                      <Link href={`/counselor/${el.councelor?.user?.fullname}`}>
-                        {el.councelor?.user?.fullname}
-                      </Link>
-                      <span className="mx-1">-</span>
-                      <Link href={`/clients/${el?.id}`}>
-                        {el.user?.fullname}
-                      </Link>
-                    </div>
-                  </td>
-                ) : (
-                  <td
-                    key={idx}
-                    className="min-w-[200px] text-center bg-yellow-100"
-                  ></td>
-                )
-              )}
-          </tr>
-        )}
-        emptyComponent={
-          loading ? (
-            <div className="flex items-center justify-center">
-              <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
-            </div>
-          ) : null
-        }
-      />
-    </section>
+    <>
+      <head>
+        <title>Schedules | Admin Panel | Empower U&I</title>
+      </head>
+      <section className="p-5 md:px-10">
+        <ClientTable
+          title="Kalender Jadwal Konseling"
+          description="Berikut merupakan jadwal konseling Psyhope."
+          headerTitle={[
+            'Jam/Tanggal',
+            ...Array(6)
+              .fill(null)
+              .map(
+                (_, index) =>
+                  `${(8 + index * 2).toString().padStart(2, '0')}:00`
+              ),
+          ]}
+          data={schedule ?? []}
+          rowComponent={(val, index) => (
+            <tr key={index}>
+              <td className="text-center bg-green-100 border-b-2 border-b-green-200 w-min">
+                {val.date}
+              </td>
+              {([...val.bookings, ...new Array(6)] as Partial<Booking>[])
+                .slice(0, 6)
+                .map((el, idx) =>
+                  el ? (
+                    <td key={idx} className="min-w-[200px]">
+                      <div className="">
+                        <Link
+                          href={`/counselor/${el.councelor?.user?.fullname}`}
+                        >
+                          {el.councelor?.user?.fullname}
+                        </Link>
+                        <span className="mx-1">-</span>
+                        <Link href={`/clients/${el.user?.id}`}>
+                          {el.user?.fullname}
+                        </Link>
+                      </div>
+                    </td>
+                  ) : (
+                    <td
+                      key={idx}
+                      className="min-w-[200px] text-center bg-yellow-100"
+                    ></td>
+                  )
+                )}
+            </tr>
+          )}
+          emptyComponent={
+            loading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
+              </div>
+            ) : null
+          }
+        />
+      </section>
+    </>
   )
 }
 

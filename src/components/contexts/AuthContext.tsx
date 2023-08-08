@@ -15,6 +15,7 @@ import { notifications } from '@mantine/notifications'
 import { FaTimes } from 'react-icons/fa'
 import { Psyhope } from '../icons/Psyhope'
 import { bool } from 'aws-sdk/clients/signer'
+import { Loader } from '@mantine/core'
 
 const AuthContext = createContext<{
   accessToken: string
@@ -201,10 +202,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         children
       ) : (
         <main className="flex flex-col items-center justify-center w-full h-screen gap-3 bg-white">
-          <div className="scale-150">
+          <div className="scale-150 mb-5">
             <Psyhope />
           </div>
-          <h1 className="text-2xl font-bold">Loading...</h1>
+          <Loader variant="dots" size="xl" />
         </main>
       )}
     </AuthContext.Provider>
