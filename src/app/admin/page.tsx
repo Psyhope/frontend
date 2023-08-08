@@ -34,6 +34,9 @@ const AdminPage = () => {
 
   return (
     <>
+      <head>
+        <title>Admin Panel | Empower U&I</title>
+      </head>
       <section className="p-5 md:px-10">
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           <TextInput

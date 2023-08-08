@@ -13,6 +13,9 @@ const ClientByIDPage = () => {
   const { id } = useParams()
   return (
     <>
+      <head>
+        <title>Clients | Empower U&I</title>
+      </head>
       <DetailClientsModule bookingId={decodeURI(id)}></DetailClientsModule>
     </>
   )

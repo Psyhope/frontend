@@ -76,6 +76,9 @@ const AdminClientPage = () => {
 
   return (
     <>
+      <head>
+        <title>Clients | Admin Panel | Empower U&I</title>
+      </head>
       <section className="p-5 md:px-10">
         <div className="flex flex-col items-center gap-8 sm:gap-4 sm:flex-row md:gap-8">
           <TextInput
