@@ -29,7 +29,7 @@ type Article = {
 const ArticleByIdPage = () => {
   const router = useRouter()
   const pathname = usePathname()
-  const id = pathname.slice(-1)[0]
+  const id = pathname.split('/')[2]
   const [article, setArticle] = useState<Article>()
 
   const {} = useQuery(GET_BY_ID_ARTICLE, {

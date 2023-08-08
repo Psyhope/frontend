@@ -27,7 +27,7 @@ type Infografic = {
 const InfograficByIdPage = () => {
   const router = useRouter()
   const pathname = usePathname()
-  const id = pathname.slice(-1)[0]
+  const id = pathname.split('/')[2]
   const [infografic, setInfografic] = useState<Infografic>()
   const [sortedURL, setSortedURL] = useState<string[]>()
 
@@ -36,6 +36,7 @@ const InfograficByIdPage = () => {
       findOneInfograficId: Number(id),
     },
     onCompleted(data) {
+      console.log(data.findOneInfografic)
       setInfografic(data.findOneInfografic)
       setSortedURL(
         [...data.findOneInfografic.infograficUrl].sort((a, b) =>
