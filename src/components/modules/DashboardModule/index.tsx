@@ -257,18 +257,32 @@ export const DashboardModule: React.FC = () => {
                     Daftar Konseling di Psyhope
                   </button>
                   <button
-                    className={`w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg ${user.faculty == "PSIKOLOGI" || user.faculty == 'KEDOKTERAN GIGI' ? 'hidden':''}`}
+                    className={`w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg ${
+                      user.faculty == 'PSIKOLOGI' ||
+                      user.faculty == 'KEDOKTERAN GIGI'
+                        ? 'hidden'
+                        : ''
+                    }`}
                     onClick={() => {
-                      if(user.faculty == "ILMU KOMPUTER" || user.faculty == "VOKASI" || user.faculty == "MATEMATIKA & ILMU PENGETAHUAN ALAM"
-                      || user.faculty == "ILMU KEPERAWATAN" || user.faculty == "TEKNIK" ){
+                      if (
+                        user.faculty == 'ILMU KOMPUTER' ||
+                        user.faculty == 'VOKASI' ||
+                        user.faculty == 'MATEMATIKA & ILMU PENGETAHUAN ALAM' ||
+                        user.faculty == 'ILMU KEPERAWATAN' ||
+                        user.faculty == 'TEKNIK'
+                      ) {
                         router.push('/schedule/csp')
+                      } else {
+                        window.open(
+                          facultyKeys?.[user.faculty as keyof FacultyKeys]
+                            ?.link,
+                          '_blank'
+                        )
                       }
-                    else {
-                      window.open(facultyKeys?.[user.faculty as keyof FacultyKeys]?.link, "_blank")
-                    }
                     }}
                   >
-                    Daftar Konseling di {facultyKeys?.[user.faculty as keyof FacultyKeys]?.title}
+                    Daftar Konseling di{' '}
+                    {facultyKeys?.[user.faculty as keyof FacultyKeys]?.title}
                   </button>
                 </div>
                 <div className="flex justify-center">
@@ -289,7 +303,12 @@ export const DashboardModule: React.FC = () => {
                             />
                           </div>
                           <p className="lg:text-lg text-md">
-                            Apa perbedaan Psyhope dan {facultyKeys?.[user.faculty as keyof FacultyKeys]?.title}?
+                            Apa perbedaan Psyhope dan{' '}
+                            {
+                              facultyKeys?.[user.faculty as keyof FacultyKeys]
+                                ?.title
+                            }
+                            ?
                           </p>
                         </div>
                       </Button>

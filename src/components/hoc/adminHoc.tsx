@@ -10,14 +10,14 @@ const adminHoc = <T extends object>(Component: ComponentType<T>) => {
     const router = useRouter()
 
     if (!accessToken) {
-        router.replace('/login')
-        return <></>
+      router.replace('/login')
+      return <></>
     } else if (!user.isOnboarded) {
-        router.replace('/onboarding')
-        return <></>
-    } else if (user.role == "FACULTY_ADMIN" || user.role == "PSYHOPE_ADMIN"){
-        router.replace('/')
-        return <></>
+      router.replace('/onboarding')
+      return <></>
+    } else if (user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN') {
+      router.replace('/')
+      return <></>
     }
     return <Component {...props} />
   }

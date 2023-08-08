@@ -179,7 +179,9 @@ const AdminClientPage = () => {
               <td className="min-h-[80px]">
                 <Link href={`/clients/${val.id}`}>
                   <p>{val.user?.username}</p>
-                  <small className="opacity-70">{val.user?.account.major}</small>
+                  <small className="opacity-70">
+                    {val.user?.account.major}
+                  </small>
                 </Link>
               </td>
               <td className="min-h-[80px]">

@@ -126,7 +126,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         id: user.sub,
         role: user.role,
         isOnboarded: user.isOnboarded,
-        faculty: user.faculty
+        faculty: user.faculty,
       })
       setAccessToken(data.accessToken)
     } catch (error) {
@@ -173,7 +173,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         username: data.user.username,
         role: data.user.role,
         isOnboarded: data.user.isOnboarded,
-        faculty: data.user.faculty
+        faculty: data.user.faculty,
       })
       setAccessToken(data.token)
     } catch (err) {

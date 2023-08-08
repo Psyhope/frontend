@@ -29,7 +29,7 @@ export interface User {
 }
 
 export interface FacultyKeys {
-  [key : string]: FacultyType | undefined
+  [key: string]: FacultyType | undefined
 }
 
 export interface FacultyType {
