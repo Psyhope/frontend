@@ -11,7 +11,7 @@ import { dayNames } from '../ScheduleModule/const'
 import { useAuth } from '@/components/contexts/AuthContext'
 import { IconPlus } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
-import {  DateValue } from '@mantine/dates'
+import { DateValue } from '@mantine/dates'
 import { HiOutlineCalendar } from 'react-icons/hi'
 import { HiChevronDown } from 'react-icons/hi'
 import { TextInput, Textarea } from '@mantine/core'
@@ -122,18 +122,18 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                 </div>
               </div>
               <div className="flex flex-col gap-4">
-              <DateTimePicker
-                label="Pick date and time"
-                placeholder="Pick date and time"
-                defaultValue={dateVal}
-                className='w-full'
-                icon={<HiOutlineCalendar />}
-                rightSection={<HiChevronDown />}
-                mx="auto"
-                onChange={(e) => {
-                  setDateVal(e)
-                }}
-              />
+                <DateTimePicker
+                  label="Pick date and time"
+                  placeholder="Pick date and time"
+                  defaultValue={dateVal}
+                  className="w-full"
+                  icon={<HiOutlineCalendar />}
+                  rightSection={<HiChevronDown />}
+                  mx="auto"
+                  onChange={(e) => {
+                    setDateVal(e)
+                  }}
+                />
                 <TextInput
                   label="Judul"
                   size="md"
@@ -179,7 +179,6 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                         getBooking()
                       },
                     })
-        
                   }}
                 >
                   <div className="flex gap-1 justify-center items-center">

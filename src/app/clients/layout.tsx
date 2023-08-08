@@ -10,7 +10,11 @@ const ClientsLayout = ({ children }: { children: ReactNode }) => {
     <main className="flex flex-col min-h-screen gap-5 p-5 sm:gap-10 md:px-10 lg:px-20">
       <section>
         <Link
-          href = {user.role == "PSYHOPE_ADMIN" || user.role == "FACULTY_ADMIN" ? '/admin' : '/counselor'} 
+          href={
+            user.role == 'PSYHOPE_ADMIN' || user.role == 'FACULTY_ADMIN'
+              ? '/admin'
+              : '/counselor'
+          }
           className="flex items-center gap-2 p-3 mt-5 font-semibold rounded-lg bg-primary-50 text-primary-500 w-max"
         >
           <HiArrowLeft /> Kembali
