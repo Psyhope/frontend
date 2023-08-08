@@ -80,6 +80,10 @@ export default function LoginPage() {
                   {...form.getInputProps('password')}
                 />
               </div>
+              <p className="text-red-500">
+                *Informasi yang akan diambil dari akun SIAK hanya username,
+                fakultas, dan jurusan
+              </p>
               <Button
                 loading={loading}
                 radius="md"
