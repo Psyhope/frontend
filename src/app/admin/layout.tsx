@@ -55,10 +55,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               Admin Psyhope
             </p>
             <div className="flex flex-col flex-wrap items-center justify-center gap-2 text-sm sm:justify-start md:flex-row sm:text-base">
-              <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500">
+              <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500" onClick={() => router.push('/article?page=1')}>
                 <HiPaperClip /> Lihat Dashboard Artikel
               </button>
-              <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500">
+              <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500" onClick={() => router.push('/event?page=1')}>
                 <HiSpeakerphone /> Lihat Dashboard Event
               </button>
             </div>

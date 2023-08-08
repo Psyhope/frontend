@@ -100,9 +100,6 @@ const DashboardPage = () => {
                 <Badge color={val.isAccepted ? 'green' : 'red'}>
                   {val.isAccepted ? 'Accepted' : 'Terminated'}
                 </Badge>
-                <button>
-                  <BsThreeDotsVertical />
-                </button>
               </td>
             </tr>
           )}

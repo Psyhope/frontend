@@ -96,9 +96,6 @@ const AdminPage = () => {
                       </li>
                     ))}
                   </ul>
-                  <button>
-                    <BsThreeDotsVertical />
-                  </button>
                 </div>
               </td>
             </tr>

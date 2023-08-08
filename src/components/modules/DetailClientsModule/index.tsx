@@ -11,11 +11,12 @@ import { dayNames } from '../ScheduleModule/const'
 import { useAuth } from '@/components/contexts/AuthContext'
 import { IconPlus } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
-import { DatePickerInput } from '@mantine/dates'
+import {  DateValue } from '@mantine/dates'
 import { HiOutlineCalendar } from 'react-icons/hi'
 import { HiChevronDown } from 'react-icons/hi'
 import { TextInput, Textarea } from '@mantine/core'
 import { CREATE_LOG } from '@/actions/counselingLog'
+import { DateTimePicker } from '@mantine/dates'
 
 export const DetailClientsModule: React.FC<DetailClientModule> = ({
   bookingId,
@@ -26,6 +27,7 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
   const [date, setDate] = useState(new Date(new Date().toISOString()))
   const [title, setTitle] = useState('')
   const [desc, setDesct] = useState('')
+  const [dateVal, setDateVal] = useState<DateValue>(new Date())
 
   const [mutate, {}] = useMutation(CREATE_LOG)
 
@@ -120,17 +122,18 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                 </div>
               </div>
               <div className="flex flex-col gap-4">
-                <DatePickerInput
-                  label="Cari Hari Konseling"
-                  icon={<HiOutlineCalendar />}
-                  value={date}
-                  onChange={(e) => {
-                    setDate(e as Date)
-                  }}
-                  rightSection={<HiChevronDown />}
-                  size="md"
-                  className="w-full"
-                />
+              <DateTimePicker
+                label="Pick date and time"
+                placeholder="Pick date and time"
+                defaultValue={dateVal}
+                className='w-full'
+                icon={<HiOutlineCalendar />}
+                rightSection={<HiChevronDown />}
+                mx="auto"
+                onChange={(e) => {
+                  setDateVal(e)
+                }}
+              />
                 <TextInput
                   label="Judul"
                   size="md"
@@ -167,13 +170,16 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                           bookingId: parseInt(bookingId),
                           detail: desc,
                           title,
-                          time: date.toISOString(),
+                          time: dateVal?.toISOString(),
                         },
                       },
                       onCompleted(data, clientOptions) {
+                        close()
+                        setDateVal(new Date())
                         getBooking()
                       },
                     })
+        
                   }}
                 >
                   <div className="flex gap-1 justify-center items-center">
@@ -264,14 +270,11 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                       </p>
                     </div>
                   </td>
-                  <td className="flex items-center justify-between w-1/2">
+                  <td className="flex items-center justify-between w-full">
                     <div className="flex flex-col gap-2">
                       <p className="font-semibold">{val.title}</p>
                       <p>{val.detail}</p>
                     </div>
-                    <button>
-                      <BsThreeDotsVertical />
-                    </button>
                   </td>
                 </tr>
               )}
