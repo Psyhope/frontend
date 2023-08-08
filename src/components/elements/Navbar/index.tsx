@@ -24,6 +24,7 @@ import {
   IconSpeakerphone,
   IconCategory,
   IconUserCircle,
+  IconLogin,
 } from '@tabler/icons-react'
 import { useDisclosure } from '@mantine/hooks'
 
@@ -223,18 +224,28 @@ export const Navbar: React.FC = () => {
           <Menu.Divider />
 
           <Menu.Label>Akun</Menu.Label>
-          <Link href={'/onboarding'}>
-            <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
-              Edit Profile
-            </Menu.Item>
-          </Link>
-          <Menu.Item
-            icon={<IconLogout2 size={rem(14)} />}
-            onClick={logout}
-            color="red"
-          >
-            Logout
-          </Menu.Item>
+          {user.id != '' && user.role != '' && user.username != '' ? (
+            <>
+              <Link href={'/onboarding'}>
+                <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
+                  Edit Profile
+                </Menu.Item>
+              </Link>
+              <Menu.Item
+                icon={<IconLogout2 size={rem(14)} />}
+                onClick={logout}
+                color="red"
+              >
+                Logout
+              </Menu.Item>
+            </>
+          ) : (
+            <Link href={'/login'}>
+              <Menu.Item icon={<IconLogin size={rem(14)} />} color="green">
+                Login
+              </Menu.Item>
+            </Link>
+          )}
         </Menu.Dropdown>
       </Menu>
     </div>
