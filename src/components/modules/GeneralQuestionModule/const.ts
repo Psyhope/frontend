@@ -1,2 +1,2 @@
 export const GHQ_MODULE_BANNER =
-  'Self-administered questionnaire for identifying non-psychotic and minor psychiatric disorders. A widely-used first step for clinicians wishing to screen individuals for minor psychiatric disorders in the general population and within community or non-psychiatric clinical settings, such as primary care or general medical out-patients. '
+  'Alat ukur GHQ-12 digunakan sebagai instrumen skrining kesehatan mental dalam konseling sebaya. Melalui skrining kesehatan mental, konselor dapat memperoleh gambaran permasalahan psikologis yang dialami klien.'

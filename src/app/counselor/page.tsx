@@ -1,25 +1,58 @@
 'use client'
 
-import { GET_COUNSELOR } from '@/actions/counselor'
+import { GetCounselorByUnameQuery } from '@/__generated__/graphql'
+import { ACCEPT_BOOKING, REJECT_BOOKING } from '@/actions/booking'
+import { GET_COUNSELOR_BY_ID } from '@/actions/counselor'
 import { useAuth } from '@/components/contexts/AuthContext'
 import ClientTable from '@/components/elements/ClientTable'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
+import { Badge } from '@mantine/core'
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+
+type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
+  ? ElementType
+  : never
 
 const DashboardPage = () => {
   const { user } = useAuth()
 
-  const { data } = useQuery(GET_COUNSELOR, {
+  const [counselor, setCounselor] =
+    useState<ArrElement<GetCounselorByUnameQuery['getCounselorByUname']>>()
+
+  const router = useRouter()
+
+  const { loading } = useQuery(GET_COUNSELOR_BY_ID, {
     variables: {
-      getCounselorDto: {
-        counselorName: user.username,
+      getCounselor: {
+        username: user.username,
       },
+    },
+    onCompleted(data) {
+      console.log(user)
+      console.log(data)
+      if (!data.getCounselorByUname) {
+        void router.replace('/')
+        return
+      }
+      setCounselor(data.getCounselorByUname[0])
     },
   })
 
-  console.log(data)
+  const [acceptBooking] = useMutation(ACCEPT_BOOKING, {
+    onCompleted(data) {
+      counselor?.Booking?.filter((val) => val.id !== data.acceptBooking?.id)
+    },
+  })
+
+  const [rejectBooking] = useMutation(REJECT_BOOKING, {
+    onCompleted(data) {
+      counselor?.Booking?.filter((val) => val.id !== data.rejectBooking?.id)
+    },
+  })
 
   return (
     <>

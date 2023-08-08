@@ -1,12 +1,17 @@
 'use client'
 
 import { BookingFilterQuery } from '@/__generated__/graphql'
-import { ADMIN_ACCEPT_BOOKING, GET_BOOKING } from '@/actions/booking'
+import {
+  ADMIN_ACCEPT_BOOKING,
+  ADMIN_TERMINATE,
+  GET_BOOKING,
+} from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge, Select, TextInput, Button } from '@mantine/core'
 import { DatePickerInput, DateValue } from '@mantine/dates'
 import { useDebouncedState } from '@mantine/hooks'
+import Link from 'next/link'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { BsFilter, BsThreeDotsVertical } from 'react-icons/bs'
 import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
@@ -47,6 +52,16 @@ const AdminClientPage = () => {
     },
     onCompleted(data) {
       setResult(data)
+    },
+  })
+
+  const [adminTerminate, {}] = useMutation(ADMIN_TERMINATE, {
+    onCompleted(data, clientOptions) {
+      refetch({
+        getBookingFilter: {
+          day: date.toISOString(),
+        },
+      })
     },
   })
 
@@ -165,8 +180,12 @@ const AdminClientPage = () => {
           rowComponent={(val, index) => (
             <tr key={index}>
               <td className="min-h-[80px]">
-                <p>{val.user?.username}</p>
-                <small className="opacity-70">{val.user?.account.major}</small>
+                <Link href={`/clients/${val.id}`}>
+                  <p>{val.user?.username}</p>
+                  <small className="opacity-70">
+                    {val.user?.account.major}
+                  </small>
+                </Link>
               </td>
               <td className="min-h-[80px]">
                 <p>{val.councelor?.user?.fullname}</p>
@@ -180,13 +199,23 @@ const AdminClientPage = () => {
                 </p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">
-                {/* <Badge
-                  color={val.isAccepted ? 'green' : 'red'}
-                >
-                  {val.isAccepted ? 'Accepted' : 'Terminated'}
-                </Badge> */}
+                <Badge color={val.isAccepted ? 'green' : 'red'}>
+                  {val.isAccepted ? 'Accepted' : 'Waiting'}
+                </Badge>
                 {val.adminAcc ? (
-                  <Button color="red" variant="outline">
+                  <Button
+                    color="red"
+                    variant="outline"
+                    onClick={() =>
+                      adminTerminate({
+                        variables: {
+                          adminTerminate: {
+                            id: val.id,
+                          },
+                        },
+                      })
+                    }
+                  >
                     Terminasi
                   </Button>
                 ) : (

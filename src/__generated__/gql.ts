@@ -43,12 +43,22 @@ const documents = {
     types.BookingFilterDocument,
   '\nmutation AdminAcc($adminAccInput: AdminAccBooking!) {\n  adminAcc(adminAccInput: $adminAccInput) {\n    id\n    adminAcc\n  }\n}\n':
     types.AdminAccDocument,
-  '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n':
+  '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  id\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n':
     types.AdminRundownDocument,
   '\nquery AdminGetBooking($adminGetBooking: AdminGetBooking!) {\n  adminGetBooking(adminGetBooking: $adminGetBooking) {\n    bookingTime\n    bookingTime2\n    bookingDay\n    counselorType\n    reasonApply\n    CounselingLog {\n      id\n      bookingId\n      time\n      detail\n      title\n    }\n    user {\n      username\n      fullname\n      igAcc\n      lineAcc\n      account {\n        faculty\n        major\n        channel\n        gender\n      }\n    }\n    councelor {\n      user {\n        username\n        fullname\n      }\n    }\n    number_1\n    number_2\n    number_3\n    number_4\n    number_5\n    number_6\n    number_7\n    number_8\n    number_9\n    number_10\n    number_11\n    number_12\n    isSuicidal\n  }\n}\n':
     types.AdminGetBookingDocument,
-  '\n    query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    counselorType\n    user {\n      username\n      lineAcc\n      igAcc\n      fullname\n      \n    }\n    Booking {\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n    }\n  }\n}\n':
+  '\nmutation AcceptBooking($accBookingInput: AcceptBooking!) {\n  acceptBooking(accBookingInput: $accBookingInput) {\n    id\n    isAccepted\n    isTerminated\n  }\n}\n':
+    types.AcceptBookingDocument,
+  '\nmutation RejectBooking($rejectBookingInput: RejectBookingDTO!) {\n  rejectBooking(rejectBookingInput: $rejectBookingInput) {\n    id\n    isAccepted\n    isTerminated\n  }\n}\n':
+    types.RejectBookingDocument,
+  '\nmutation AdminTerminate($adminTerminate: AdminTermiate!) {\n  adminTerminate(adminTerminate: $adminTerminate) {\n    isTerminated\n  }\n}\n':
+    types.AdminTerminateDocument,
+  '\nmutation CreateCounselingLog($createCounselingLogInput: CreateCounselingLogInput!) {\n    createCounselingLog(createCounselingLogInput: $createCounselingLogInput) {\n      bookingId\n      title\n      detail\n    }\n  }':
+    types.CreateCounselingLogDocument,
+  '\nquery CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    counselorType\n    user {\n      id\n      username\n      lineAcc\n      igAcc\n      fullname\n      account {\n        gender\n        faculty\n        major\n      }\n    }\n    Booking {\n      id\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n      CounselingLog {\n        detail\n        title\n        time\n        client {\n          username\n          account {\n            major\n          }\n        }\n        bookingId\n      }\n    }\n  }\n}\n':
     types.CounselorFilterDocument,
+  '\nquery GetCounselorByUname($getCounselor: GetCouncelor!) {\n  getCounselorByUname(getCounselor: $getCounselor) {\n    counselorType\n    user {\n      id\n      username\n      lineAcc\n      igAcc\n      fullname\n      account {\n        gender\n        faculty\n        major\n      }\n    }\n    Booking {\n      id\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      adminAcc\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n    }\n  }\n}\n':
+    types.GetCounselorByUnameDocument,
   '\n    query FindAllEvent {\n        findAllEvent {\n        id\n        title\n        location\n        date\n        time\n        posterUrl\n        description\n        }\n    }\n':
     types.FindAllEventDocument,
   '\n    query FindByPageEvent($page: Int!) {\n        findByPageEvent(page: $page) {\n        id\n        title\n        date\n        location\n        time\n        description\n        posterUrl\n        }\n    }\n':
@@ -193,8 +203,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n'
-): (typeof documents)['\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n']
+  source: '\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  id\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n'
+): (typeof documents)['\nquery AdminRundown($getBookingFilter: GetAdminRundown!) {\n  adminRundown(getBookingFilter: $getBookingFilter) {\n  id\n  councelor {\n    user {\n      fullname\n    }\n    id\n  }  \n  user {\n    fullname\n    id\n  }\n  bookingTime\n  bookingDay\n  bookingDate\n  }\n}\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -205,8 +215,38 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n    query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    counselorType\n    user {\n      username\n      lineAcc\n      igAcc\n      fullname\n      \n    }\n    Booking {\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n    }\n  }\n}\n'
-): (typeof documents)['\n    query CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    counselorType\n    user {\n      username\n      lineAcc\n      igAcc\n      fullname\n      \n    }\n    Booking {\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n    }\n  }\n}\n']
+  source: '\nmutation AcceptBooking($accBookingInput: AcceptBooking!) {\n  acceptBooking(accBookingInput: $accBookingInput) {\n    id\n    isAccepted\n    isTerminated\n  }\n}\n'
+): (typeof documents)['\nmutation AcceptBooking($accBookingInput: AcceptBooking!) {\n  acceptBooking(accBookingInput: $accBookingInput) {\n    id\n    isAccepted\n    isTerminated\n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nmutation RejectBooking($rejectBookingInput: RejectBookingDTO!) {\n  rejectBooking(rejectBookingInput: $rejectBookingInput) {\n    id\n    isAccepted\n    isTerminated\n  }\n}\n'
+): (typeof documents)['\nmutation RejectBooking($rejectBookingInput: RejectBookingDTO!) {\n  rejectBooking(rejectBookingInput: $rejectBookingInput) {\n    id\n    isAccepted\n    isTerminated\n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nmutation AdminTerminate($adminTerminate: AdminTermiate!) {\n  adminTerminate(adminTerminate: $adminTerminate) {\n    isTerminated\n  }\n}\n'
+): (typeof documents)['\nmutation AdminTerminate($adminTerminate: AdminTermiate!) {\n  adminTerminate(adminTerminate: $adminTerminate) {\n    isTerminated\n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nmutation CreateCounselingLog($createCounselingLogInput: CreateCounselingLogInput!) {\n    createCounselingLog(createCounselingLogInput: $createCounselingLogInput) {\n      bookingId\n      title\n      detail\n    }\n  }'
+): (typeof documents)['\nmutation CreateCounselingLog($createCounselingLogInput: CreateCounselingLogInput!) {\n    createCounselingLog(createCounselingLogInput: $createCounselingLogInput) {\n      bookingId\n      title\n      detail\n    }\n  }']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nquery CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    counselorType\n    user {\n      id\n      username\n      lineAcc\n      igAcc\n      fullname\n      account {\n        gender\n        faculty\n        major\n      }\n    }\n    Booking {\n      id\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n      CounselingLog {\n        detail\n        title\n        time\n        client {\n          username\n          account {\n            major\n          }\n        }\n        bookingId\n      }\n    }\n  }\n}\n'
+): (typeof documents)['\nquery CounselorFilter($getCounselorDto: GetCouncelorFilter!) {\n  counselorFilter(getCounselorDto: $getCounselorDto) {\n    counselorType\n    user {\n      id\n      username\n      lineAcc\n      igAcc\n      fullname\n      account {\n        gender\n        faculty\n        major\n      }\n    }\n    Booking {\n      id\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n      CounselingLog {\n        detail\n        title\n        time\n        client {\n          username\n          account {\n            major\n          }\n        }\n        bookingId\n      }\n    }\n  }\n}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\nquery GetCounselorByUname($getCounselor: GetCouncelor!) {\n  getCounselorByUname(getCounselor: $getCounselor) {\n    counselorType\n    user {\n      id\n      username\n      lineAcc\n      igAcc\n      fullname\n      account {\n        gender\n        faculty\n        major\n      }\n    }\n    Booking {\n      id\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      adminAcc\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n    }\n  }\n}\n'
+): (typeof documents)['\nquery GetCounselorByUname($getCounselor: GetCouncelor!) {\n  getCounselorByUname(getCounselor: $getCounselor) {\n    counselorType\n    user {\n      id\n      username\n      lineAcc\n      igAcc\n      fullname\n      account {\n        gender\n        faculty\n        major\n      }\n    }\n    Booking {\n      id\n      bookingDate\n      bookingDay\n      bookingTime\n      isTerminated\n      adminAcc\n      isAccepted\n      reasonApply\n      user {\n        username\n        account {\n          major\n        }\n      }\n    }\n  }\n}\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -32,10 +32,14 @@ export const GQHQuestionModule: React.FC = () => {
       .getItem('time')
       ?.split(' -- ') as string[]
 
+    const tanggal = new Date(
+      decodeURI(localStorage.getItem('date') as string)
+    ).toISOString()
+
     mutate({
       variables: {
         createBookingInput: {
-          bookingDate: localStorage.getItem('date'),
+          bookingDate: tanggal,
           reasonApply: localStorage.getItem('reason') as string,
           isSuicidal: closest as boolean,
           closestKnown:
@@ -61,7 +65,7 @@ export const GQHQuestionModule: React.FC = () => {
         },
       },
       onCompleted(data, clientOptions) {
-        console.log(data)
+        console.log(tanggal)
         localStorage.removeItem('date')
         localStorage.removeItem('reason')
         localStorage.removeItem('closest')
@@ -134,7 +138,8 @@ export const GQHQuestionModule: React.FC = () => {
           })}
           <div>
             <p className=" font-semibold">
-              Apakah anda pernah berpikiran untuk bunuh diri?
+              Apakah Anda melakukan tindakan menyakiti diri dan/atau memiliki
+              pikiran untuk mengakhiri hidup?
             </p>
           </div>
           <div className="flex gap-2">

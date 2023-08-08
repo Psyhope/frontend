@@ -1,19 +1,36 @@
 ;`use client`
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ClientTable from '@/components/elements/ClientTable'
-import { IdentityStore } from 'aws-sdk'
-import { useParams } from 'next/navigation'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_CLIENT_DETAIL } from '@/actions/booking'
+import { Modal } from '@mantine/core'
 import { Booking, CounselingLog, DetailClientModule } from './interface'
 import { monthNames } from './const'
 import { dayNames } from '../ScheduleModule/const'
+import { useAuth } from '@/components/contexts/AuthContext'
+import { IconPlus } from '@tabler/icons-react'
+import { useDisclosure } from '@mantine/hooks'
+import { DateValue } from '@mantine/dates'
+import { HiOutlineCalendar } from 'react-icons/hi'
+import { HiChevronDown } from 'react-icons/hi'
+import { TextInput, Textarea } from '@mantine/core'
+import { CREATE_LOG } from '@/actions/counselingLog'
+import { DateTimePicker } from '@mantine/dates'
 
 export const DetailClientsModule: React.FC<DetailClientModule> = ({
   bookingId,
 }) => {
   const [booking, setBooking] = useState<Booking>()
+  const [opened, { open, close }] = useDisclosure(false)
+  const { user } = useAuth()
+  const [date, setDate] = useState(new Date(new Date().toISOString()))
+  const [title, setTitle] = useState('')
+  const [desc, setDesct] = useState('')
+  const [dateVal, setDateVal] = useState<DateValue>(new Date())
+  const [totalVal, setTotal] = useState(0)
+
+  const [mutate, {}] = useMutation(CREATE_LOG)
 
   const { refetch: getBooking } = useQuery(GET_CLIENT_DETAIL, {
     variables: {
@@ -22,7 +39,6 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
       },
     },
     onCompleted(data) {
-      console.log(data.adminGetBooking)
       if (data.adminGetBooking != null)
         setBooking({
           bookingDay: data.adminGetBooking.bookingDay as string,
@@ -78,6 +94,101 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
     <>
       {booking != null ? (
         <>
+          <Modal
+            opened={opened}
+            onClose={close}
+            withCloseButton={false}
+            size="lg"
+            sx={{
+              height: 100,
+            }}
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col justify-center">
+                <p className=" text-2xl font-semibold">Tambah Log Konseling</p>
+                <p>Silakan tambah log konseling dengan mengisi data berikut.</p>
+              </div>
+              <div>
+                <div className="bg-[#FFFAEB] p-2 rounded-lg border">
+                  <p>
+                    {booking.user.account.channel} :{' '}
+                    {booking.user.account.channel == 'LINE'
+                      ? booking.user.lineAcc
+                      : booking.user.igAcc}
+                  </p>
+                  <p>
+                    Jadwal Konseling: {booking.bookingDay},{' '}
+                    {booking.bookingTime} WIB
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <DateTimePicker
+                  label="Pick date and time"
+                  placeholder="Pick date and time"
+                  defaultValue={dateVal}
+                  className="w-full"
+                  icon={<HiOutlineCalendar />}
+                  rightSection={<HiChevronDown />}
+                  mx="auto"
+                  onChange={(e) => {
+                    setDateVal(e)
+                  }}
+                />
+                <TextInput
+                  label="Judul"
+                  size="md"
+                  placeholder="e.g. Website design"
+                  onChange={(e) => {
+                    setTitle(e.target.value)
+                  }}
+                />
+                <Textarea
+                  placeholder="Enter a description..."
+                  label="Detail Konseling"
+                  size="md"
+                  withAsterisk
+                  onChange={(e) => {
+                    setDesct(e.target.value)
+                  }}
+                />
+              </div>
+              <div className="flex justify-evenly">
+                <button
+                  className="text-black bg-white border-1 p-2 drop-shadow-md border items-center rounded-lg w-1/3"
+                  onClick={close}
+                >
+                  <div className="flex gap-1 justify-center items-center">
+                    <p>Oke, Mengerti</p>
+                  </div>
+                </button>
+                <button
+                  className="text-white bg-[#7F56D9] border-1 p-2 drop-shadow-md border-[#667085] items-center rounded-lg w-1/3"
+                  onClick={() => {
+                    mutate({
+                      variables: {
+                        createCounselingLogInput: {
+                          bookingId: parseInt(bookingId),
+                          detail: desc,
+                          title,
+                          time: dateVal?.toISOString(),
+                        },
+                      },
+                      onCompleted(data, clientOptions) {
+                        close()
+                        setDateVal(new Date())
+                        getBooking()
+                      },
+                    })
+                  }}
+                >
+                  <div className="flex gap-1 justify-center items-center">
+                    <p>Tambah Log</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </Modal>
           <section className="">
             <article className="">
               <h1 className="py-4 text-2xl font-semibold">Data Diri Klien</h1>
@@ -121,7 +232,19 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
           </section>
           <section className="">
             <aside className="flex items-center gap-2 mb-3">
-              <h1 className="text-3xl font-semibold">Log Konseling</h1>
+              <div className="flex w-full gap-4">
+                <h1 className="text-3xl font-semibold">Log Konseling</h1>
+                {user.role == 'PSYHOPE_COUNSELOR' ||
+                user.role == 'FACULTY_COUNSELOR' ? (
+                  <div className="flex items-center bg-[#7F56D9] p-2 text-white rounded-lg">
+                    <button onClick={open} className="flex gap-2 items-center">
+                      Tambah Log <IconPlus></IconPlus>
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
             </aside>
             <ClientTable
               title=""
@@ -147,14 +270,11 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                       </p>
                     </div>
                   </td>
-                  <td className="flex items-center justify-between w-1/2">
+                  <td className="flex items-center justify-between w-full">
                     <div className="flex flex-col gap-2">
                       <p className="font-semibold">{val.title}</p>
                       <p>{val.detail}</p>
                     </div>
-                    <button>
-                      <BsThreeDotsVertical />
-                    </button>
                   </td>
                 </tr>
               )}
@@ -176,76 +296,54 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
             </p>
             <ul className="grid grid-cols-1 gap-5 mt-5 list-none sm:grid-cols-2 md:grid-cols-3">
               <li>
+                <h4 className="mt-3">
+                  Nilai:{' '}
+                  {booking.number_1 +
+                    booking.number_2 +
+                    booking.number_3 +
+                    booking.number_4 +
+                    booking.number_5 +
+                    booking.number_6 +
+                    booking.number_7 +
+                    booking.number_8 +
+                    booking.number_9 +
+                    booking.number_10 +
+                    booking.number_11 +
+                    booking.number_12}
+                </h4>
                 <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
+                  <h3>
+                    {booking.number_1 +
+                      booking.number_2 +
+                      booking.number_3 +
+                      booking.number_4 +
+                      booking.number_5 +
+                      booking.number_6 +
+                      booking.number_7 +
+                      booking.number_8 +
+                      booking.number_9 +
+                      booking.number_10 +
+                      booking.number_11 +
+                      booking.number_12 >
+                    12
+                      ? booking.number_1 +
+                          booking.number_2 +
+                          booking.number_3 +
+                          booking.number_4 +
+                          booking.number_5 +
+                          booking.number_6 +
+                          booking.number_7 +
+                          booking.number_8 +
+                          booking.number_9 +
+                          booking.number_10 +
+                          booking.number_11 +
+                          booking.number_12 >
+                        24
+                        ? 'Tingkat Stres Tinggi'
+                        : 'Tingkat Stres Menengah'
+                      : 'Tingkat Stres Rendah'}
+                  </h3>
                 </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
-              </li>
-              <li>
-                <div className="px-4 py-2 text-center text-white rounded-full bg-primary-500 w-max">
-                  <h3>Metrics 1</h3>
-                </div>
-                <h4 className="mt-3">Nilai: {8}</h4>
-                <p>
-                  Penjelasan:{' '}
-                  {
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, inventore voluptatem ipsam optio nostrum, officiis ea pariatur, possimus harum nobis ullam fugit nam necessitatibus ex. Laborum saepe quis minus molestias!'
-                  }
-                </p>
               </li>
             </ul>
           </section>

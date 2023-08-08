@@ -64,29 +64,14 @@ export type Account = {
 }
 
 export type AdminAccBooking = {
-  bookingDate?: InputMaybe<Scalars['DateTime']['input']>
-  bookingTime?: InputMaybe<Scalars['String']['input']>
-  bookingTime2?: InputMaybe<Scalars['String']['input']>
-  closestKnown?: InputMaybe<Scalars['Boolean']['input']>
-  counselorType?: InputMaybe<CounselorType>
   id: Scalars['Int']['input']
-  isSuicidal?: InputMaybe<Scalars['Boolean']['input']>
-  number_1?: InputMaybe<Scalars['Int']['input']>
-  number_2?: InputMaybe<Scalars['Int']['input']>
-  number_3?: InputMaybe<Scalars['Int']['input']>
-  number_4?: InputMaybe<Scalars['Int']['input']>
-  number_5?: InputMaybe<Scalars['Int']['input']>
-  number_6?: InputMaybe<Scalars['Int']['input']>
-  number_7?: InputMaybe<Scalars['Int']['input']>
-  number_8?: InputMaybe<Scalars['Int']['input']>
-  number_9?: InputMaybe<Scalars['Int']['input']>
-  number_10?: InputMaybe<Scalars['Int']['input']>
-  number_11?: InputMaybe<Scalars['Int']['input']>
-  number_12?: InputMaybe<Scalars['Int']['input']>
-  reasonApply?: InputMaybe<Scalars['String']['input']>
 }
 
 export type AdminGetBooking = {
+  id: Scalars['Int']['input']
+}
+
+export type AdminTermiate = {
   id: Scalars['Int']['input']
 }
 
@@ -162,12 +147,12 @@ export type CouncelorSchedule = {
 export type CounselingLog = {
   __typename?: 'CounselingLog'
   bookingId: Scalars['Int']['output']
-  client: User
+  client?: Maybe<User>
   detail: Scalars['String']['output']
   id: Scalars['Int']['output']
   time: Scalars['DateTime']['output']
   title: Scalars['String']['output']
-  userId: Scalars['String']['output']
+  userId?: Maybe<Scalars['String']['output']>
 }
 
 /** The type of counselor, either PSYHOPE or FACULTY */
@@ -295,6 +280,7 @@ export type Mutation = {
   __typename?: 'Mutation'
   acceptBooking?: Maybe<Booking>
   adminAcc?: Maybe<Booking>
+  adminTerminate?: Maybe<Booking>
   createArticle: Article
   createBooking?: Maybe<Booking>
   createCounselingLog?: Maybe<CounselingLog>
@@ -317,6 +303,10 @@ export type MutationAcceptBookingArgs = {
 
 export type MutationAdminAccArgs = {
   adminAccInput: AdminAccBooking
+}
+
+export type MutationAdminTerminateArgs = {
+  adminTerminate: AdminTermiate
 }
 
 export type MutationCreateArticleArgs = {
@@ -770,6 +760,7 @@ export type AdminRundownQuery = {
   __typename?: 'Query'
   adminRundown?: Array<{
     __typename?: 'Booking'
+    id: number
     bookingTime: string
     bookingDay: string
     bookingDate: any
@@ -837,6 +828,57 @@ export type AdminGetBookingQuery = {
   } | null
 }
 
+export type AcceptBookingMutationVariables = Exact<{
+  accBookingInput: AcceptBooking
+}>
+
+export type AcceptBookingMutation = {
+  __typename?: 'Mutation'
+  acceptBooking?: {
+    __typename?: 'Booking'
+    id: number
+    isAccepted: boolean
+    isTerminated: boolean
+  } | null
+}
+
+export type RejectBookingMutationVariables = Exact<{
+  rejectBookingInput: RejectBookingDto
+}>
+
+export type RejectBookingMutation = {
+  __typename?: 'Mutation'
+  rejectBooking?: {
+    __typename?: 'Booking'
+    id: number
+    isAccepted: boolean
+    isTerminated: boolean
+  } | null
+}
+
+export type AdminTerminateMutationVariables = Exact<{
+  adminTerminate: AdminTermiate
+}>
+
+export type AdminTerminateMutation = {
+  __typename?: 'Mutation'
+  adminTerminate?: { __typename?: 'Booking'; isTerminated: boolean } | null
+}
+
+export type CreateCounselingLogMutationVariables = Exact<{
+  createCounselingLogInput: CreateCounselingLogInput
+}>
+
+export type CreateCounselingLogMutation = {
+  __typename?: 'Mutation'
+  createCounselingLog?: {
+    __typename?: 'CounselingLog'
+    bookingId: number
+    title: string
+    detail: string
+  } | null
+}
+
 export type CounselorFilterQueryVariables = Exact<{
   getCounselorDto: GetCouncelorFilter
 }>
@@ -848,17 +890,79 @@ export type CounselorFilterQuery = {
     counselorType: CounselorType
     user?: {
       __typename?: 'User'
+      id: string
       username: string
       lineAcc?: string | null
       igAcc?: string | null
       fullname: string
+      account: {
+        __typename?: 'Account'
+        gender: string
+        faculty: string
+        major: string
+      }
     } | null
     Booking?: Array<{
       __typename?: 'Booking'
+      id: number
       bookingDate: any
       bookingDay: string
       bookingTime: string
       isTerminated: boolean
+      isAccepted: boolean
+      reasonApply: string
+      user?: {
+        __typename?: 'User'
+        username: string
+        account: { __typename?: 'Account'; major: string }
+      } | null
+      CounselingLog?: Array<{
+        __typename?: 'CounselingLog'
+        detail: string
+        title: string
+        time: any
+        bookingId: number
+        client?: {
+          __typename?: 'User'
+          username: string
+          account: { __typename?: 'Account'; major: string }
+        } | null
+      }> | null
+    }> | null
+  }> | null
+}
+
+export type GetCounselorByUnameQueryVariables = Exact<{
+  getCounselor: GetCouncelor
+}>
+
+export type GetCounselorByUnameQuery = {
+  __typename?: 'Query'
+  getCounselorByUname?: Array<{
+    __typename?: 'Councelor'
+    counselorType: CounselorType
+    user?: {
+      __typename?: 'User'
+      id: string
+      username: string
+      lineAcc?: string | null
+      igAcc?: string | null
+      fullname: string
+      account: {
+        __typename?: 'Account'
+        gender: string
+        faculty: string
+        major: string
+      }
+    } | null
+    Booking?: Array<{
+      __typename?: 'Booking'
+      id: number
+      bookingDate: any
+      bookingDay: string
+      bookingTime: string
+      isTerminated: boolean
+      adminAcc: boolean
       isAccepted: boolean
       reasonApply: string
       user?: {
@@ -2026,6 +2130,7 @@ export const AdminRundownDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'councelor' },
@@ -2244,6 +2349,237 @@ export const AdminGetBookingDocument = {
   AdminGetBookingQuery,
   AdminGetBookingQueryVariables
 >
+export const AcceptBookingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AcceptBooking' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accBookingInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AcceptBooking' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'acceptBooking' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'accBookingInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accBookingInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isAccepted' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'isTerminated' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AcceptBookingMutation,
+  AcceptBookingMutationVariables
+>
+export const RejectBookingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'RejectBooking' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'rejectBookingInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'RejectBookingDTO' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'rejectBooking' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'rejectBookingInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'rejectBookingInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isAccepted' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'isTerminated' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  RejectBookingMutation,
+  RejectBookingMutationVariables
+>
+export const AdminTerminateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AdminTerminate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'adminTerminate' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AdminTermiate' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'adminTerminate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'adminTerminate' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'adminTerminate' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'isTerminated' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminTerminateMutation,
+  AdminTerminateMutationVariables
+>
+export const CreateCounselingLogDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateCounselingLog' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createCounselingLogInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateCounselingLogInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createCounselingLog' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'createCounselingLogInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'createCounselingLogInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'bookingId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'detail' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateCounselingLogMutation,
+  CreateCounselingLogMutationVariables
+>
 export const CounselorFilterDocument = {
   kind: 'Document',
   definitions: [
@@ -2296,6 +2632,7 @@ export const CounselorFilterDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'username' },
@@ -2309,6 +2646,27 @@ export const CounselorFilterDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'fullname' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'account' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'gender' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'faculty' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'major' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -2318,6 +2676,7 @@ export const CounselorFilterDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'bookingDate' },
@@ -2368,6 +2727,60 @@ export const CounselorFilterDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'CounselingLog' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'detail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'title' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'time' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'client' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'username' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'account' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'major',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'bookingId' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -2381,6 +2794,171 @@ export const CounselorFilterDocument = {
 } as unknown as DocumentNode<
   CounselorFilterQuery,
   CounselorFilterQueryVariables
+>
+export const GetCounselorByUnameDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCounselorByUname' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'getCounselor' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'GetCouncelor' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getCounselorByUname' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'getCounselor' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'getCounselor' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'counselorType' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lineAcc' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'igAcc' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'account' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'gender' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'faculty' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'major' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'Booking' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingDate' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingDay' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingTime' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isTerminated' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'adminAcc' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isAccepted' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'reasonApply' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'account' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'major' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetCounselorByUnameQuery,
+  GetCounselorByUnameQueryVariables
 >
 export const FindAllEventDocument = {
   kind: 'Document',

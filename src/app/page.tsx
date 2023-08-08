@@ -11,6 +11,7 @@ import { GET_BY_LIMIT_ARTICLE } from '@/actions/article'
 import { notifications } from '@mantine/notifications'
 import Link from 'next/link'
 import { GET_BY_LIMIT_INFOGRAFIC } from '@/actions/infografic'
+import { useRouter } from 'next/navigation'
 
 type Article = {
   id: number
@@ -30,6 +31,7 @@ type Infografic = {
 export default function Home() {
   const [listArticle, setListArticle] = useState<Array<Article>>()
   const [listInfografic, setListInfografic] = useState<Array<Infografic>>()
+  const router = useRouter()
 
   const {} = useQuery(GET_BY_LIMIT_ARTICLE, {
     variables: {
@@ -107,6 +109,22 @@ export default function Home() {
                 className="relative z-0"
               />
             </div>
+            <button
+              onClick={() => {
+                router.push('/dashboard')
+              }}
+              className="mt-2 py-3 font-semibold rounded-lg drop-shadow-lg active:drop-shadow-none px-4 bg-[#7F56D9] flex-none w-fit text-white text-xs lg:text-base"
+            >
+              Daftar Konseling Sekarang!
+            </button>
+          </div>
+          <div className="md:w-2/5 w-full h-32 md:h-auto relative">
+            <Image
+              src={HeroAssets}
+              alt="Hero Assets"
+              fill
+              className="relative z-0"
+            />
           </div>
         </div>
         {/* Infografis */}

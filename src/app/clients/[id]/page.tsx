@@ -1,5 +1,6 @@
 'use client'
 
+import { GET_BOOKING_CLIENT } from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
 import { IdentityStore } from 'aws-sdk'
 import { useParams } from 'next/navigation'
@@ -11,6 +12,10 @@ import { DetailClientsModule } from '@/components/modules/DetailClientsModule'
 
 const ClientByIDPage = () => {
   const { id } = useParams()
+  const { data } = useQuery(GET_BOOKING_CLIENT, {
+    variables: {},
+  })
+
   return (
     <>
       <head>

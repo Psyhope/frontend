@@ -1,12 +1,13 @@
 'use client'
 
+import { CounselingLog, CounselorFilterQuery } from '@/__generated__/graphql'
 import { GET_COUNSELOR } from '@/actions/counselor'
 import ClientTable from '@/components/elements/ClientTable'
 import { useQuery } from '@apollo/client'
 import { Badge, Button } from '@mantine/core'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { HiArrowLeft } from 'react-icons/hi'
 
@@ -16,18 +17,33 @@ const formatter = Intl.DateTimeFormat('id-ID', {
   timeZone: 'Asia/Jakarta',
 })
 
+type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
+  ? ElementType
+  : never
+
 const CounselorByNamePage = () => {
+  const { id } = useParams()
+
+  const [counselor, setCounselor] =
+    useState<ArrElement<CounselorFilterQuery['counselorFilter']>>()
+
   const router = useRouter()
 
-  const { data } = useQuery(GET_COUNSELOR, {
+  const { data, refetch } = useQuery(GET_COUNSELOR, {
     variables: {
       getCounselorDto: {
-        counselorName: router.query.id as string,
+        counselorName: decodeURI(id),
       },
     },
+    onCompleted(data) {
+      console.log(data)
+      if (!data.counselorFilter) {
+        void router.replace('/')
+        return
+      }
+      setCounselor(data.counselorFilter[0])
+    },
   })
-
-  console.log(data)
 
   return (
     <>

@@ -108,6 +108,7 @@ mutation AdminAcc($adminAccInput: AdminAccBooking!) {
 export const GET_ALL_SCHEDULES = gql(`
 query AdminRundown($getBookingFilter: GetAdminRundown!) {
   adminRundown(getBookingFilter: $getBookingFilter) {
+  id
   councelor {
     user {
       fullname
@@ -171,6 +172,34 @@ query AdminGetBooking($adminGetBooking: AdminGetBooking!) {
     number_11
     number_12
     isSuicidal
+  }
+}
+`)
+
+export const ACCEPT_BOOKING = gql(`
+mutation AcceptBooking($accBookingInput: AcceptBooking!) {
+  acceptBooking(accBookingInput: $accBookingInput) {
+    id
+    isAccepted
+    isTerminated
+  }
+}
+`)
+
+export const REJECT_BOOKING = gql(`
+mutation RejectBooking($rejectBookingInput: RejectBookingDTO!) {
+  rejectBooking(rejectBookingInput: $rejectBookingInput) {
+    id
+    isAccepted
+    isTerminated
+  }
+}
+`)
+
+export const ADMIN_TERMINATE = gql(`
+mutation AdminTerminate($adminTerminate: AdminTermiate!) {
+  adminTerminate(adminTerminate: $adminTerminate) {
+    isTerminated
   }
 }
 `)

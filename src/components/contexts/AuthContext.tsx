@@ -24,13 +24,14 @@ const AuthContext = createContext<{
     id: string
     role: string
     isOnboarded: boolean
+    faculty: string
   }
   login: (username: string, password: string) => Promise<void>
   logout: () => void
   refreshToken: () => Promise<void>
 }>({
   accessToken: '',
-  user: { username: '', id: '', role: '', isOnboarded: false },
+  user: { username: '', id: '', role: '', isOnboarded: false, faculty: '' },
   login: undefined as unknown as (
     username: string,
     password: string
@@ -46,7 +47,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     id: string
     role: string
     isOnboarded: boolean
-  }>({ username: '', id: '', role: '', isOnboarded: false })
+    faculty: string
+  }>({ username: '', id: '', role: '', isOnboarded: false, faculty: '' })
   const [loading, setLoading] = useState(true)
 
   const router = useRouter()
@@ -70,12 +72,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         sub: string
         role: string
         isOnboarded: boolean
+        faculty: string
       }>(data.accessToken)
       setUser({
         username: user.username,
         id: user.sub,
         role: user.role,
         isOnboarded: user.isOnboarded as boolean,
+        faculty: user.faculty,
       })
       setAccessToken(data.accessToken)
       notifications.show({
@@ -116,12 +120,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         sub: string
         role: string
         isOnboarded: boolean
+        faculty: string
       }>(data.accessToken)
       setUser({
         username: user.username,
         id: user.sub,
         role: user.role,
         isOnboarded: user.isOnboarded,
+        faculty: user.faculty,
       })
       setAccessToken(data.accessToken)
     } catch (error) {
@@ -138,7 +144,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true)
     router.replace('/login')
     setAccessToken('')
-    setUser({ username: '', id: '', role: '', isOnboarded: false })
+    setUser({ username: '', id: '', role: '', isOnboarded: false, faculty: '' })
     fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
       headers: {
         'Content-Type': 'application/json',
@@ -159,6 +165,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           sub: string
           role: string
           isOnboarded: boolean
+          faculty: string
         }
         token: string
       } = await res.json()
@@ -167,6 +174,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         username: data.user.username,
         role: data.user.role,
         isOnboarded: data.user.isOnboarded,
+        faculty: data.user.faculty,
       })
       setAccessToken(data.token)
     } catch (err) {
