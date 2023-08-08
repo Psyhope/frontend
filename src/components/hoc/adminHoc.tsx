@@ -17,8 +17,7 @@ const adminHoc = <T extends object>(Component: ComponentType<T>) => {
       return <></>
     } else if (user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN') {
       return <Component {...props} />
-    }
-    else {
+    } else {
       router.replace('/')
       return <></>
     }
