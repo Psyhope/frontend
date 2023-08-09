@@ -278,7 +278,7 @@ export const DashboardModule: React.FC = () => {
                     {facultyKeys?.[user.faculty as keyof FacultyKeys]?.title}
                   </button>
                 </div>
-                <div className="flex justify-center">
+                {/* <div className="flex justify-center">
                   <div className="lg:w-1/2">
                     <div className="w-full">
                       <Button
@@ -307,7 +307,7 @@ export const DashboardModule: React.FC = () => {
                       </Button>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
