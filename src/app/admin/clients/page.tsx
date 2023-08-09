@@ -60,7 +60,7 @@ const AdminClientPage = () => {
     onCompleted(data, clientOptions) {
       refetch({
         getBookingFilter: {
-          day: date.toISOString(),
+          day: dayNames[new Date(date.toISOString()).getDay()],
         },
       })
     },
@@ -70,7 +70,7 @@ const AdminClientPage = () => {
     onCompleted(data, clientOptions) {
       refetch({
         getBookingFilter: {
-          day: date.toISOString(),
+          day: dayNames[new Date(date.toISOString()).getDay()],
         },
       })
     },
