@@ -47,7 +47,7 @@ const AdminClientPage = () => {
   const { data, refetch } = useQuery(GET_BOOKING, {
     variables: {
       getBookingFilter: {
-        day: date.toISOString(),
+        day: dayNames[new Date(date.toISOString()).getDay()],
         // status: status ? StatusRequest[status as keyof typeof StatusRequest] : undefined,
       },
     },
