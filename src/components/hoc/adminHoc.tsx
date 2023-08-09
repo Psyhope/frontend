@@ -15,7 +15,8 @@ const adminHoc = <T extends object>(Component: ComponentType<T>) => {
     } else if (!user.isOnboarded) {
       router.replace('/onboarding')
       return <></>
-    } else if (user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN') {
+    } else if (user.role == 'FACULTY_ADMIN' || user.role == 'PSYHOPE_ADMIN'
+    || user.secondRole == 'PSYHOPE_ADMIN' || user.secondRole == 'FACULTY_ADMIN') {
       return <Component {...props} />
     } else {
       router.replace('/')

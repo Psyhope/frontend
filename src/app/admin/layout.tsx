@@ -24,11 +24,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (user.role !== 'PSYHOPE_ADMIN' && user.role !== 'FACULTY_ADMIN')
-      router.replace('/')
-  }, [])
-
-  useEffect(() => {
     // if (!accessToken) router.replace("/login");
     setTab(pathName.replace('/admin', ''))
   }, [pathName])
@@ -53,7 +48,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               Halo, Admin {user.username}
             </h1>
             <p className="px-3 py-1 text-sm bg-red-800 rounded-3xl text-primary-50 w-max">
-              Admin Psyhope
+              {user.role.split('_')[1] == "COUNSELOR" && user.secondRole.split('_')[1] == "ADMIN" ? user.secondRole : user.role}
             </p>
             <div className="flex flex-col flex-wrap items-center justify-center gap-2 text-sm sm:justify-start md:flex-row sm:text-base">
               <button

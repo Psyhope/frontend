@@ -5,6 +5,7 @@ import { ACCEPT_BOOKING, REJECT_BOOKING } from '@/actions/booking'
 import { GET_COUNSELOR_BY_ID } from '@/actions/counselor'
 import { useAuth } from '@/components/contexts/AuthContext'
 import ClientTable from '@/components/elements/ClientTable'
+import counselorHoc from '@/components/hoc/counselorHoc'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge } from '@mantine/core'
 import Image from 'next/image'
@@ -196,4 +197,4 @@ const DashboardPage = () => {
   )
 }
 
-export default DashboardPage
+export default counselorHoc(DashboardPage)

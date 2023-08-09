@@ -97,7 +97,7 @@ const AdminSchedulePage = () => {
                           {el.councelor?.user?.fullname}
                         </Link>
                         <span className="mx-1">-</span>
-                        <Link href={`/clients/${el.user?.id}`}>
+                        <Link href={`/clients/${el.id}`}>
                           {el.user?.fullname}
                         </Link>
                       </div>

@@ -8,4 +8,4 @@ const ClientsLayout = ({ children }: { children: ReactNode }) => {
   return <>{children}</>
 }
 
-export default counselorHoc(ClientsLayout)
+export default ClientsLayout

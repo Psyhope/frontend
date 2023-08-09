@@ -22,6 +22,13 @@ export const DashboardModule: React.FC = () => {
     else if (booking?.counselorType == 'CSP') router.push('/reschedule/csp')
   }
 
+
+  const checkDisable = () => {
+    if(booking != null){
+      if(booking.adminAcc && booking.isAccepted) return true
+    }
+    else return false
+  }
   const DashboardWording: DashboardModalWord[] = DashboardModal
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -198,7 +205,7 @@ export const DashboardModule: React.FC = () => {
                             {booking.bookingTime} - {booking.bookingTime2}
                           </p>
                           <p className="text-[#B54708] font-medium text-lg">
-                            Counselor : {booking.councelor.user.fullname}
+                            Yeay! konselor sudah menerima konsultasimu
                           </p>
                         </div>
                       ) : (
@@ -209,16 +216,17 @@ export const DashboardModule: React.FC = () => {
 
                   <div className=" rounded-b-2xl p-4 bg-[#42307D]">
                     <div>
-                      <div
-                        className={`bg-[#7F56D9] ${
+                      <button
+                        disabled = {checkDisable()}
+                        className = {`bg-[#7F56D9] ${
                           booking.adminAcc && booking.isAccepted
                             ? ' bg-slate-600 hover:cursor-not-allowed'
                             : 'hover:cursor-pointer'
-                        } rounded-lg p-2 flex justify-center `}
+                        } rounded-lg p-2 flex justify-center w-full `}
                         onClick={hanldleReschedule}
                       >
                         <p className=" text-white font-semibold">Reschedule</p>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -278,36 +286,6 @@ export const DashboardModule: React.FC = () => {
                     {facultyKeys?.[user.faculty as keyof FacultyKeys]?.title}
                   </button>
                 </div>
-                {/* <div className="flex justify-center">
-                  <div className="lg:w-1/2">
-                    <div className="w-full">
-                      <Button
-                        className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded w-full"
-                        onClick={open}
-                      >
-                        <div className="flex gap-1 justify-center items-center">
-                          <div className="hidden lg:block">
-                            <Image
-                              src="assets/DashboardQuestionMark.svg"
-                              alt="OnBoard Question Modal"
-                              width={20}
-                              height={20}
-                              className=""
-                            />
-                          </div>
-                          <p className="lg:text-lg text-md">
-                            Apa perbedaan Psyhope dan{' '}
-                            {
-                              facultyKeys?.[user.faculty as keyof FacultyKeys]
-                                ?.title
-                            }
-                            ?
-                          </p>
-                        </div>
-                      </Button>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             )}
           </div>

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { GHQ_MODULE_BANNER } from './const'
 import { GQHQuestionModule } from './section/formSection'
@@ -15,6 +15,11 @@ export const GHQModule: React.FC = () => {
       ? router.push('/schedule/psyhope')
       : router.push('/schedule/csp')
   }
+
+
+  useEffect(() => {
+    if(localStorage.getItem('date') == null) router.replace('/dashboard')
+  },[])
 
   return (
     <div>
