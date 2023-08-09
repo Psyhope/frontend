@@ -59,7 +59,7 @@ export const DashboardModule: React.FC = () => {
             opened={opened}
             onClose={close}
             withCloseButton={false}
-            size="50%"
+            size="100%"
           >
             <div className="flex flex-col gap-4">
               <div className="flex justify-center">
@@ -76,7 +76,7 @@ export const DashboardModule: React.FC = () => {
                   Psyhope dan Peer Counselor, Apa Bedanya?
                 </p>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 flex-col md:flex-row">
                 {DashboardWording.map(({ title, desc }) => (
                   <div
                     key={title}
@@ -104,9 +104,9 @@ export const DashboardModule: React.FC = () => {
             </div>
           </Modal>
         </div>
-        <div className="lg:h-[330px] h-full w-full bg-[#D9D6FE] rounded-3xl flex flex-col lg:flex-row lg:p-5 lg:px-10">
-          <div className="lg:w-3/5 w-full h-full justify-center flex flex-col md:p-10 gap-4">
-            <div className="flex justify-center lg:flex-none lg:justify-start p-2 lg:p-0">
+        <div className="md:h-[330px] h-full w-full bg-[#D9D6FE] rounded-3xl flex flex-col md:flex-row md:p-5 md:px-10">
+          <div className="md:w-3/5 w-full h-full justify-center flex flex-col md:p-10 gap-4">
+            <div className="flex justify-center md:flex-none md:justify-start p-2 md:p-0">
               <Image
                 src="assets/DashboardHeartBanner.svg"
                 alt="OnBoard Hero Assets"
@@ -115,22 +115,14 @@ export const DashboardModule: React.FC = () => {
                 className="z-0 "
               />
             </div>
-            <div className="flex justify-center lg:flex-none lg:justify-start">
-              <p className="text-[#42307D] font-inter font-bold lg:text-4xl md:text-2xl text-xl drop-shadow-md">
+            <div className="flex justify-center md:flex-none md:justify-start">
+              <p className="text-[#42307D] font-inter font-bold lg:text-4xl md:text-2xl text-xl drop-shadow-md px-2">
                 Halo, {user.username}!
               </p>
             </div>
           </div>
-          <div className="w-full lg:w-2/5 h-[200px] md:h-auto flex justify-between lg:flex-none lg:justify-end">
-            <div className="w-[150px] lg:w-full h-[200px] lg:h-full relative flex justify-end mx-[-30px]">
-              <Image
-                src="assets/DashboardBanner.svg"
-                alt="OnBoard Hero Assets"
-                fill
-                className="z-0"
-              />
-            </div>
-            <div className="w-[150px] h-[200px] md:h-auto relative flex justify-end block lg:hidden">
+          <div className="w-full md:w-2/5 h-[200px] md:h-auto flex justify-between md:flex-none md:justify-end">
+            <div className="w-[150px] md:w-full h-[200px] md:h-full relative flex justify-end mx-[-30px]">
               <Image
                 src="assets/DashboardBanner.svg"
                 alt="OnBoard Hero Assets"
@@ -140,6 +132,7 @@ export const DashboardModule: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* jangan lupa hapus "!" */}
         {loading ? (
           <div className="flex flex-col gap-4">
             {booking?.bookingDate !== undefined ||
@@ -243,13 +236,13 @@ export const DashboardModule: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex flex-col justify-center">
-                  <p className="flex justify-center">
+                  <p className="flex justify-center text-sm lg:text-base">
                     Yah, kamu belum memiliki jadwal konseling
                   </p>
                 </div>
-                <div className="flex justify-center gap-4">
+                <div className="flex justify-center gap-4 flex-col lg:flex-row ">
                   <button
-                    className="w-1/4 border border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-lg"
+                    className="lg:w-1/4 border-2 border-[#7F56D9] text-[#7F56D9] p-2 rounded-lg font-semibold text-sm lg:text-base"
                     onClick={() => {
                       router.push('/schedule/psyhope')
                     }}
@@ -257,7 +250,7 @@ export const DashboardModule: React.FC = () => {
                     Daftar Konseling di Psyhope
                   </button>
                   <button
-                    className={`w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-lg ${
+                    className={`lg:w-1/4 text-white bg-[#7F56D9] p-2 rounded-lg text-sm lg:text-base ${
                       user.faculty == 'PSIKOLOGI' ||
                       user.faculty == 'KEDOKTERAN GIGI'
                         ? 'hidden'
@@ -286,14 +279,14 @@ export const DashboardModule: React.FC = () => {
                   </button>
                 </div>
                 <div className="flex justify-center">
-                  <div className="w-1/2">
+                  <div className="lg:w-1/2">
                     <div className="w-full">
                       <Button
                         className="text-[#667085] bg-white border-1 drop-shadow-md border-[#667085] flex flex-col items-center rounded w-full"
                         onClick={open}
                       >
                         <div className="flex gap-1 justify-center items-center">
-                          <div>
+                          <div className="hidden lg:block">
                             <Image
                               src="assets/DashboardQuestionMark.svg"
                               alt="OnBoard Question Modal"

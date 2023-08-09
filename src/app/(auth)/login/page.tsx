@@ -43,7 +43,7 @@ export default function LoginPage() {
         <title>Login SSO | Empower U&I</title>
       </head>
       <section className="flex items-center justify-center w-full min-h-screen p-2 py-10 xl:px-36 xl:py-0">
-        <div className="flex flex-col-reverse xl:flex-row">
+        <div className="flex flex-col-reverse xl:flex-row xl:scale-90 2xl:scale-100">
           <div className="md:w-[564px] bg-white md:p-10 p-5 rounded-md">
             <p className="text-xl font-light font-inter md:text-2xl">
               Yuk, mulai daftar konseling!
