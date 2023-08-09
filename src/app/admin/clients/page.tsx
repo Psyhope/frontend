@@ -37,7 +37,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
 
 const AdminClientPage = () => {
   const [name, setName] = useDebouncedState('', 200)
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(new Date(new Date().toISOString()))
   const [status, setStatus] = useState<string | null>('All')
   const [result, setResult] = useState<BookingFilterQuery>()
 
@@ -113,7 +113,7 @@ const AdminClientPage = () => {
               setDate(e as Date)
               refetch({
                 getBookingFilter: {
-                  day: e!.toISOString(),
+                  day: new Date(e!.toISOString()),
                 },
               })
             }}

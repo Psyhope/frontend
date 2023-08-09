@@ -19,11 +19,10 @@ const counselorHoc = <T extends object>(Component: ComponentType<T>) => {
       user.role == 'FACULTY_COUNSELOR' ||
       user.role == 'PSYHOPE_COUNSELOR'
     ) {
+      return <Component {...props} />
+    }
       router.replace('/')
       return <></>
-    }
-
-    return <Component {...props} />
   }
 }
 

@@ -21,11 +21,11 @@ const counselorAdminHoc = <T extends object>(Component: ComponentType<T>) => {
       user.role == 'FACULTY_ADMIN' ||
       user.role == 'PSYHOPE_ADMIN'
     ) {
-      router.replace('/')
+      return <Component {...props} />
       return <></>
     }
-
-    return <Component {...props} />
+    router.replace('/')
+    return <></>
   }
 }
 
