@@ -97,7 +97,7 @@ export default function Home() {
                   repeat={Infinity}
                 />
               </div>
-              <Link href={'/dashboard'}>
+              <Link href={'/dashboard'} className="w-fit">
                 <button className="mt-2 py-3 font-semibold rounded-lg drop-shadow-lg active:drop-shadow-none px-4 bg-[#7F56D9] flex-none w-fit text-white text-xs lg:text-base">
                   Daftar Konseling Sekarang!
                 </button>

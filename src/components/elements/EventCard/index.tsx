@@ -295,8 +295,8 @@ export const EventCard: React.FC<Props> = ({
       >
         <div className="w-full h-full flex flex-col gap-5">
           <p className="font-inter md:text-4xl text-2xl font-bold">{title}</p>
-          <div className="flex gap-7 flex-col md:flex-row">
-            <div className="relative aspect-article h-[285px]">
+          <div className="flex gap-7 flex-col lg:flex-row">
+            <div className="relative aspect-article lg:h-[285px] w-full lg:w-auto">
               <Image
                 alt="Event Modal Placeholder"
                 src={posterUrl}
@@ -305,7 +305,7 @@ export const EventCard: React.FC<Props> = ({
               />
             </div>
             <RichTextEditor editor={editor}>
-              <div className="bg-[#F9F5FF] rounded-md md:w-[756px] flex flex-col gap-5 h-[285px] overflow-y-auto">
+              <div className="bg-[#F9F5FF] rounded-md md:w-full flex flex-col gap-5 lg:h-[285px] h-fit overflow-y-auto">
                 <div className="flex gap-5 flex-col md:flex-row">
                   <div className="mt-5 px-5">
                     <p className="text-[#344054] font-inter text-sm font-medium">
