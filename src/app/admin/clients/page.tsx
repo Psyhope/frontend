@@ -7,6 +7,7 @@ import {
   GET_BOOKING,
 } from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
+import { dayNames } from '@/components/modules/ScheduleModule/const'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge, Select, TextInput, Button } from '@mantine/core'
 import { DatePickerInput, DateValue } from '@mantine/dates'
@@ -113,7 +114,7 @@ const AdminClientPage = () => {
               setDate(e as Date)
               refetch({
                 getBookingFilter: {
-                  day: new Date(e!.toISOString()),
+                  day: dayNames[new Date(e!.toISOString()).getDay()],
                 },
               })
             }}
