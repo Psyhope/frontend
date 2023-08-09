@@ -39,7 +39,7 @@ export const GQHQuestionModule: React.FC = () => {
     mutate({
       variables: {
         createBookingInput: {
-          bookingDate: tanggal,
+          bookingDate: new Date(tanggal),
           reasonApply: localStorage.getItem('reason') as string,
           isSuicidal: closest as boolean,
           closestKnown:
@@ -65,7 +65,7 @@ export const GQHQuestionModule: React.FC = () => {
         },
       },
       onCompleted(data, clientOptions) {
-        console.log(tanggal)
+        console.log(new Date(tanggal))
         localStorage.removeItem('date')
         localStorage.removeItem('reason')
         localStorage.removeItem('closest')
