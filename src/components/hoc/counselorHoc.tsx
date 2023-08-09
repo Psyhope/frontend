@@ -21,8 +21,8 @@ const counselorHoc = <T extends object>(Component: ComponentType<T>) => {
     ) {
       return <Component {...props} />
     }
-      router.replace('/')
-      return <></>
+    router.replace('/')
+    return <></>
   }
 }
 
