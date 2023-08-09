@@ -32,7 +32,14 @@ const AuthContext = createContext<{
   refreshToken: () => Promise<void>
 }>({
   accessToken: '',
-  user: { username: '', id: '', role: '', secondRole : '', isOnboarded: false, faculty: '' },
+  user: {
+    username: '',
+    id: '',
+    role: '',
+    secondRole: '',
+    isOnboarded: false,
+    faculty: '',
+  },
   login: undefined as unknown as (
     username: string,
     password: string
@@ -50,7 +57,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isOnboarded: boolean
     faculty: string
     secondRole: string
-  }>({ username: '', id: '', role: '', isOnboarded: false, faculty: '', secondRole :'' })
+  }>({
+    username: '',
+    id: '',
+    role: '',
+    isOnboarded: false,
+    faculty: '',
+    secondRole: '',
+  })
   const [loading, setLoading] = useState(true)
 
   const router = useRouter()
@@ -133,7 +147,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         role: user.role,
         isOnboarded: user.isOnboarded,
         faculty: user.faculty,
-        secondRole: user.secondRole
+        secondRole: user.secondRole,
       })
       setAccessToken(data.accessToken)
     } catch (error) {
@@ -150,7 +164,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true)
     router.replace('/login')
     setAccessToken('')
-    setUser({ username: '', id: '', role: '', isOnboarded: false, faculty: '', secondRole: '' })
+    setUser({
+      username: '',
+      id: '',
+      role: '',
+      isOnboarded: false,
+      faculty: '',
+      secondRole: '',
+    })
     fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
       headers: {
         'Content-Type': 'application/json',
@@ -182,7 +203,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         role: data.user.role,
         isOnboarded: data.user.isOnboarded,
         faculty: data.user.faculty,
-        secondRole: data.user.secondRole
+        secondRole: data.user.secondRole,
       })
       setAccessToken(data.token)
     } catch (err) {

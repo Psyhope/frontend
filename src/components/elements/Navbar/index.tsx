@@ -134,8 +134,10 @@ export const Navbar: React.FC = () => {
                     </Menu.Item>
                   </Link>
                 )}
-                {(user.role == 'FACULTY_ADMIN' || user.secondRole == 'PSYHOPE_ADMIN' ||
-                  user.role == 'PSYHOPE_ADMIN' || user.secondRole == "FACULTY_ADMIN") && (
+                {(user.role == 'FACULTY_ADMIN' ||
+                  user.secondRole == 'PSYHOPE_ADMIN' ||
+                  user.role == 'PSYHOPE_ADMIN' ||
+                  user.secondRole == 'FACULTY_ADMIN') && (
                   <Link href={'/admin'}>
                     <Menu.Item icon={<IconCategory size={rem(14)} />}>
                       Menu Admin
@@ -213,8 +215,10 @@ export const Navbar: React.FC = () => {
               </Menu.Item>
             </Link>
           )}
-          {(user.role == 'FACULTY_ADMIN' || user.secondRole == 'PSYHOPE_ADMIN' ||
-            user.role == 'PSYHOPE_ADMIN' || user.secondRole == "FACULTY_ADMIN") && (
+          {(user.role == 'FACULTY_ADMIN' ||
+            user.secondRole == 'PSYHOPE_ADMIN' ||
+            user.role == 'PSYHOPE_ADMIN' ||
+            user.secondRole == 'FACULTY_ADMIN') && (
             <Link href={'/admin'}>
               <Menu.Item icon={<IconCategory size={rem(14)} />}>
                 Menu Admin

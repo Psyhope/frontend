@@ -16,10 +16,9 @@ export const GHQModule: React.FC = () => {
       : router.push('/schedule/csp')
   }
 
-
   useEffect(() => {
-    if(localStorage.getItem('date') == null) router.replace('/dashboard')
-  },[])
+    if (localStorage.getItem('date') == null) router.replace('/dashboard')
+  }, [])
 
   return (
     <div>

@@ -22,12 +22,10 @@ export const DashboardModule: React.FC = () => {
     else if (booking?.counselorType == 'CSP') router.push('/reschedule/csp')
   }
 
-
   const checkDisable = () => {
-    if(booking != null){
-      if(booking.adminAcc && booking.isAccepted) return true
-    }
-    else return false
+    if (booking != null) {
+      if (booking.adminAcc && booking.isAccepted) return true
+    } else return false
   }
   const DashboardWording: DashboardModalWord[] = DashboardModal
   const [opened, { open, close }] = useDisclosure(false)
@@ -217,8 +215,8 @@ export const DashboardModule: React.FC = () => {
                   <div className=" rounded-b-2xl p-4 bg-[#42307D]">
                     <div>
                       <button
-                        disabled = {checkDisable()}
-                        className = {`bg-[#7F56D9] ${
+                        disabled={checkDisable()}
+                        className={`bg-[#7F56D9] ${
                           booking.adminAcc && booking.isAccepted
                             ? ' bg-slate-600 hover:cursor-not-allowed'
                             : 'hover:cursor-pointer'
