@@ -55,11 +55,9 @@ const AdminSchedulePage = () => {
           .map((item) => ({ [item.date]: item.bookings }))
       )
       for (let i = 0; i < data.adminRundown.length; i++) {
-        if (data.adminRundown[i].bookingDay == 'Jumat') {
-          allSchedules[data.adminRundown[i].bookingDay][
-            getIndexTime(data.adminRundown[i].bookingTime) as number
-          ].push(data.adminRundown[i])
-        }
+        allSchedules[data.adminRundown[i].bookingDay][
+          getIndexTime(data.adminRundown[i].bookingTime) as number
+        ].push(data.adminRundown[i])
       }
       const grouped = {
         ...allSchedules,
