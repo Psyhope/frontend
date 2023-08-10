@@ -91,7 +91,7 @@ export default function Home() {
               <div className="bg-[#D6BBFB] w-fit px-4 py-3 rounded-t-xl rounded-r-xl text-[#53389E] font-inter font-semibold text-xs lg:text-base">
                 <TypeAnimation
                   sequence={[
-                    'Butuh teman bercerita? Yuk, curhat dengan konselor sebaya! 👇👇👇',
+                    'Butuh teman bercerita? Yuk, curhat dengan konselor sebaya! 👇',
                     5000,
                   ]}
                   repeat={Infinity}
