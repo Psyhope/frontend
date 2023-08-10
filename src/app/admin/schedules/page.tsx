@@ -24,12 +24,12 @@ function selectWeek(date: Date) {
 }
 
 const getIndexTime = (idx: string) => {
-  if (idx == "08:00") return 0
-  else if (idx == "10:00") return 1
-  else if (idx == "12:00") return 2
-  else if (idx == "14:00") return 3
-  else if (idx == "16:00") return 4
-  else if (idx == "18:00") return 5
+  if (idx == '08:00') return 0
+  else if (idx == '10:00') return 1
+  else if (idx == '12:00') return 2
+  else if (idx == '14:00') return 3
+  else if (idx == '16:00') return 4
+  else if (idx == '18:00') return 5
 }
 
 const AdminSchedulePage = () => {
@@ -54,9 +54,11 @@ const AdminSchedulePage = () => {
           })
           .map((item) => ({ [item.date]: item.bookings }))
       )
-      for (let i = 0 ; i < data.adminRundown.length ; i++){
-        if(data.adminRundown[i].bookingDay == "Jumat"){
-          allSchedules[data.adminRundown[i].bookingDay][getIndexTime(data.adminRundown[i].bookingTime) as number].push(data.adminRundown[i])
+      for (let i = 0; i < data.adminRundown.length; i++) {
+        if (data.adminRundown[i].bookingDay == 'Jumat') {
+          allSchedules[data.adminRundown[i].bookingDay][
+            getIndexTime(data.adminRundown[i].bookingTime) as number
+          ].push(data.adminRundown[i])
         }
       }
       const grouped = {
@@ -95,38 +97,35 @@ const AdminSchedulePage = () => {
               <td className="text-center bg-green-100 border-b-2 border-b-green-200 w-min">
                 {val.date}
               </td>
-              {([...val.bookings] as Booking[][])
-                .slice(0, 6)
-                .map((el, idx) => (
-                  <td key={idx} className={`${el.length != 0 ? '' : 'bg-yellow-100'}`}>
-                    {
-                      el.length != 0 ? (
-                        <div key={idx} className=" bg-white">
-                          {el.map((ul, idx) =>(
-                            <div key={idx} className="">
-                              <Link
-                                href={`/counselor/${ul.councelor?.user?.fullname}`}
-                              >
-                                {ul.councelor?.user?.fullname}
-                              </Link>
-                              <span className="mx-1">-</span>
-                              <Link href={`/clients/${ul.id}`}>
-                                {ul.user?.fullname}
-                              </Link>
-                            </div>
-                          ))}
+              {([...val.bookings] as Booking[][]).slice(0, 6).map((el, idx) => (
+                <td
+                  key={idx}
+                  className={`${el.length != 0 ? '' : 'bg-yellow-100'}`}
+                >
+                  {el.length != 0 ? (
+                    <div key={idx} className=" bg-white">
+                      {el.map((ul, idx) => (
+                        <div key={idx} className="">
+                          <Link
+                            href={`/counselor/${ul.councelor?.user?.fullname}`}
+                          >
+                            {ul.councelor?.user?.fullname}
+                          </Link>
+                          <span className="mx-1">-</span>
+                          <Link href={`/clients/${ul.id}`}>
+                            {ul.user?.fullname}
+                          </Link>
                         </div>
-                      ) : (
-                        <td
-                          key={idx}
-                          className="min-w-[200px] text-center bg-yellow-100"
-                        ></td>
-                      )
-                    }
-                  </td>
-                )
-                
-                )}
+                      ))}
+                    </div>
+                  ) : (
+                    <td
+                      key={idx}
+                      className="min-w-[200px] text-center bg-yellow-100"
+                    ></td>
+                  )}
+                </td>
+              ))}
             </tr>
           )}
           emptyComponent={
