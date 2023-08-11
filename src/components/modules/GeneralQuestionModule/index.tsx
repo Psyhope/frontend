@@ -21,8 +21,9 @@ export const GHQModule: React.FC = () => {
       localStorage.getItem('date') == null ||
       localStorage.getItem('time') == null ||
       localStorage.getItem('reason') == null ||
-      localStorage.getItem('closest') == null 
-       ) router.replace('/dashboard')
+      localStorage.getItem('closest') == null
+    )
+      router.replace('/dashboard')
   }, [])
 
   return (
