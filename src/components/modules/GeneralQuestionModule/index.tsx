@@ -17,7 +17,12 @@ export const GHQModule: React.FC = () => {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('date') == null) router.replace('/dashboard')
+    if (
+      localStorage.getItem('date') == null ||
+      localStorage.getItem('time') == null ||
+      localStorage.getItem('reason') == null ||
+      localStorage.getItem('closest') == null 
+       ) router.replace('/dashboard')
   }, [])
 
   return (

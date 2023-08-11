@@ -254,9 +254,9 @@ export const ScheduleSection: React.FC = () => {
 
       <div className="flex lg:justify-end justify-center">
         <button
-          disabled={value == null && valueTime == null}
+          disabled={(value == null && valueTime == null && closest == null) || (value == "" && valueTime == "" && closest == null)}
           className={`p-4 w-fit font-semibold rounded-lg ${
-            value != null && valueTime != null
+            value != null && valueTime != null && value != '' && valueTime != '' && closest != null
               ? `text-[#3538CD] bg-gradient-to-bl from-[#F6CCDF] to-[#E0B3EB]`
               : `text-white bg-[#98A2B3]`
           }`}
