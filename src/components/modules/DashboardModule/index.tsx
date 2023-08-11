@@ -140,15 +140,9 @@ export const DashboardModule: React.FC = () => {
         {/* jangan lupa hapus "!" */}
         {loading ? (
           <div className="flex flex-col gap-4">
-            {(booking != null &&
-              booking.adminAcc &&
-              booking.isAccepted &&
-              !booking.isTerminated) ||
-            (booking != null && !booking.isAccepted && !booking.isTerminated) ||
+            {
             (booking != null &&
-              !booking.isAccepted &&
-              booking.isTerminated &&
-              !booking.adminAcc) ? (
+              booking.adminAcc ) || (booking != null && !booking.adminAcc && !booking.isAccepted && !booking.isTerminated) ? (
               <div className="flex flex-col gap-4">
                 <div>
                   <p className=" font-semibold text-2xl">Jadwal Konseling</p>
@@ -156,7 +150,7 @@ export const DashboardModule: React.FC = () => {
                 <div className="w-full md:w-1/3">
                   <div
                     className={`flex flex-col gap-3 w-full bg-gradient-to-l rounded-t-lg ${
-                      !booking.adminAcc &&
+                      booking.adminAcc &&
                       !booking.isAccepted &&
                       booking.isTerminated
                         ? 'bg-[#FECDCA]'
@@ -164,7 +158,7 @@ export const DashboardModule: React.FC = () => {
                     } p-5 px-12`}
                   >
                     <div className="flex flex-col gap-1">
-                      {!booking.adminAcc &&
+                      {booking.adminAcc &&
                       !booking.isAccepted &&
                       booking.isTerminated ? (
                         <div className="bg-[#FFFAEB] rounded-2xl p-1 px-3">
