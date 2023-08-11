@@ -107,7 +107,7 @@ const DashboardPage = () => {
           // headerComponent={}
           data={
             counselor?.Booking
-              ? counselor.Booking.filter((val) => val.isAccepted)
+              ? counselor.Booking.filter((val) => val.isAccepted && !val.isTerminated)
               : []
           }
           headerTitle={['Nama Klien', 'Jadwal Konseling', 'Status Request']}
