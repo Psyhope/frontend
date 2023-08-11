@@ -140,9 +140,11 @@ export const DashboardModule: React.FC = () => {
         {/* jangan lupa hapus "!" */}
         {loading ? (
           <div className="flex flex-col gap-4">
-            {
+            {(booking != null && booking.adminAcc) ||
             (booking != null &&
-              booking.adminAcc ) || (booking != null && !booking.adminAcc && !booking.isAccepted && !booking.isTerminated) ? (
+              !booking.adminAcc &&
+              !booking.isAccepted &&
+              !booking.isTerminated) ? (
               <div className="flex flex-col gap-4">
                 <div>
                   <p className=" font-semibold text-2xl">Jadwal Konseling</p>
