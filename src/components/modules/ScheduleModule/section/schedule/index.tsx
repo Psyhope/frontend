@@ -144,13 +144,11 @@ export const ScheduleSection: React.FC = () => {
         ? router.push('/ghq/psyhope')
         : router.push('/ghq/csp')
     } else {
-
-      if ( value != null )
-      { 
+      if (value != null) {
         const tanggal = new Date(new Date(value).toISOString())
         const newTanggal = new Date(tanggal)
         newTanggal.setHours(newTanggal.getHours() + 7)
-        
+
         mutate({
           variables: {
             rescheduleBookingInput: {
