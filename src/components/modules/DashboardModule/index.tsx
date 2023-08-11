@@ -140,11 +140,11 @@ export const DashboardModule: React.FC = () => {
         {/* jangan lupa hapus "!" */}
         {loading ? (
           <div className="flex flex-col gap-4">
-            { 
-            ( booking != null && booking.adminAcc && booking.isAccepted && !booking.isTerminated ) ||
-            (booking != null &&   
-            !booking.isAccepted && 
-            !booking.isTerminated) ||
+            {(booking != null &&
+              booking.adminAcc &&
+              booking.isAccepted &&
+              !booking.isTerminated) ||
+            (booking != null && !booking.isAccepted && !booking.isTerminated) ||
             (booking != null &&
               !booking.isAccepted &&
               booking.isTerminated &&
@@ -198,7 +198,9 @@ export const DashboardModule: React.FC = () => {
                         <div></div>
                       )}
 
-                      {booking.adminAcc && booking.isAccepted && !booking.isTerminated ? (
+                      {booking.adminAcc &&
+                      booking.isAccepted &&
+                      !booking.isTerminated ? (
                         <div className="bg-[#FFFAEB] rounded-2xl p-1 px-3">
                           <span className="text-[#53389E] drop-shadow-lg font-semibold text-xl">
                             {booking.bookingDay}

@@ -144,20 +144,28 @@ export const ScheduleSection: React.FC = () => {
         ? router.push('/ghq/psyhope')
         : router.push('/ghq/csp')
     } else {
-      mutate({
-        variables: {
-          rescheduleBookingInput: {
-            bookingDate: value,
-            bookingTime: valueTime?.split(' -- ')[0] as string,
-            bookingTime2: valueTime?.split(' -- ')[1] as string,
-            id: parseInt(localStorage.getItem('idBooking') as string),
+
+      if ( value != null )
+      { 
+        const tanggal = new Date(new Date(value).toISOString())
+        const newTanggal = new Date(tanggal)
+        newTanggal.setHours(newTanggal.getHours() + 7)
+        
+        mutate({
+          variables: {
+            rescheduleBookingInput: {
+              bookingDate: newTanggal,
+              bookingTime: valueTime?.split(' -- ')[0] as string,
+              bookingTime2: valueTime?.split(' -- ')[1] as string,
+              id: parseInt(localStorage.getItem('idBooking') as string),
+            },
           },
-        },
-        onCompleted(data) {
-          localStorage.removeItem('idBooking')
-          router.push('/dashboard')
-        },
-      })
+          onCompleted(data) {
+            localStorage.removeItem('idBooking')
+            router.push('/dashboard')
+          },
+        })
+      }
     }
   }
 
