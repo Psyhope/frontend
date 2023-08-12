@@ -49,10 +49,9 @@ export const GQHQuestionModule: React.FC = () => {
         .replace('T', ' ')
         .split(' ')
       const temp = tanggal[0]
-      const tempTanggal = temp + " 07:00:00"
+      const tempTanggal = temp + ' 07:00:00'
 
       const newTanggal = new Date(tempTanggal)
-      newTanggal.setHours(newTanggal.getHours() + 7)
       mutate({
         variables: {
           createBookingInput: {
