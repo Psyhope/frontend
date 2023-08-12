@@ -47,9 +47,11 @@ export const GQHQuestionModule: React.FC = () => {
         .toISOString()
         .replace(/-/g, '/')
         .replace('T', ' ')
-        .replace('Z', '')
+        .split(' ')
+      const temp = tanggal[0]
+      const tempTanggal = temp + " 07:00:00"
 
-      const newTanggal = new Date(tanggal)
+      const newTanggal = new Date(tempTanggal)
       newTanggal.setHours(newTanggal.getHours() + 7)
       mutate({
         variables: {
