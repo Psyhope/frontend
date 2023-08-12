@@ -49,7 +49,7 @@ export const GQHQuestionModule: React.FC = () => {
         .replace('T', ' ')
         .split(' ')
       const temp = tanggal[0]
-      const tempTanggal = temp + ' 07:00:00'
+      const tempTanggal = temp + ' 12:00:00'
 
       const newTanggal = new Date(tempTanggal)
       mutate({
