@@ -29,7 +29,14 @@ import { useAuth } from '@/components/contexts/AuthContext'
 
 export const ScheduleSection: React.FC = () => {
   const pathname = usePathname()
-  const { user, accessToken } = useAuth()
+  const {
+    setClosest: setClosestContext,
+    setDate: setDateContext,
+    setReason: setReasonContext,
+    setTime: setTimeContext,
+    setBookingId: setBookingIdContext,
+    bookingId,
+  } = useAuth()
   const router = useRouter()
   const [value, setValue] = useState<string | null>(null)
   const [valueTime, setValueTime] = useState<string | null>(null)
@@ -135,10 +142,10 @@ export const ScheduleSection: React.FC = () => {
 
   const handlerNext = () => {
     if (getPath()) {
-      localStorage.setItem('date', value as string)
-      localStorage.setItem('time', valueTime as string)
-      localStorage.setItem('reason', reason)
-      localStorage.setItem('closest', `${closest}`)
+      setDateContext(value as string)
+      setTimeContext(valueTime as string)
+      setReasonContext(reason)
+      setClosestContext(`${closest}`)
 
       pathname.slice(10) == 'psyhope'
         ? router.push('/ghq/psyhope')
@@ -155,11 +162,11 @@ export const ScheduleSection: React.FC = () => {
               bookingDate: newTanggal,
               bookingTime: valueTime?.split(' -- ')[0] as string,
               bookingTime2: valueTime?.split(' -- ')[1] as string,
-              id: parseInt(localStorage.getItem('idBooking') as string),
+              id: parseInt(bookingId),
             },
           },
           onCompleted(data) {
-            localStorage.removeItem('idBooking')
+            setBookingIdContext('')
             router.push('/dashboard')
           },
         })

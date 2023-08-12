@@ -9,11 +9,22 @@ import { useMutation } from '@apollo/client'
 import { MUTATION_CREATE_BOOKING } from '@/actions/booking'
 import { useForm } from '@mantine/form'
 import { Flex, Group, Loader, Radio } from '@mantine/core'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 export const GQHQuestionModule: React.FC = () => {
   const pathname = usePathname()
   const router = useRouter()
   const form = useForm()
+  const {
+    date,
+    reason,
+    closest: closestContext,
+    time,
+    setClosest: setClosestContext,
+    setDate,
+    setTime,
+    setReason,
+  } = useAuth()
 
   const [loading, setLoading] = useState(false)
 
@@ -28,13 +39,9 @@ export const GQHQuestionModule: React.FC = () => {
   const onSubmit = (data: any) => {
     setLoading(true)
     try {
-      const jadwal: string[] = localStorage
-        .getItem('time')
-        ?.split(' -- ') as string[]
+      const jadwal: string[] = time.split(' -- ') as string[]
 
-      const tanggal = new Date(
-        decodeURI(localStorage.getItem('date') as string)
-      ).toISOString()
+      const tanggal = new Date(decodeURI(date)).toISOString()
 
       const newTanggal = new Date(tanggal)
       newTanggal.setHours(newTanggal.getHours() + 7)
@@ -44,10 +51,9 @@ export const GQHQuestionModule: React.FC = () => {
         variables: {
           createBookingInput: {
             bookingDate: new Date(newTanggal),
-            reasonApply: localStorage.getItem('reason') as string,
+            reasonApply: reason,
             isSuicidal: closest as boolean,
-            closestKnown:
-              localStorage.getItem('closest') == 'true' ? true : false,
+            closestKnown: closestContext == 'true' ? true : false,
             bookingTime: jadwal[0],
             bookingTime2: jadwal[1],
             counselorType:
@@ -70,10 +76,10 @@ export const GQHQuestionModule: React.FC = () => {
         },
         onCompleted(data, clientOptions) {
           console.log(new Date(newTanggal))
-          localStorage.removeItem('date')
-          localStorage.removeItem('reason')
-          localStorage.removeItem('closest')
-          localStorage.removeItem('time')
+          setDate('')
+          setReason('')
+          setClosestContext('')
+          setTime('')
           router.push('/dashboard')
           setLoading(false)
         },

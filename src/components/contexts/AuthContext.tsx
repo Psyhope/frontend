@@ -7,6 +7,8 @@ import {
   useEffect,
   ReactNode,
   useContext,
+  Dispatch,
+  SetStateAction,
 } from 'react'
 import jwt_decode from 'jwt-decode'
 import { useRouter } from 'next/navigation'
@@ -30,6 +32,16 @@ const AuthContext = createContext<{
   login: (username: string, password: string) => Promise<void>
   logout: () => void
   refreshToken: () => Promise<void>
+  date: string
+  setDate: Dispatch<SetStateAction<string>>
+  time: string
+  setTime: Dispatch<SetStateAction<string>>
+  reason: string
+  setReason: Dispatch<SetStateAction<string>>
+  bookingId: string
+  setBookingId: Dispatch<SetStateAction<string>>
+  closest: string
+  setClosest: Dispatch<SetStateAction<string>>
 }>({
   accessToken: '',
   user: {
@@ -46,9 +58,25 @@ const AuthContext = createContext<{
   ) => Promise<void>,
   logout: undefined as unknown as () => void,
   refreshToken: undefined as unknown as () => Promise<void>,
+  date: '',
+  setDate: undefined as unknown as () => Promise<void>,
+  time: '',
+  setTime: undefined as unknown as () => Promise<void>,
+  reason: '',
+  setReason: undefined as unknown as () => Promise<void>,
+  bookingId: '',
+  setBookingId: undefined as unknown as () => Promise<void>,
+  closest: '',
+  setClosest: undefined as unknown as () => Promise<void>,
 })
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [reason, setReason] = useState('')
+  const [bookingId, setBookingId] = useState('')
+  const [closest, setClosest] = useState('')
+
   const [accessToken, setAccessToken] = useState('')
   const [user, setUser] = useState<{
     username: string
@@ -223,6 +251,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     login,
     logout,
     refreshToken,
+    date,
+    setDate,
+    time,
+    setTime,
+    reason,
+    setReason,
+    bookingId,
+    setBookingId,
+    closest,
+    setClosest,
   }
 
   return (

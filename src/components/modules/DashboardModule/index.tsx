@@ -12,12 +12,11 @@ import { useAuth } from '@/components/contexts/AuthContext'
 
 export const DashboardModule: React.FC = () => {
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, setBookingId } = useAuth()
   const facultyKeys: FacultyKeys = FacultyCounseling
   const pathname = usePathname()
   const hanldleReschedule = () => {
-    if (booking != null)
-      localStorage.setItem('idBooking', booking?.id as unknown as string)
+    if (booking != null) setBookingId(booking?.id as unknown as string)
     if (booking?.counselorType == 'PSYHOPE') router.push('/reschedule/psyhope')
     else if (booking?.counselorType == 'CSP') router.push('/reschedule/csp')
   }
