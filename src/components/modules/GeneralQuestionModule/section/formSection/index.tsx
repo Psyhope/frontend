@@ -54,10 +54,13 @@ export const GQHQuestionModule: React.FC = () => {
       mutate({
         variables: {
           createBookingInput: {
-            bookingDate: new Date(newTanggal.toISOString()
-            .replace(/-/g, '/')
-            .replace('T', ' ')
-            .replace('Z', ''))
+            bookingDate: new Date(
+              newTanggal
+                .toISOString()
+                .replace(/-/g, '/')
+                .replace('T', ' ')
+                .replace('Z', '')
+            )
               .toISOString()
               .replace(/-/g, '/')
               .replace('T', ' ')
