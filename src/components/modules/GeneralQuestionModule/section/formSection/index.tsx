@@ -41,9 +41,9 @@ export const GQHQuestionModule: React.FC = () => {
     try {
       const jadwal: string[] = time.split(' -- ') as string[]
 
-      const tanggal = new Date(decodeURI(date).replace(/-/g, '/')
-        .replace('T', ' ')
-        .replace('Z', ''))
+      const tanggal = new Date(
+        decodeURI(date).replace(/-/g, '/').replace('T', ' ').replace('Z', '')
+      )
         .toISOString()
         .replace(/-/g, '/')
         .replace('T', ' ')
