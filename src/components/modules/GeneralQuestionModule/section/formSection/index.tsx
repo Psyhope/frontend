@@ -54,10 +54,11 @@ export const GQHQuestionModule: React.FC = () => {
       mutate({
         variables: {
           createBookingInput: {
-            bookingDate: new Date(newTanggal).toISOString()
-            .replace(/-/g, '/')
-            .replace('T', ' ')
-            .replace('Z', ''),
+            bookingDate: new Date(newTanggal)
+              .toISOString()
+              .replace(/-/g, '/')
+              .replace('T', ' ')
+              .replace('Z', ''),
             reasonApply: reason,
             isSuicidal: closest as boolean,
             closestKnown: closestContext == 'true' ? true : false,
