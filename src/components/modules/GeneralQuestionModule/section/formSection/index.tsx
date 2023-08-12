@@ -39,6 +39,7 @@ export const GQHQuestionModule: React.FC = () => {
     const newTanggal = new Date(tanggal)
     newTanggal.setHours(newTanggal.getHours() + 7)
 
+    console.log(data)
     mutate({
       variables: {
         createBookingInput: {
