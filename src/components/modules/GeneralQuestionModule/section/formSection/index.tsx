@@ -49,8 +49,7 @@ export const GQHQuestionModule: React.FC = () => {
 
       const newTanggal = new Date(tanggal)
       newTanggal.setHours(newTanggal.getHours() + 7)
-    }
-    catch(err){
+    } catch (err) {
       console.log(123)
       console.log(err)
     }
