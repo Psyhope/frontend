@@ -8,12 +8,14 @@ import { CounselorType } from '@/__generated__/graphql'
 import { useMutation } from '@apollo/client'
 import { MUTATION_CREATE_BOOKING } from '@/actions/booking'
 import { useForm } from '@mantine/form'
-import { Flex, Group, Radio } from '@mantine/core'
+import { Flex, Group, Loader, Radio } from '@mantine/core'
 
 export const GQHQuestionModule: React.FC = () => {
   const pathname = usePathname()
   const router = useRouter()
   const form = useForm()
+
+  const [loading, setLoading] = useState(false)
 
   const [closest, setClosest] = useState<boolean | null>(null)
 
@@ -24,6 +26,7 @@ export const GQHQuestionModule: React.FC = () => {
   const [mutate, {}] = useMutation(MUTATION_CREATE_BOOKING)
 
   const onSubmit = (data: any) => {
+    setLoading(true)
     const jadwal: string[] = localStorage
       .getItem('time')
       ?.split(' -- ') as string[]
@@ -71,6 +74,7 @@ export const GQHQuestionModule: React.FC = () => {
         localStorage.removeItem('closest')
         localStorage.removeItem('time')
         router.push('/dashboard')
+        setLoading(false)
       },
     })
   }
@@ -124,7 +128,7 @@ export const GQHQuestionModule: React.FC = () => {
             <input name="close" type="radio" onChange={handleClosest}></input>
             <span>Tidak</span>
           </div>
-          <div className="">
+          {/* <div className="">
             <div className="flex justify-end">
               <input
                 disabled={disabled}
@@ -135,9 +139,26 @@ export const GQHQuestionModule: React.FC = () => {
                 value="Lanjut Mengisi Form"
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </form>
+      <div className="">
+        <div className="flex justify-end">
+          <button
+            disabled={disabled || loading}
+            className={`text-white ${
+              disabled ? 'bg-gray-500' : 'bg-[#7F56D9]'
+            } p-4 rounded-lg hover:cursor-pointer flex gap-2 items-center justify-center`}
+            onClick={() => onSubmit(form.values)}
+          >
+            {loading ? (
+              <Loader variant="dots" size={'sm'} />
+            ) : (
+              'Lanjut Mengisi Form'
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
