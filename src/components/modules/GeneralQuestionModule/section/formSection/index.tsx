@@ -76,8 +76,9 @@ export const GQHQuestionModule: React.FC = () => {
         router.push('/dashboard')
         setLoading(false)
       },
-      onError: (err) => {
+      onError(err) {
         console.log(err)
+        setLoading(true)
       },
     })
   }
