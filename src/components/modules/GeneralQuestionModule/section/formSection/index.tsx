@@ -1,23 +1,19 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
 import { GHQQuestionInterface, GHQRespondsInterface } from './interface'
 import { GHQ_QUESTION } from './const'
-import { Path } from 'react-hook-form'
 import { usePathname, useRouter } from 'next/navigation'
 import { ChevronRight } from '../../elements/ChevronRight'
 import { CounselorType } from '@/__generated__/graphql'
 import { useMutation } from '@apollo/client'
 import { MUTATION_CREATE_BOOKING } from '@/actions/booking'
+import { useForm } from '@mantine/form'
+import { Flex, Group, Radio } from '@mantine/core'
 
 export const GQHQuestionModule: React.FC = () => {
   const pathname = usePathname()
   const router = useRouter()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<GHQRespondsInterface>()
+  const form = useForm()
 
   const [closest, setClosest] = useState<boolean | null>(null)
 
@@ -27,7 +23,7 @@ export const GQHQuestionModule: React.FC = () => {
 
   const [mutate, {}] = useMutation(MUTATION_CREATE_BOOKING)
 
-  const onSubmit: SubmitHandler<GHQRespondsInterface> = (data) => {
+  const onSubmit = (data: any) => {
     const jadwal: string[] = localStorage
       .getItem('time')
       ?.split(' -- ') as string[]
@@ -80,9 +76,15 @@ export const GQHQuestionModule: React.FC = () => {
 
   const listQuestion: GHQQuestionInterface[] = GHQ_QUESTION
 
+  const disabled = Object.keys(form.values).length != 12 || closest == null
+
   return (
     <div className="">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.onSubmit((values) => {
+          onSubmit(values)
+        })}
+      >
         <div className="flex flex-col gap-3">
           {listQuestion.map((value, idx) => {
             const numb = value.number
@@ -93,48 +95,16 @@ export const GQHQuestionModule: React.FC = () => {
                   <p>{value.question}</p>
                 </div>
                 <div className="rounded-lg bg-gradient-to-tl p-2 border-2 border-[#7F56D9] from-[#E9D7FE] to-[#C7D7FE]">
-                  <div className="flex flex-col gap-1">
-                    <div className="flex gap-4">
-                      <input
-                        {...register(numb as Path<GHQRespondsInterface>, {
-                          required: true,
-                        })}
-                        type="radio"
-                        value="0"
-                      />
-                      <p>Lebih baik dari biasanya</p>
-                    </div>
-                    <div className="flex gap-4">
-                      <input
-                        {...register(numb as Path<GHQRespondsInterface>, {
-                          required: true,
-                        })}
-                        type="radio"
-                        value="1"
-                      />
-                      <p>Sama seperti biasanya</p>
-                    </div>
-                    <div className="flex gap-4">
-                      <input
-                        {...register(numb as Path<GHQRespondsInterface>, {
-                          required: true,
-                        })}
-                        type="radio"
-                        value="2"
-                      />
-                      <p>Kurang dari biasanya</p>
-                    </div>
-                    <div className="flex gap-4">
-                      <input
-                        {...register(numb as Path<GHQRespondsInterface>, {
-                          required: true,
-                        })}
-                        type="radio"
-                        value="3"
-                      />
-                      <p>Sangat kurang dari biasanya</p>
-                    </div>
-                  </div>
+                  <Radio.Group {...form.getInputProps(value.number)}>
+                    <Group>
+                      <Flex direction={'column'} gap={8}>
+                        <Radio value="0" label="Lebih baik dari biasanya" />
+                        <Radio value="1" label="Sama seperti biasanya" />
+                        <Radio value="2" label="Kurang dari biasanya" />
+                        <Radio value="3" label="Sangat kurang dari biasanya" />
+                      </Flex>
+                    </Group>
+                  </Radio.Group>
                 </div>
               </div>
             )
@@ -156,8 +126,11 @@ export const GQHQuestionModule: React.FC = () => {
           <div className="">
             <div className="flex justify-end">
               <input
+                disabled={disabled}
                 type="submit"
-                className="  text-white bg-[#7F56D9] p-4 rounded-lg hover:cursor-pointer flex gap-2 items-center"
+                className={`text-white ${
+                  disabled ? 'bg-gray-500' : 'bg-[#7F56D9]'
+                } p-4 rounded-lg hover:cursor-pointer flex gap-2 items-center`}
                 value="Lanjut Mengisi Form"
               />
             </div>
