@@ -27,60 +27,65 @@ export const GQHQuestionModule: React.FC = () => {
 
   const onSubmit = (data: any) => {
     setLoading(true)
-    const jadwal: string[] = localStorage
-      .getItem('time')
-      ?.split(' -- ') as string[]
+    try {
+      const jadwal: string[] = localStorage
+        .getItem('time')
+        ?.split(' -- ') as string[]
 
-    const tanggal = new Date(
-      decodeURI(localStorage.getItem('date') as string)
-    ).toISOString()
+      const tanggal = new Date(
+        decodeURI(localStorage.getItem('date') as string)
+      ).toISOString()
 
-    const newTanggal = new Date(tanggal)
-    newTanggal.setHours(newTanggal.getHours() + 7)
+      const newTanggal = new Date(tanggal)
+      newTanggal.setHours(newTanggal.getHours() + 7)
 
-    console.log(data)
-    mutate({
-      variables: {
-        createBookingInput: {
-          bookingDate: new Date(newTanggal),
-          reasonApply: localStorage.getItem('reason') as string,
-          isSuicidal: closest as boolean,
-          closestKnown:
-            localStorage.getItem('closest') == 'true' ? true : false,
-          bookingTime: jadwal[0],
-          bookingTime2: jadwal[1],
-          counselorType:
-            pathname.slice(5) == 'psyhope'
-              ? CounselorType.Psyhope
-              : CounselorType.Faculty,
-          number_1: parseInt(data.number_1),
-          number_2: parseInt(data.number_2),
-          number_3: parseInt(data.number_3),
-          number_4: parseInt(data.number_4),
-          number_5: parseInt(data.number_5),
-          number_6: parseInt(data.number_6),
-          number_7: parseInt(data.number_7),
-          number_8: parseInt(data.number_8),
-          number_9: parseInt(data.number_9),
-          number_10: parseInt(data.number_10),
-          number_11: parseInt(data.number_11),
-          number_12: parseInt(data.number_12),
+      console.log(data)
+      mutate({
+        variables: {
+          createBookingInput: {
+            bookingDate: new Date(newTanggal),
+            reasonApply: localStorage.getItem('reason') as string,
+            isSuicidal: closest as boolean,
+            closestKnown:
+              localStorage.getItem('closest') == 'true' ? true : false,
+            bookingTime: jadwal[0],
+            bookingTime2: jadwal[1],
+            counselorType:
+              pathname.slice(5) == 'psyhope'
+                ? CounselorType.Psyhope
+                : CounselorType.Faculty,
+            number_1: parseInt(data.number_1),
+            number_2: parseInt(data.number_2),
+            number_3: parseInt(data.number_3),
+            number_4: parseInt(data.number_4),
+            number_5: parseInt(data.number_5),
+            number_6: parseInt(data.number_6),
+            number_7: parseInt(data.number_7),
+            number_8: parseInt(data.number_8),
+            number_9: parseInt(data.number_9),
+            number_10: parseInt(data.number_10),
+            number_11: parseInt(data.number_11),
+            number_12: parseInt(data.number_12),
+          },
         },
-      },
-      onCompleted(data, clientOptions) {
-        console.log(new Date(newTanggal))
-        localStorage.removeItem('date')
-        localStorage.removeItem('reason')
-        localStorage.removeItem('closest')
-        localStorage.removeItem('time')
-        router.push('/dashboard')
-        setLoading(false)
-      },
-      onError(err) {
-        console.log(err)
-        setLoading(true)
-      },
-    })
+        onCompleted(data, clientOptions) {
+          console.log(new Date(newTanggal))
+          localStorage.removeItem('date')
+          localStorage.removeItem('reason')
+          localStorage.removeItem('closest')
+          localStorage.removeItem('time')
+          router.push('/dashboard')
+          setLoading(false)
+        },
+        onError(err) {
+          console.log(err)
+          setLoading(true)
+        },
+      })
+    } catch (error) {
+      console.log('error trycatch', error)
+      setLoading(false)
+    }
   }
 
   const listQuestion: GHQQuestionInterface[] = GHQ_QUESTION
