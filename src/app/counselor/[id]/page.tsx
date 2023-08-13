@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/client'
 import { Badge, Button } from '@mantine/core'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { HiArrowLeft } from 'react-icons/hi'
 
@@ -37,7 +37,6 @@ const CounselorByNamePage = () => {
       },
     },
     onCompleted(data) {
-      console.log(data)
       if (!data.counselorFilter) {
         void router.replace('/')
         return
@@ -150,7 +149,6 @@ const CounselorByNamePage = () => {
           description=""
           headerTitle={['Nama Klien', 'Tanggal Konseling', 'Notes']}
           rowComponent={(val, index) => {
-            console.log(val)
             return (
               <tr key={index}>
                 <td>

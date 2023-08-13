@@ -2,13 +2,7 @@
 import React, { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import {
-  DateSegment,
-  DateSegmentDummy,
-  dayNames,
-  querySchedule,
-  queryScheduleInterface,
-} from '../../const'
+import { dayNames, querySchedule, queryScheduleInterface } from '../../const'
 import { Select, SegmentedControl } from '@mantine/core'
 import { BsCalendar2Range } from 'react-icons/bs'
 import { useMediaQuery } from '@mantine/hooks'

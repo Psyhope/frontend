@@ -1,10 +1,9 @@
 ;`use client`
 import React, { useState } from 'react'
 import ClientTable from '@/components/elements/ClientTable'
-import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_CLIENT_DETAIL } from '@/actions/booking'
-import { Modal } from '@mantine/core'
+import { Button, Modal } from '@mantine/core'
 import { Booking, CounselingLog, DetailClientModule } from './interface'
 import { monthNames } from './const'
 import { dayNames } from '../ScheduleModule/const'
@@ -30,7 +29,7 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
   const [dateVal, setDateVal] = useState<DateValue>(new Date())
   const [totalVal, setTotal] = useState(0)
 
-  const [mutate, {}] = useMutation(CREATE_LOG)
+  const [mutate, { loading: logLoading }] = useMutation(CREATE_LOG)
 
   const { refetch: getBooking } = useQuery(GET_CLIENT_DETAIL, {
     variables: {
@@ -162,7 +161,9 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                     <p>Oke, Mengerti</p>
                   </div>
                 </button>
-                <button
+                <Button
+                  loading={logLoading}
+                  size="lg"
                   className="text-white bg-[#7F56D9] border-1 p-2 drop-shadow-md border-[#667085] items-center rounded-lg w-1/3"
                   onClick={() => {
                     mutate({
@@ -182,10 +183,8 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                     })
                   }}
                 >
-                  <div className="flex gap-1 justify-center items-center">
-                    <p>Tambah Log</p>
-                  </div>
-                </button>
+                  Tambah Log
+                </Button>
               </div>
             </div>
           </Modal>
@@ -214,7 +213,11 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                         {booking.bookingTime} -- {booking.bookingTime2} WIB
                       </p>
                       <a
-                        href="http://"
+                        href={
+                          booking.user.account.channel == 'LINE'
+                            ? `https://line.me/ti/p/${booking.user.lineAcc}`
+                            : `https://www.instagram.com/${booking.user.igAcc}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block px-3 py-2 text-white bg-red-500 rounded"

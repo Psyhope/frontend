@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import { DashboardModule } from '@modules'
 import { GHQModule } from '@modules'
 import withAuth from '@/components/hoc/withAuth'
 

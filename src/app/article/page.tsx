@@ -48,7 +48,9 @@ type Article = {
 const ArticlePage = () => {
   const { user } = useAuth()
 
-  const [isAdmin, setIsAdmin] = useState(user.role == 'PSYHOPE_ADMIN')
+  const [isAdmin, setIsAdmin] = useState(
+    user.role == 'PSYHOPE_ADMIN' || user.secondRole == 'PSYHOPE_ADMIN'
+  )
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)

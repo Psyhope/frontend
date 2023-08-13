@@ -10,11 +10,11 @@ import ClientTable from '@/components/elements/ClientTable'
 import { dayNames } from '@/components/modules/ScheduleModule/const'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge, Select, TextInput, Button } from '@mantine/core'
-import { DatePickerInput, DateValue } from '@mantine/dates'
+import { DatePickerInput } from '@mantine/dates'
 import { useDebouncedState } from '@mantine/hooks'
 import Link from 'next/link'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { BsFilter, BsThreeDotsVertical } from 'react-icons/bs'
+import { BsFilter } from 'react-icons/bs'
 import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
 
 interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -48,7 +48,6 @@ const AdminClientPage = () => {
     variables: {
       getBookingFilter: {
         day: dayNames[new Date(date.toISOString()).getDay()],
-        // status: status ? StatusRequest[status as keyof typeof StatusRequest] : undefined,
       },
     },
     onCompleted(data) {
@@ -56,25 +55,31 @@ const AdminClientPage = () => {
     },
   })
 
-  const [adminTerminate, {}] = useMutation(ADMIN_TERMINATE, {
-    onCompleted(data, clientOptions) {
-      refetch({
-        getBookingFilter: {
-          day: dayNames[new Date(date.toISOString()).getDay()],
-        },
-      })
-    },
-  })
+  const [adminTerminate, { loading: terminateLoading }] = useMutation(
+    ADMIN_TERMINATE,
+    {
+      onCompleted(data, clientOptions) {
+        refetch({
+          getBookingFilter: {
+            day: dayNames[new Date(date.toISOString()).getDay()],
+          },
+        })
+      },
+    }
+  )
 
-  const [adminAccept, { data: newData }] = useMutation(ADMIN_ACCEPT_BOOKING, {
-    onCompleted(data, clientOptions) {
-      refetch({
-        getBookingFilter: {
-          day: dayNames[new Date(date.toISOString()).getDay()],
-        },
-      })
-    },
-  })
+  const [adminAccept, { data: newData, loading: accLoading }] = useMutation(
+    ADMIN_ACCEPT_BOOKING,
+    {
+      onCompleted(data, clientOptions) {
+        refetch({
+          getBookingFilter: {
+            day: dayNames[new Date(date.toISOString()).getDay()],
+          },
+        })
+      },
+    }
+  )
 
   useEffect(() => {
     if (status === 'Accepted') {
@@ -196,7 +201,7 @@ const AdminClientPage = () => {
               </td>
               <td className="min-h-[80px]">
                 <p>
-                  {val.bookingDay}, {val.bookingTime}
+                  {val.bookingDay}, {val.bookingTime} -- {val.bookingTime2}
                 </p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">
@@ -207,6 +212,7 @@ const AdminClientPage = () => {
                   <Button
                     color="red"
                     variant="outline"
+                    loading={terminateLoading}
                     onClick={() =>
                       adminTerminate({
                         variables: {
@@ -232,13 +238,11 @@ const AdminClientPage = () => {
                     }
                     color="green"
                     className="bg-green-600"
+                    loading={accLoading}
                   >
                     Konfirmasi
                   </Button>
                 )}
-                {/* <button>
-                  <BsThreeDotsVertical />
-                </button> */}
               </td>
             </tr>
           )}

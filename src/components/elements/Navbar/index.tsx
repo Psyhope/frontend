@@ -26,7 +26,6 @@ import {
   IconUserCircle,
   IconLogin,
 } from '@tabler/icons-react'
-import { useDisclosure } from '@mantine/hooks'
 
 export const Navbar: React.FC = () => {
   const [scroll, setScroll] = useState(false)
