@@ -41,14 +41,14 @@ export const GQHQuestionModule: React.FC = () => {
     try {
       const jadwal: string[] = time.split(' -- ') as string[]
 
-    
       const nextDay = new Date(date)
       nextDay.setHours(nextDay.getHours() + 7)
 
-      const temp = nextDay.toISOString()
-      .replace(/-/g, '/')
-      .replace('T', ' ')
-      .split(' ')[0]
+      const temp = nextDay
+        .toISOString()
+        .replace(/-/g, '/')
+        .replace('T', ' ')
+        .split(' ')[0]
 
       const newTanggal = new Date(temp)
       mutate({
