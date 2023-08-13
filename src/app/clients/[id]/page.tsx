@@ -1,13 +1,9 @@
 'use client'
 
 import { GET_BOOKING_CLIENT } from '@/actions/booking'
-import ClientTable from '@/components/elements/ClientTable'
-import { IdentityStore } from 'aws-sdk'
 import { useParams } from 'next/navigation'
-import React, { useEffect } from 'react'
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import { useQuery, useMutation } from '@apollo/client'
-import { GET_CLIENT_DETAIL } from '@/actions/booking'
+import React from 'react'
+import { useQuery } from '@apollo/client'
 import { DetailClientsModule } from '@/components/modules/DetailClientsModule'
 
 const ClientByIDPage = () => {

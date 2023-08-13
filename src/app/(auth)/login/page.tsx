@@ -10,8 +10,6 @@ import { useAuth } from '@/components/contexts/AuthContext'
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
 
-  // const router = useRouter();
-
   const { login } = useAuth()
 
   const form = useForm({

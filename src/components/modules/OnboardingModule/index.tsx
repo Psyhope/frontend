@@ -36,8 +36,6 @@ export const OnBoardingModule: React.FC = () => {
   const [socmedState, setSocmedState] = useState(false)
   const router = useRouter()
   const onSubmit: SubmitHandler<OnBoardingFormInterface> = (data) => {
-    console.log(data)
-    console.log(123)
     mutate({
       variables: {
         createOnboardingInput: {

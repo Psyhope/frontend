@@ -36,7 +36,6 @@ const InfograficByIdPage = () => {
       findOneInfograficId: Number(id),
     },
     onCompleted(data) {
-      console.log(data.findOneInfografic)
       setInfografic(data.findOneInfografic)
       setSortedURL(
         [...data.findOneInfografic.infograficUrl].sort((a, b) =>

@@ -16,7 +16,6 @@ import { env } from '@/env.mjs'
 import { notifications } from '@mantine/notifications'
 import { FaTimes } from 'react-icons/fa'
 import { Psyhope } from '../icons/Psyhope'
-import { bool } from 'aws-sdk/clients/signer'
 import { Loader } from '@mantine/core'
 
 const AuthContext = createContext<{

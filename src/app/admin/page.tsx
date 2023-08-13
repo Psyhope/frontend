@@ -2,7 +2,6 @@
 
 import ClientTable from '@/components/elements/ClientTable'
 import React, { useState } from 'react'
-import { BsThreeDotsVertical } from 'react-icons/bs'
 import { HiOutlineUser } from 'react-icons/hi'
 import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
 import { TextInput } from '@mantine/core'
@@ -13,8 +12,6 @@ import { useQuery } from '@apollo/client'
 import { CounselorFilterQuery } from '@/__generated__/graphql'
 import { dayNames } from '@/components/modules/ScheduleModule/const'
 import Link from 'next/link'
-
-const date = new Date()
 
 const AdminPage = () => {
   const [name, setName] = useDebouncedState('', 500)
@@ -29,7 +26,6 @@ const AdminPage = () => {
       },
     },
     onCompleted(data) {
-      console.log(data)
       setResult(data)
     },
   })

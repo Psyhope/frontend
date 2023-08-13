@@ -33,8 +33,6 @@ const DashboardPage = () => {
       },
     },
     onCompleted(data) {
-      console.log(user)
-      console.log(data)
       if (!data.getCounselorByUname) {
         void router.replace('/')
         return
@@ -177,7 +175,6 @@ const DashboardPage = () => {
               </td>
             </tr>
           )}
-          // headerComponent={}
           data={
             counselor?.Booking
               ? counselor.Booking.filter(

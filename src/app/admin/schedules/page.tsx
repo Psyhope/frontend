@@ -6,7 +6,7 @@ import ClientTable from '@/components/elements/ClientTable'
 import { dayNames } from '@/components/modules/ScheduleModule/const'
 import { useQuery } from '@apollo/client'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
   arr.reduce((groups, item) => {
@@ -15,12 +15,9 @@ const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
   }, {} as Record<K, T[]>)
 
 function selectWeek(date: Date) {
-  return (
-    Array(7)
-      .fill(date)
-      // .map((el, idx) => new Date(el.setDate(el.getDate() + idx)))
-      .map((el, idx) => new Date(el.setDate(el.getDate() - el.getDay() + idx)))
-  )
+  return Array(7)
+    .fill(date)
+    .map((el, idx) => new Date(el.setDate(el.getDate() - el.getDay() + idx)))
 }
 
 const getIndexTime = (idx: string) => {
