@@ -181,9 +181,9 @@ export const ScheduleSection: React.FC = () => {
     while (dateNow.getDay() <= 6) {
       arrayDate.push({
         label: dayNames[dateNow.getDay()],
-        value: `${dateNow.getFullYear()}-${
+        value: `${dateNow.getFullYear()}/${
           dateNow.getMonth() + 1
-        }-${dateNow.getDate()}`,
+        }/${dateNow.getDate()}`,
       })
       dateNow.setDate(dateNow.getDate() + 1)
 

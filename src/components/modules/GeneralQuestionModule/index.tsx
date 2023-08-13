@@ -19,6 +19,7 @@ export const GHQModule: React.FC = () => {
   }
 
   useEffect(() => {
+    console.log(date)
     if (date == '' || time == '' || reason == '' || closest == '')
       router.replace('/dashboard')
   }, [])
