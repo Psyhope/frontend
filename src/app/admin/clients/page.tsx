@@ -196,7 +196,7 @@ const AdminClientPage = () => {
               </td>
               <td className="min-h-[80px]">
                 <p>
-                  {val.bookingDay}, {val.bookingTime}
+                  {val.bookingDay}, {val.bookingTime} -- {val.bookingTime2}
                 </p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">

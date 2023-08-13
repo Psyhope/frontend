@@ -270,7 +270,7 @@ export const ArticleCard: React.FC<Props> = ({
             />
           </div>
           <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2">
-            <p className="text-[#53389E] lg:text-xl xl:text-2xl text-sm md:font-bold font-semibold text-start h-full  break-words overflow-hidden">
+            <p className="text-[#53389E] lg:text-2xl text-lg font-bold">
               {title}
             </p>
           </div>

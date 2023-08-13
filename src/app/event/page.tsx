@@ -51,7 +51,9 @@ const EventPage = () => {
   const { user } = useAuth()
 
   const router = useRouter()
-  const [isAdmin, setIsAdmin] = useState(user.role == 'PSYHOPE_ADMIN')
+  const [isAdmin, setIsAdmin] = useState(
+    user.role == 'PSYHOPE_ADMIN' || user.secondRole == 'PSYHOPE_ADMIN'
+  )
 
   const [opened, { open, close }] = useDisclosure(false)
   const [loading, setLoading] = useState(false)
