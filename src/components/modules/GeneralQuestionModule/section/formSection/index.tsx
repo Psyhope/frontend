@@ -72,7 +72,6 @@ export const GQHQuestionModule: React.FC = () => {
           },
         },
         onCompleted(data, clientOptions) {
-          console.log(new Date(newTanggal))
           setDate('')
           setReason('')
           setClosestContext('')

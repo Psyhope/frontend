@@ -284,19 +284,22 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
           </section>
           <section className="">
             <h1 className="text-3xl font-semibold">Analisis GHQ</h1>
-            <p className="my-3 opacity-70">
-              The GHQ-12 measure has standardized instructions as well as
-              scoring interpretations for the clinician to follow and is
-              administered as a self-report in which the subject is asked to
-              consider 12 questions and how they relate to his or her personal
-              life over the past few weeks. Total scores range from 0 to 36 with
-              a score of 11 or 12 considered typical, scores &gt; 15 suggesting
-              evidence of distress, and scores &gt; 20 are considered severe
-              problems with psychological distress.
+            <p className="my-3 opacity-70 text-justify">
+            Alat ukur GHQ-12 digunakan sebagai instrumen skrining kesehatan mental dalam konseling sebaya. Melalui skrining kesehatan mental, konselor dapat memperoleh gambaran permasalahan psikologis yang dialami klien. Klien dinyatakan memiliki indikasi gangguan psikologis tertentu apabila memiliki skor GHQ-12 sama atau lebih besar dari titik potong. Selain itu, konselor juga dapat memeriksa respons per item GHQ-12 untuk mengidentifikasi gejala yang paling menjadi permasalahan klien.
             </p>
+
+            <div className="my-3 opacity-70 flex flex-col bg-yellow-100 w-fit rounded-lg p-3">
+              <p className='text-justify'>Titik potong untuk distres psikologis menggunakan skala likerts adalah sebagai berikut</p>
+              <span>•Skor 0-12</span>
+              <span className='px-3'>  Kategori: Rendah</span>
+              <span>•Skor 13-24</span>
+              <span className='px-3'>  Kategori: Sedang</span>
+              <span>•Skor 25-36</span>
+              <span className='px-3'>  Kategori: Tinggi</span>
+            </div>
             <ul className="grid grid-cols-1 gap-5 mt-5 list-none sm:grid-cols-2 md:grid-cols-3">
               <li>
-                <h4 className="mt-3">
+                <h4 className="px-3">
                   Nilai:{' '}
                   {booking.number_1 +
                     booking.number_2 +
@@ -339,9 +342,9 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
                           booking.number_11 +
                           booking.number_12 >
                         24
-                        ? 'Tingkat Stres Tinggi'
-                        : 'Tingkat Stres Menengah'
-                      : 'Tingkat Stres Rendah'}
+                        ? 'Tingkat Distres Tinggi'
+                        : 'Tingkat Distres Menengah'
+                      : 'Tingkat Distres Rendah'}
                   </h3>
                 </div>
               </li>
