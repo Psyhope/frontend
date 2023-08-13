@@ -41,16 +41,9 @@ export const GQHQuestionModule: React.FC = () => {
     try {
       const jadwal: string[] = time.split(' -- ') as string[]
 
-      const nextDay = new Date(date)
-      nextDay.setHours(nextDay.getHours() + 7)
+      const nextDay = date + " 13:00:00"
 
-      const temp = nextDay
-        .toISOString()
-        .replace(/-/g, '/')
-        .replace('T', ' ')
-        .split(' ')[0]
-
-      const newTanggal = new Date(temp)
+      const newTanggal = new Date(nextDay)
       mutate({
         variables: {
           createBookingInput: {
