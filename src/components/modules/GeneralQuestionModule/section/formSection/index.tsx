@@ -41,7 +41,7 @@ export const GQHQuestionModule: React.FC = () => {
     try {
       const jadwal: string[] = time.split(' -- ') as string[]
 
-      const nextDay = date + " 13:00:00"
+      const nextDay = date + ' 13:00:00'
 
       const newTanggal = new Date(nextDay)
       mutate({
