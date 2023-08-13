@@ -285,17 +285,27 @@ export const DetailClientsModule: React.FC<DetailClientModule> = ({
           <section className="">
             <h1 className="text-3xl font-semibold">Analisis GHQ</h1>
             <p className="my-3 opacity-70 text-justify">
-            Alat ukur GHQ-12 digunakan sebagai instrumen skrining kesehatan mental dalam konseling sebaya. Melalui skrining kesehatan mental, konselor dapat memperoleh gambaran permasalahan psikologis yang dialami klien. Klien dinyatakan memiliki indikasi gangguan psikologis tertentu apabila memiliki skor GHQ-12 sama atau lebih besar dari titik potong. Selain itu, konselor juga dapat memeriksa respons per item GHQ-12 untuk mengidentifikasi gejala yang paling menjadi permasalahan klien.
+              Alat ukur GHQ-12 digunakan sebagai instrumen skrining kesehatan
+              mental dalam konseling sebaya. Melalui skrining kesehatan mental,
+              konselor dapat memperoleh gambaran permasalahan psikologis yang
+              dialami klien. Klien dinyatakan memiliki indikasi gangguan
+              psikologis tertentu apabila memiliki skor GHQ-12 sama atau lebih
+              besar dari titik potong. Selain itu, konselor juga dapat memeriksa
+              respons per item GHQ-12 untuk mengidentifikasi gejala yang paling
+              menjadi permasalahan klien.
             </p>
 
             <div className="my-3 opacity-70 flex flex-col bg-yellow-100 w-fit rounded-lg p-3">
-              <p className='text-justify'>Titik potong untuk distres psikologis menggunakan skala likerts adalah sebagai berikut</p>
+              <p className="text-justify">
+                Titik potong untuk distres psikologis menggunakan skala likerts
+                adalah sebagai berikut
+              </p>
               <span>•Skor 0-12</span>
-              <span className='px-3'>  Kategori: Rendah</span>
+              <span className="px-3"> Kategori: Rendah</span>
               <span>•Skor 13-24</span>
-              <span className='px-3'>  Kategori: Sedang</span>
+              <span className="px-3"> Kategori: Sedang</span>
               <span>•Skor 25-36</span>
-              <span className='px-3'>  Kategori: Tinggi</span>
+              <span className="px-3"> Kategori: Tinggi</span>
             </div>
             <ul className="grid grid-cols-1 gap-5 mt-5 list-none sm:grid-cols-2 md:grid-cols-3">
               <li>
