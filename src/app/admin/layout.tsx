@@ -48,8 +48,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             <p className="px-3 py-1 text-sm bg-red-800 rounded-3xl text-primary-50 w-max">
               {user.role.split('_')[1] == 'COUNSELOR' &&
               user.secondRole.split('_')[1] == 'ADMIN'
-                ? user.secondRole
-                : user.role}
+                ? user.secondRole.split('_')[0]
+                : user.role.split('_')[0]}
             </p>
             <div className="flex flex-col flex-wrap items-center justify-center gap-2 text-sm sm:justify-start md:flex-row sm:text-base">
               <button

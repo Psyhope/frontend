@@ -65,7 +65,7 @@ const DashboardPage = () => {
               Halo, Konselor {user.username}
             </h1>
             <p className="px-3 py-1 text-sm rounded-3xl bg-primary-500 text-primary-50 w-max">
-              {user.role}
+              {user.role.split('_')[0]}
             </p>
           </div>
           <div className="absolute w-3/5 h-72 md:h-96 -right-12 md:w-2/5 md:relative sm:-top-10 sm:right-0">
