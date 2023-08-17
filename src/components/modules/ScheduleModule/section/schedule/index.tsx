@@ -2,13 +2,7 @@
 import React, { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import {
-  DateSegment,
-  DateSegmentDummy,
-  dayNames,
-  querySchedule,
-  queryScheduleInterface,
-} from '../../const'
+import { dayNames, querySchedule, queryScheduleInterface } from '../../const'
 import { Select, SegmentedControl } from '@mantine/core'
 import { BsCalendar2Range } from 'react-icons/bs'
 import { useMediaQuery } from '@mantine/hooks'
@@ -29,7 +23,14 @@ import { useAuth } from '@/components/contexts/AuthContext'
 
 export const ScheduleSection: React.FC = () => {
   const pathname = usePathname()
-  const { user, accessToken } = useAuth()
+  const {
+    setClosest: setClosestContext,
+    setDate: setDateContext,
+    setReason: setReasonContext,
+    setTime: setTimeContext,
+    setBookingId: setBookingIdContext,
+    bookingId,
+  } = useAuth()
   const router = useRouter()
   const [value, setValue] = useState<string | null>(null)
   const [valueTime, setValueTime] = useState<string | null>(null)
@@ -135,29 +136,35 @@ export const ScheduleSection: React.FC = () => {
 
   const handlerNext = () => {
     if (getPath()) {
-      localStorage.setItem('date', value as string)
-      localStorage.setItem('time', valueTime as string)
-      localStorage.setItem('reason', reason)
-      localStorage.setItem('closest', `${closest}`)
+      setDateContext(value as string)
+      setTimeContext(valueTime as string)
+      setReasonContext(reason)
+      setClosestContext(`${closest}`)
 
       pathname.slice(10) == 'psyhope'
         ? router.push('/ghq/psyhope')
         : router.push('/ghq/csp')
     } else {
-      mutate({
-        variables: {
-          rescheduleBookingInput: {
-            bookingDate: value,
-            bookingTime: valueTime?.split(' -- ')[0] as string,
-            bookingTime2: valueTime?.split(' -- ')[1] as string,
-            id: parseInt(localStorage.getItem('idBooking') as string),
+      if (value != null) {
+        const tanggal = new Date(new Date(value).toISOString())
+        const newTanggal = new Date(tanggal)
+        newTanggal.setHours(newTanggal.getHours() + 7)
+
+        mutate({
+          variables: {
+            rescheduleBookingInput: {
+              bookingDate: newTanggal,
+              bookingTime: valueTime?.split(' -- ')[0] as string,
+              bookingTime2: valueTime?.split(' -- ')[1] as string,
+              id: parseInt(bookingId),
+            },
           },
-        },
-        onCompleted(data) {
-          localStorage.removeItem('idBooking')
-          router.push('/dashboard')
-        },
-      })
+          onCompleted(data) {
+            setBookingIdContext('')
+            router.push('/dashboard')
+          },
+        })
+      }
     }
   }
 
@@ -168,9 +175,9 @@ export const ScheduleSection: React.FC = () => {
     while (dateNow.getDay() <= 6) {
       arrayDate.push({
         label: dayNames[dateNow.getDay()],
-        value: `${dateNow.getFullYear()}-${
+        value: `${dateNow.getFullYear()}/${
           dateNow.getMonth() + 1
-        }-${dateNow.getDate()}`,
+        }/${dateNow.getDate()}`,
       })
       dateNow.setDate(dateNow.getDate() + 1)
 
@@ -248,9 +255,16 @@ export const ScheduleSection: React.FC = () => {
 
       <div className="flex lg:justify-end justify-center">
         <button
-          disabled={value == null && valueTime == null}
+          disabled={
+            (value == null && valueTime == null && closest == null) ||
+            (value == '' && valueTime == '' && closest == null)
+          }
           className={`p-4 w-fit font-semibold rounded-lg ${
-            value != null && valueTime != null
+            value != null &&
+            valueTime != null &&
+            value != '' &&
+            valueTime != '' &&
+            closest != null
               ? `text-[#3538CD] bg-gradient-to-bl from-[#F6CCDF] to-[#E0B3EB]`
               : `text-white bg-[#98A2B3]`
           }`}

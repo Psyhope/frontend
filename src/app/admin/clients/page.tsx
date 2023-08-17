@@ -1,14 +1,20 @@
 'use client'
 
 import { BookingFilterQuery } from '@/__generated__/graphql'
-import { ADMIN_ACCEPT_BOOKING, GET_BOOKING } from '@/actions/booking'
+import {
+  ADMIN_ACCEPT_BOOKING,
+  ADMIN_TERMINATE,
+  GET_BOOKING,
+} from '@/actions/booking'
 import ClientTable from '@/components/elements/ClientTable'
+import { dayNames } from '@/components/modules/ScheduleModule/const'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge, Select, TextInput, Button } from '@mantine/core'
-import { DatePickerInput, DateValue } from '@mantine/dates'
+import { DatePickerInput } from '@mantine/dates'
 import { useDebouncedState } from '@mantine/hooks'
+import Link from 'next/link'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { BsFilter, BsThreeDotsVertical } from 'react-icons/bs'
+import { BsFilter } from 'react-icons/bs'
 import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
 
 interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
@@ -32,7 +38,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
 
 const AdminClientPage = () => {
   const [name, setName] = useDebouncedState('', 200)
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(new Date(new Date().toISOString()))
   const [status, setStatus] = useState<string | null>('All')
   const [result, setResult] = useState<BookingFilterQuery>()
 
@@ -41,8 +47,7 @@ const AdminClientPage = () => {
   const { data, refetch } = useQuery(GET_BOOKING, {
     variables: {
       getBookingFilter: {
-        day: date.toISOString(),
-        // status: status ? StatusRequest[status as keyof typeof StatusRequest] : undefined,
+        day: dayNames[new Date(date.toISOString()).getDay()],
       },
     },
     onCompleted(data) {
@@ -50,15 +55,31 @@ const AdminClientPage = () => {
     },
   })
 
-  const [adminAccept, { data: newData }] = useMutation(ADMIN_ACCEPT_BOOKING, {
-    onCompleted(data, clientOptions) {
-      refetch({
-        getBookingFilter: {
-          day: date.toISOString(),
-        },
-      })
-    },
-  })
+  const [adminTerminate, { loading: terminateLoading }] = useMutation(
+    ADMIN_TERMINATE,
+    {
+      onCompleted(data, clientOptions) {
+        refetch({
+          getBookingFilter: {
+            day: dayNames[new Date(date.toISOString()).getDay()],
+          },
+        })
+      },
+    }
+  )
+
+  const [adminAccept, { data: newData, loading: accLoading }] = useMutation(
+    ADMIN_ACCEPT_BOOKING,
+    {
+      onCompleted(data, clientOptions) {
+        refetch({
+          getBookingFilter: {
+            day: dayNames[new Date(date.toISOString()).getDay()],
+          },
+        })
+      },
+    }
+  )
 
   useEffect(() => {
     if (status === 'Accepted') {
@@ -76,6 +97,9 @@ const AdminClientPage = () => {
 
   return (
     <>
+      <head>
+        <title>Clients | Admin Panel | Empower U&I</title>
+      </head>
       <section className="p-5 md:px-10">
         <div className="flex flex-col items-center gap-8 sm:gap-4 sm:flex-row md:gap-8">
           <TextInput
@@ -95,7 +119,7 @@ const AdminClientPage = () => {
               setDate(e as Date)
               refetch({
                 getBookingFilter: {
-                  day: e!.toISOString(),
+                  day: dayNames[new Date(e!.toISOString()).getDay()],
                 },
               })
             }}
@@ -162,8 +186,12 @@ const AdminClientPage = () => {
           rowComponent={(val, index) => (
             <tr key={index}>
               <td className="min-h-[80px]">
-                <p>{val.user?.username}</p>
-                <small className="opacity-70">{val.user?.account.major}</small>
+                <Link href={`/clients/${val.id}`}>
+                  <p>{val.user?.username}</p>
+                  <small className="opacity-70">
+                    {val.user?.account.major}
+                  </small>
+                </Link>
               </td>
               <td className="min-h-[80px]">
                 <p>{val.councelor?.user?.fullname}</p>
@@ -173,17 +201,28 @@ const AdminClientPage = () => {
               </td>
               <td className="min-h-[80px]">
                 <p>
-                  {val.bookingDay}, {val.bookingTime}
+                  {val.bookingDay}, {val.bookingTime} -- {val.bookingTime2}
                 </p>
               </td>
               <td className="flex items-center justify-between h-full min-h-[80px]">
-                {/* <Badge
-                  color={val.isAccepted ? 'green' : 'red'}
-                >
-                  {val.isAccepted ? 'Accepted' : 'Terminated'}
-                </Badge> */}
+                <Badge color={val.isAccepted ? 'green' : 'red'}>
+                  {val.isAccepted ? 'Accepted' : 'Waiting'}
+                </Badge>
                 {val.adminAcc ? (
-                  <Button color="red" variant="outline">
+                  <Button
+                    color="red"
+                    variant="outline"
+                    loading={terminateLoading}
+                    onClick={() =>
+                      adminTerminate({
+                        variables: {
+                          adminTerminate: {
+                            id: val.id,
+                          },
+                        },
+                      })
+                    }
+                  >
                     Terminasi
                   </Button>
                 ) : (
@@ -199,13 +238,11 @@ const AdminClientPage = () => {
                     }
                     color="green"
                     className="bg-green-600"
+                    loading={accLoading}
                   >
                     Konfirmasi
                   </Button>
                 )}
-                {/* <button>
-                  <BsThreeDotsVertical />
-                </button> */}
               </td>
             </tr>
           )}

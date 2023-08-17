@@ -2,7 +2,6 @@
 
 import ClientTable from '@/components/elements/ClientTable'
 import React, { useState } from 'react'
-import { BsThreeDotsVertical } from 'react-icons/bs'
 import { HiOutlineUser } from 'react-icons/hi'
 import { HiChevronDown, HiOutlineCalendar, HiSearch } from 'react-icons/hi'
 import { TextInput } from '@mantine/core'
@@ -12,8 +11,7 @@ import { GET_COUNSELOR } from '@/actions/counselor'
 import { useQuery } from '@apollo/client'
 import { CounselorFilterQuery } from '@/__generated__/graphql'
 import { dayNames } from '@/components/modules/ScheduleModule/const'
-
-const date = new Date()
+import Link from 'next/link'
 
 const AdminPage = () => {
   const [name, setName] = useDebouncedState('', 500)
@@ -34,6 +32,9 @@ const AdminPage = () => {
 
   return (
     <>
+      <head>
+        <title>Admin Panel | Empower U&I</title>
+      </head>
       <section className="p-5 md:px-10">
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           <TextInput
@@ -72,10 +73,12 @@ const AdminPage = () => {
           rowComponent={(val, index) => (
             <tr key={index}>
               <td>
-                <p>{val.user?.fullname}</p>
-                <p className="px-3 py-1 mt-1 text-sm bg-primary-500 rounded-3xl text-primary-50 w-max">
-                  {val.counselorType}
-                </p>
+                <Link href={`/counselor/${val.user?.fullname}`}>
+                  <p>{val.user?.fullname}</p>
+                  <p className="px-3 py-1 mt-1 text-sm bg-primary-500 rounded-3xl text-primary-50 w-max">
+                    {val.counselorType}
+                  </p>
+                </Link>
               </td>
               <td>
                 {val.Booking?.map((val, index) => (
@@ -96,9 +99,6 @@ const AdminPage = () => {
                       </li>
                     ))}
                   </ul>
-                  <button>
-                    <BsThreeDotsVertical />
-                  </button>
                 </div>
               </td>
             </tr>

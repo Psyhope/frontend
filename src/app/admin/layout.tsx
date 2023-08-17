@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react'
 import { HiPaperClip, HiSpeakerphone, HiUser } from 'react-icons/hi'
 import { LuCalendarHeart, LuFileHeart } from 'react-icons/lu'
 import { useViewportSize } from '@mantine/hooks'
-import withAuth from '@/components/hoc/withAuth'
 import { useAuth } from '@/components/contexts/AuthContext'
+import adminHoc from '@/components/hoc/adminHoc'
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname()
@@ -18,17 +18,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { width } = useViewportSize()
 
-  const { user, accessToken } = useAuth()
+  const { user } = useAuth()
 
   const router = useRouter()
 
   useEffect(() => {
-    if (user.role !== 'PSYHOPE_ADMIN' && user.role !== 'FACULTY_ADMIN')
-      router.replace('/')
-  }, [])
-
-  useEffect(() => {
-    // if (!accessToken) router.replace("/login");
     setTab(pathName.replace('/admin', ''))
   }, [pathName])
 
@@ -52,13 +46,22 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
               Halo, Admin {user.username}
             </h1>
             <p className="px-3 py-1 text-sm bg-red-800 rounded-3xl text-primary-50 w-max">
-              Admin Psyhope
+              {user.role.split('_')[1] == 'COUNSELOR' &&
+              user.secondRole.split('_')[1] == 'ADMIN'
+                ? user.secondRole.split('_')[0]
+                : user.role.split('_')[0]}
             </p>
             <div className="flex flex-col flex-wrap items-center justify-center gap-2 text-sm sm:justify-start md:flex-row sm:text-base">
-              <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500">
+              <button
+                className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500"
+                onClick={() => router.push('/article?page=1')}
+              >
                 <HiPaperClip /> Lihat Dashboard Artikel
               </button>
-              <button className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500">
+              <button
+                className="flex items-center gap-1 px-3 py-2 rounded shadow bg-primary-50 text-primary-500"
+                onClick={() => router.push('/event?page=1')}
+              >
                 <HiSpeakerphone /> Lihat Dashboard Event
               </button>
             </div>
@@ -118,4 +121,4 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default withAuth(AdminLayout)
+export default adminHoc(AdminLayout)

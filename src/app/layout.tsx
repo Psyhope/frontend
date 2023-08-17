@@ -4,7 +4,7 @@ import './globals.css'
 import { Poppins } from 'next/font/google'
 import { GraphQLProvider } from '@/components/contexts/GraphQLContext'
 import RootStyleRegistry from '@/emotion'
-import { Navbar } from '@elements'
+import { Footer, Navbar } from '@elements'
 import { usePathname } from 'next/navigation'
 
 const poppins = Poppins({
@@ -26,12 +26,17 @@ export default function RootLayout({
           <AuthProvider>
             <GraphQLProvider>
               <div
-                className={`${
-                  pathname == '/login' ? 'bg-[#E9D7FE]' : 'bg-white'
-                } min-h-screen text-black flex flex-col items-center justify-center`}
+                className={` min-h-screen text-black flex flex-col items-center justify-center bg-[#E9D7FE]`}
               >
-                <Navbar />
-                <div className="max-w-[1920px] w-full">{children}</div>
+                <div
+                  className={`max-w-[1920px] w-full ${
+                    pathname == '/login' ? 'bg-[#E9D7FE]' : 'bg-white'
+                  }`}
+                >
+                  <Navbar />
+                  {children}
+                  <Footer />
+                </div>
               </div>
             </GraphQLProvider>
           </AuthProvider>

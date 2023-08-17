@@ -1,20 +1,27 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { GHQ_MODULE_BANNER } from './const'
 import { GQHQuestionModule } from './section/formSection'
 import { usePathname, useRouter } from 'next/navigation'
 import { BsArrowLeftCircle } from 'react-icons/bs'
+import { useAuth } from '@/components/contexts/AuthContext'
 
 export const GHQModule: React.FC = () => {
   const pathname = usePathname()
   const router = useRouter()
+  const { date, time, reason, closest } = useAuth()
 
   const handlerBack = () => {
     pathname.slice(5) == 'psyhope'
       ? router.push('/schedule/psyhope')
       : router.push('/schedule/csp')
   }
+
+  useEffect(() => {
+    if (date == '' || time == '' || reason == '' || closest == '')
+      router.replace('/dashboard')
+  }, [])
 
   return (
     <div>

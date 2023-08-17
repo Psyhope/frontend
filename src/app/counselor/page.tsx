@@ -5,6 +5,7 @@ import { ACCEPT_BOOKING, REJECT_BOOKING } from '@/actions/booking'
 import { GET_COUNSELOR_BY_ID } from '@/actions/counselor'
 import { useAuth } from '@/components/contexts/AuthContext'
 import ClientTable from '@/components/elements/ClientTable'
+import counselorHoc from '@/components/hoc/counselorHoc'
 import { useMutation, useQuery } from '@apollo/client'
 import { Badge } from '@mantine/core'
 import Image from 'next/image'
@@ -32,7 +33,6 @@ const DashboardPage = () => {
       },
     },
     onCompleted(data) {
-      console.log(data)
       if (!data.getCounselorByUname) {
         void router.replace('/')
         return
@@ -65,7 +65,7 @@ const DashboardPage = () => {
               Halo, Konselor {user.username}
             </h1>
             <p className="px-3 py-1 text-sm rounded-3xl bg-primary-500 text-primary-50 w-max">
-              {user.role}
+              {user.role.split('_')[0]}
             </p>
           </div>
           <div className="absolute w-3/5 h-72 md:h-96 -right-12 md:w-2/5 md:relative sm:-top-10 sm:right-0">
@@ -99,16 +99,15 @@ const DashboardPage = () => {
                 <Badge color={val.isAccepted ? 'green' : 'red'}>
                   {val.isAccepted ? 'Accepted' : 'Terminated'}
                 </Badge>
-                <button>
-                  <BsThreeDotsVertical />
-                </button>
               </td>
             </tr>
           )}
           // headerComponent={}
           data={
             counselor?.Booking
-              ? counselor.Booking.filter((val) => val.isAccepted)
+              ? counselor.Booking.filter(
+                  (val) => val.isAccepted && !val.isTerminated
+                )
               : []
           }
           headerTitle={['Nama Klien', 'Jadwal Konseling', 'Status Request']}
@@ -176,7 +175,6 @@ const DashboardPage = () => {
               </td>
             </tr>
           )}
-          // headerComponent={}
           data={
             counselor?.Booking
               ? counselor.Booking.filter(
@@ -198,4 +196,4 @@ const DashboardPage = () => {
   )
 }
 
-export default DashboardPage
+export default counselorHoc(DashboardPage)

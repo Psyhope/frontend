@@ -261,7 +261,7 @@ export const ArticleCard: React.FC<Props> = ({
     <div>
       <NextLink href={`/article/${id}`}>
         <div className=" rounded-lg relative flex-none">
-          <div className="w-full aspect-article relative">
+          <div className="w-full aspect-infografic relative">
             <Image
               alt="thumbnail"
               src={thumbnailUrl}
@@ -270,7 +270,7 @@ export const ArticleCard: React.FC<Props> = ({
             />
           </div>
           <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2">
-            <p className="text-[#53389E] lg:text-xl xl:text-2xl text-sm md:font-bold font-semibold text-start h-full  break-words overflow-hidden">
+            <p className="text-[#53389E] lg:text-2xl text-lg font-bold">
               {title}
             </p>
           </div>
@@ -406,7 +406,7 @@ export const ArticleCard: React.FC<Props> = ({
               className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
-              Upload Thumbnail (3:2)
+              Upload Thumbnail (4:5)
             </Input.Label>
             <FileInput
               placeholder="Click here to pick file"
@@ -421,7 +421,7 @@ export const ArticleCard: React.FC<Props> = ({
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full md:w-1/4 aspect-article relative">
+                <div className="w-full md:w-1/4 aspect-infografic relative">
                   <Image
                     src={previewThumbnail}
                     fill

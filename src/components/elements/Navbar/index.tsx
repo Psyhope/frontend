@@ -1,36 +1,24 @@
 'use client'
 
-import {
-  Article,
-  Event,
-  Home,
-  Infografic,
-  Konseling,
-  Psyhope,
-  User,
-} from '@icons'
+import { Psyhope, User } from '@icons'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Drawer, Menu, rem } from '@mantine/core'
+import { Burger, Menu, rem } from '@mantine/core'
 import { useAuth } from '@/components/contexts/AuthContext'
 import {
-  IconArrowsLeftRight,
   IconArticle,
   IconChartInfographic,
   IconClipboardHeart,
   IconLogout2,
   IconMenu2,
-  IconMessageCircle,
-  IconPhoto,
-  IconSearch,
-  IconSettings,
   IconSmartHome,
   IconSpeakerphone,
-  IconTrash,
+  IconCategory,
   IconUserCircle,
+  IconLogin,
+  IconZoomQuestion,
 } from '@tabler/icons-react'
-import { useDisclosure } from '@mantine/hooks'
 
 export const Navbar: React.FC = () => {
   const [scroll, setScroll] = useState(false)
@@ -51,23 +39,23 @@ export const Navbar: React.FC = () => {
 
   return (
     <div
-      className={`bg-[#FEFEF2] h-[60px] md:h-[84px] w-full drop-shadow-sm shadow-sm flex items-center justify-between px-5 md:px-10 sticky top-0 transition-all duration-1000 z-50 ${
+      className={`bg-[#FEFEF2] h-[60px] md:h-[84px] w-full drop-shadow-sm shadow-lg flex items-center justify-between px-5 md:px-10 sticky top-0 transition-all duration-1000 z-50 ${
         scroll ? 'md:top-1 md:scale-[0.99] lg:top-2' : 'top-0 scale-100'
       } ${pathname == '/login' && 'hidden'}`}
     >
       <Link className="scale-75 md:scale-100" href={'/'}>
         <Psyhope />
       </Link>
-      <div className="items-center hidden gap-5 lg:flex">
+      <div className="items-end hidden gap-5 xl:flex">
         <Link
           href={'/'}
           className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
             pathname == '/'
               ? 'border-[#026AA2] text-[#026AA2]'
               : 'border-transparent'
-          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2] pb-1`}
         >
-          <Home />
+          <IconSmartHome />
           Home
         </Link>
         <Link
@@ -76,9 +64,9 @@ export const Navbar: React.FC = () => {
             pathname == '/event'
               ? 'border-[#026AA2] text-[#026AA2]'
               : 'border-transparent'
-          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2] pb-1`}
         >
-          <Event />
+          <IconSpeakerphone />
           Event
         </Link>
         <Link
@@ -87,9 +75,9 @@ export const Navbar: React.FC = () => {
             pathname == '/infographic'
               ? 'border-[#026AA2] text-[#026AA2]'
               : 'border-transparent'
-          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2] pb-1`}
         >
-          <Infografic />
+          <IconChartInfographic />
           Infografik
         </Link>
         <Link
@@ -98,9 +86,9 @@ export const Navbar: React.FC = () => {
             pathname == '/article'
               ? 'border-[#026AA2] text-[#026AA2]'
               : 'border-transparent'
-          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2] pb-1`}
         >
-          <Article />
+          <IconArticle />
           Article
         </Link>
         <Link
@@ -109,10 +97,21 @@ export const Navbar: React.FC = () => {
             pathname == '/ghq' || pathname == '/schedule'
               ? 'border-[#026AA2] text-[#026AA2]'
               : 'border-transparent'
-          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2]`}
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2] pb-1`}
         >
-          <Konseling />
+          <IconClipboardHeart />
           Konseling
+        </Link>
+        <Link
+          href={'/about-us'}
+          className={`flex font-inter font-semibold gap-2 border-b-2 hover:border-[#026AA2] ${
+            pathname == '/about-us'
+              ? 'border-[#026AA2] text-[#026AA2]'
+              : 'border-transparent'
+          } px-4 transition-all flex-none text-[#0BA5EC] hover:text-[#026AA2] pb-1`}
+        >
+          <IconZoomQuestion />
+          Tentang Kami
         </Link>
         {user.id != '' && user.role != '' && user.username != '' ? (
           <>
@@ -130,9 +129,29 @@ export const Navbar: React.FC = () => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
-                  Profile
-                </Menu.Item>
+                {(user.role == 'FACULTY_COUNSELOR' ||
+                  user.role == 'PSYHOPE_COUNSELOR') && (
+                  <Link href={'/counselor'}>
+                    <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                      Menu Konselor
+                    </Menu.Item>
+                  </Link>
+                )}
+                {(user.role == 'FACULTY_ADMIN' ||
+                  user.secondRole == 'PSYHOPE_ADMIN' ||
+                  user.role == 'PSYHOPE_ADMIN' ||
+                  user.secondRole == 'FACULTY_ADMIN') && (
+                  <Link href={'/admin'}>
+                    <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                      Menu Admin
+                    </Menu.Item>
+                  </Link>
+                )}
+                <Link href={'/onboarding'}>
+                  <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
+                    Edit Profile
+                  </Menu.Item>
+                </Link>
                 <Menu.Item
                   icon={<IconLogout2 size={rem(14)} />}
                   onClick={logout}
@@ -160,13 +179,9 @@ export const Navbar: React.FC = () => {
       >
         <Menu.Target>
           <button
-            className={`border transition-colors ${
-              openedMenu
-                ? 'border-[#026AA2] text-[#026AA2]'
-                : 'border-[#0BA5EC] text-[#0BA5EC]'
-            } p-2 rounded-md drop-shadow-md active:drop-shadow-none shadow-black lg:hidden`}
+            className={`border transition-colors p-1 rounded-md drop-shadow-md active:drop-shadow-none shadow-black xl:hidden border-[#0BA5EC] text-[#0BA5EC]`}
           >
-            <IconMenu2 />
+            <Burger opened={openedMenu} color="#0BA5EC" size="sm" />
           </button>
         </Menu.Target>
 
@@ -186,27 +201,60 @@ export const Navbar: React.FC = () => {
           <Link href={'/article?page=1'}>
             <Menu.Item icon={<IconArticle size={14} />}>Artikel</Menu.Item>
           </Link>
-          <Link href={'/'}>
+          <Link href={'/dashboard'}>
             <Menu.Item icon={<IconClipboardHeart size={14} />}>
               Konseling
             </Menu.Item>
           </Link>
+          <Link href={'/about-us'}>
+            <Menu.Item icon={<IconZoomQuestion size={14} />}>
+              Tentang Kami
+            </Menu.Item>
+          </Link>
+          {(user.role == 'FACULTY_COUNSELOR' ||
+            user.role == 'PSYHOPE_COUNSELOR') && (
+            <Link href={'/counselor'}>
+              <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                Menu Konselor
+              </Menu.Item>
+            </Link>
+          )}
+          {(user.role == 'FACULTY_ADMIN' ||
+            user.secondRole == 'PSYHOPE_ADMIN' ||
+            user.role == 'PSYHOPE_ADMIN' ||
+            user.secondRole == 'FACULTY_ADMIN') && (
+            <Link href={'/admin'}>
+              <Menu.Item icon={<IconCategory size={rem(14)} />}>
+                Menu Admin
+              </Menu.Item>
+            </Link>
+          )}
 
           <Menu.Divider />
 
           <Menu.Label>Akun</Menu.Label>
-          <Link href={'/'}>
-            <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
-              Profile
-            </Menu.Item>
-          </Link>
-          <Menu.Item
-            icon={<IconLogout2 size={rem(14)} />}
-            onClick={logout}
-            color="red"
-          >
-            Logout
-          </Menu.Item>
+          {user.id != '' && user.role != '' && user.username != '' ? (
+            <>
+              <Link href={'/onboarding'}>
+                <Menu.Item icon={<IconUserCircle size={rem(14)} />}>
+                  Edit Profile
+                </Menu.Item>
+              </Link>
+              <Menu.Item
+                icon={<IconLogout2 size={rem(14)} />}
+                onClick={logout}
+                color="red"
+              >
+                Logout
+              </Menu.Item>
+            </>
+          ) : (
+            <Link href={'/login'}>
+              <Menu.Item icon={<IconLogin size={rem(14)} />} color="green">
+                Login
+              </Menu.Item>
+            </Link>
+          )}
         </Menu.Dropdown>
       </Menu>
     </div>

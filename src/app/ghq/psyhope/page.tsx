@@ -5,9 +5,14 @@ import withAuth from '@/components/hoc/withAuth'
 
 const Psyhope_GHQPage = () => {
   return (
-    <main className="min-h-screen md:pt-5">
-      <GHQModule></GHQModule>
-    </main>
+    <>
+      <head>
+        <title>GHQ | Empower U&I</title>
+      </head>
+      <main className="min-h-screen md:pt-5">
+        <GHQModule></GHQModule>
+      </main>
+    </>
   )
 }
 

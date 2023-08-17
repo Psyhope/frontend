@@ -3,11 +3,12 @@
 import { CounselingLog, CounselorFilterQuery } from '@/__generated__/graphql'
 import { GET_COUNSELOR } from '@/actions/counselor'
 import ClientTable from '@/components/elements/ClientTable'
+import adminHoc from '@/components/hoc/adminHoc'
 import { useQuery } from '@apollo/client'
 import { Badge, Button } from '@mantine/core'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { HiArrowLeft } from 'react-icons/hi'
 
@@ -36,7 +37,6 @@ const CounselorByNamePage = () => {
       },
     },
     onCompleted(data) {
-      console.log(data)
       if (!data.counselorFilter) {
         void router.replace('/')
         return
@@ -49,7 +49,7 @@ const CounselorByNamePage = () => {
     <main className="flex flex-col min-h-screen gap-5 p-5 sm:gap-10 md:px-10 lg:px-20">
       <section>
         <Link
-          href="/"
+          href="/admin"
           className="flex items-center gap-2 p-3 mt-5 font-semibold rounded-lg bg-primary-50 text-primary-500 w-max"
         >
           <HiArrowLeft /> Kembali
@@ -149,11 +149,10 @@ const CounselorByNamePage = () => {
           description=""
           headerTitle={['Nama Klien', 'Tanggal Konseling', 'Notes']}
           rowComponent={(val, index) => {
-            console.log(val)
             return (
               <tr key={index}>
                 <td>
-                  <Link href={`/clients/${val.id}`} className="block">
+                  <Link href={`/clients/${val.bookingId}`} className="block">
                     {val.client?.username}
                   </Link>
                   <small className="opacity-70">
@@ -195,4 +194,4 @@ const CounselorByNamePage = () => {
   )
 }
 
-export default CounselorByNamePage
+export default adminHoc(CounselorByNamePage)

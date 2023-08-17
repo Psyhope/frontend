@@ -5,9 +5,14 @@ import withAuth from '@/components/hoc/withAuth'
 
 const DashboardPage = () => {
   return (
-    <main className="min-h-screen md:pt-5">
-      <DashboardModule></DashboardModule>
-    </main>
+    <>
+      <head>
+        <title>Dashboard | Empower U&I</title>
+      </head>
+      <main className="min-h-screen md:pt-5">
+        <DashboardModule></DashboardModule>
+      </main>
+    </>
   )
 }
 

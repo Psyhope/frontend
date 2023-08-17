@@ -7,6 +7,8 @@ import {
   useEffect,
   ReactNode,
   useContext,
+  Dispatch,
+  SetStateAction,
 } from 'react'
 import jwt_decode from 'jwt-decode'
 import { useRouter } from 'next/navigation'
@@ -14,7 +16,7 @@ import { env } from '@/env.mjs'
 import { notifications } from '@mantine/notifications'
 import { FaTimes } from 'react-icons/fa'
 import { Psyhope } from '../icons/Psyhope'
-import { bool } from 'aws-sdk/clients/signer'
+import { Loader } from '@mantine/core'
 
 const AuthContext = createContext<{
   accessToken: string
@@ -22,30 +24,74 @@ const AuthContext = createContext<{
     username: string
     id: string
     role: string
+    secondRole: string
     isOnboarded: boolean
+    faculty: string
   }
   login: (username: string, password: string) => Promise<void>
   logout: () => void
   refreshToken: () => Promise<void>
+  date: string
+  setDate: Dispatch<SetStateAction<string>>
+  time: string
+  setTime: Dispatch<SetStateAction<string>>
+  reason: string
+  setReason: Dispatch<SetStateAction<string>>
+  bookingId: string
+  setBookingId: Dispatch<SetStateAction<string>>
+  closest: string
+  setClosest: Dispatch<SetStateAction<string>>
 }>({
   accessToken: '',
-  user: { username: '', id: '', role: '', isOnboarded: false },
+  user: {
+    username: '',
+    id: '',
+    role: '',
+    secondRole: '',
+    isOnboarded: false,
+    faculty: '',
+  },
   login: undefined as unknown as (
     username: string,
     password: string
   ) => Promise<void>,
   logout: undefined as unknown as () => void,
   refreshToken: undefined as unknown as () => Promise<void>,
+  date: '',
+  setDate: undefined as unknown as () => Promise<void>,
+  time: '',
+  setTime: undefined as unknown as () => Promise<void>,
+  reason: '',
+  setReason: undefined as unknown as () => Promise<void>,
+  bookingId: '',
+  setBookingId: undefined as unknown as () => Promise<void>,
+  closest: '',
+  setClosest: undefined as unknown as () => Promise<void>,
 })
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [reason, setReason] = useState('')
+  const [bookingId, setBookingId] = useState('')
+  const [closest, setClosest] = useState('')
+
   const [accessToken, setAccessToken] = useState('')
   const [user, setUser] = useState<{
     username: string
     id: string
     role: string
     isOnboarded: boolean
-  }>({ username: '', id: '', role: '', isOnboarded: false })
+    faculty: string
+    secondRole: string
+  }>({
+    username: '',
+    id: '',
+    role: '',
+    isOnboarded: false,
+    faculty: '',
+    secondRole: '',
+  })
   const [loading, setLoading] = useState(true)
 
   const router = useRouter()
@@ -69,12 +115,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         sub: string
         role: string
         isOnboarded: boolean
+        faculty: string
+        secondRole: string
       }>(data.accessToken)
       setUser({
         username: user.username,
         id: user.sub,
         role: user.role,
         isOnboarded: user.isOnboarded as boolean,
+        faculty: user.faculty,
+        secondRole: user.secondRole,
       })
       setAccessToken(data.accessToken)
       notifications.show({
@@ -115,12 +165,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         sub: string
         role: string
         isOnboarded: boolean
+        faculty: string
+        secondRole: string
       }>(data.accessToken)
       setUser({
         username: user.username,
         id: user.sub,
         role: user.role,
         isOnboarded: user.isOnboarded,
+        faculty: user.faculty,
+        secondRole: user.secondRole,
       })
       setAccessToken(data.accessToken)
     } catch (error) {
@@ -137,7 +191,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true)
     router.replace('/login')
     setAccessToken('')
-    setUser({ username: '', id: '', role: '', isOnboarded: false })
+    setUser({
+      username: '',
+      id: '',
+      role: '',
+      isOnboarded: false,
+      faculty: '',
+      secondRole: '',
+    })
     fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
       headers: {
         'Content-Type': 'application/json',
@@ -158,6 +219,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           sub: string
           role: string
           isOnboarded: boolean
+          faculty: string
+          secondRole: string
         }
         token: string
       } = await res.json()
@@ -166,6 +229,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         username: data.user.username,
         role: data.user.role,
         isOnboarded: data.user.isOnboarded,
+        faculty: data.user.faculty,
+        secondRole: data.user.secondRole,
       })
       setAccessToken(data.token)
     } catch (err) {
@@ -185,6 +250,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     login,
     logout,
     refreshToken,
+    date,
+    setDate,
+    time,
+    setTime,
+    reason,
+    setReason,
+    bookingId,
+    setBookingId,
+    closest,
+    setClosest,
   }
 
   return (
@@ -193,10 +268,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         children
       ) : (
         <main className="flex flex-col items-center justify-center w-full h-screen gap-3 bg-white">
-          <div className="scale-150">
+          <div className="scale-150 mb-5">
             <Psyhope />
           </div>
-          <h1 className="text-2xl font-bold">Loading...</h1>
+          <Loader variant="dots" size="xl" />
         </main>
       )}
     </AuthContext.Provider>
