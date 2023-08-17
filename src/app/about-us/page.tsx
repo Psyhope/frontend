@@ -47,7 +47,7 @@ const AboutUsPage = () => {
       <head>
         <title>About Us | Empower U&I</title>
       </head>
-      <div className="w-full min-h-screen pb-10">
+      <div className="w-full min-h-screen">
         <div className="relative mb-60">
           <div className="font-inter flex items-center justify-center flex-col bg-[#53389E] pt-10 md:pt-14 lg:pt-40 pb-60 md:pb-80 px-5 md:px-20 lg:px-40 relative overflow-hidden text-justify">
             <div className="absolute top-0 left-0 z-0">
