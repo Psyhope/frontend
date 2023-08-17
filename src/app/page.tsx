@@ -97,15 +97,10 @@ export default function Home() {
                   repeat={Infinity}
                 />
               </div>
-              <div className="flex flex-col md:flex-row gap-x-2">
+              <div className="flex flex-col">
                 <Link href={'/dashboard'} className="w-fit">
                   <button className="mt-2 py-3 font-semibold rounded-lg drop-shadow-lg active:drop-shadow-none px-4 bg-[#7F56D9] flex-none w-fit text-white text-xs lg:text-base">
                     Daftar Konseling Sekarang!
-                  </button>
-                </Link>
-                <Link href={'/about-us'} className="w-fit">
-                  <button className="mt-2 py-3 font-semibold rounded-lg drop-shadow-lg active:drop-shadow-none px-4 bg-[#D9D6FE] flex-none w-fit text-[#53389E] text-xs lg:text-base">
-                    Tentang Kami
                   </button>
                 </Link>
               </div>
