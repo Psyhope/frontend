@@ -33,7 +33,7 @@ export default function Home() {
   const [listInfografic, setListInfografic] = useState<Array<Infografic>>()
   const router = useRouter()
 
-  const { } = useQuery(GET_BY_LIMIT_ARTICLE, {
+  const {} = useQuery(GET_BY_LIMIT_ARTICLE, {
     variables: {
       limit: 5,
     },
@@ -51,7 +51,7 @@ export default function Home() {
     },
   })
 
-  const { } = useQuery(GET_BY_LIMIT_INFOGRAFIC, {
+  const {} = useQuery(GET_BY_LIMIT_INFOGRAFIC, {
     variables: {
       limit: 5,
     },
@@ -166,7 +166,12 @@ export default function Home() {
         </div>
         {/* Image 1 */}
         <div className="relative w-[calc(100%-80px)] aspect-[21/9] m-10">
-          <Image src="/why.svg" alt="Mengapa EmpowerUni" fill className='object-cover rounded-2xl' />
+          <Image
+            src="/why.svg"
+            alt="Mengapa EmpowerUni"
+            fill
+            className="object-cover rounded-2xl"
+          />
         </div>
         {/* Article */}
         <div className="flex flex-col w-full mt-10 mb-10 md:mt-32">
@@ -240,7 +245,12 @@ export default function Home() {
         </div>
         {/* Image 2 */}
         <div className="relative w-[calc(100%-80px)] mx-auto aspect-[2/1] mb-10">
-          <Image src="/peer.svg" alt="Mengapa EmpowerUni" fill className='object-cover rounded-2xl' />
+          <Image
+            src="/peer.svg"
+            alt="Mengapa EmpowerUni"
+            fill
+            className="object-cover rounded-2xl"
+          />
         </div>
       </main>
     </>
