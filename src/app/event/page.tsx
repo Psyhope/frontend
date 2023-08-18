@@ -448,7 +448,7 @@ const EventPage = () => {
                 className="text-black font-inter font-normal md:text-base text-sm pb-2"
                 required
               >
-                Upload Poster (3:2)
+                Upload Poster (4:5)
               </Input.Label>
               <FileInput
                 placeholder="Click here to pick file"
@@ -463,7 +463,7 @@ const EventPage = () => {
                   breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                   className="mt-5"
                 >
-                  <div className="w-full aspect-article relative">
+                  <div className="w-full aspect-infografic relative">
                     <Image
                       src={previewUrl}
                       fill

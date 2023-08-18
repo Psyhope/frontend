@@ -248,7 +248,7 @@ export const EventCard: React.FC<Props> = ({
         className="w-full rounded-lg relative flex-none drop-shadow-xl active:drop-shadow-none"
         onClick={open}
       >
-        <div className="w-full aspect-article relative">
+        <div className="w-full aspect-infografic relative">
           <Image alt="poster" src={posterUrl} fill className="rounded-t-lg" />
         </div>
         <div className="bg-[#D9D6FE] w-full relative rounded-lg -mt-2 lg:p-6 p-2">
@@ -296,7 +296,7 @@ export const EventCard: React.FC<Props> = ({
         <div className="w-full h-full flex flex-col gap-5">
           <p className="font-inter md:text-4xl text-2xl font-bold">{title}</p>
           <div className="flex gap-7 flex-col lg:flex-row">
-            <div className="relative aspect-article lg:h-[285px] w-full lg:w-auto">
+            <div className="relative aspect-infografic lg:h-[285px] w-full lg:w-auto">
               <Image
                 alt="Event Modal Placeholder"
                 src={posterUrl}
@@ -497,7 +497,7 @@ export const EventCard: React.FC<Props> = ({
               className="text-black font-inter font-normal md:text-base text-sm pb-2"
               required
             >
-              Upload Poster (3:2)
+              Upload Poster (4:5)
             </Input.Label>
             <FileInput
               placeholder="Click here to pick file"
@@ -512,7 +512,7 @@ export const EventCard: React.FC<Props> = ({
                 breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
                 className="mt-5"
               >
-                <div className="w-full aspect-article relative">
+                <div className="w-full aspect-infografic relative">
                   <Image
                     src={previewUrl}
                     fill
