@@ -76,9 +76,9 @@ export default function Home() {
       </head>
       <main className="min-h-screen md:pt-5">
         {/* Hero */}
-        <div className="md:px-10 p-5">
+        <div className="p-5 md:px-10">
           <div className="md:h-[419px] w-full bg-[#53389E] rounded-3xl md:p-10 p-5 flex flex-col-reverse md:flex-row">
-            <div className="md:w-3/5 w-full h-full justify-center flex flex-col">
+            <div className="flex flex-col justify-center w-full h-full md:w-3/5">
               <p className="text-[#E9D7FE99] font-inter font-bold lg:text-4xl md:text-2xl text-xl">
                 Layanan Konseling UI
               </p>
@@ -105,7 +105,7 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="md:w-2/5 w-full h-32 md:h-auto relative">
+            <div className="relative w-full h-32 md:w-2/5 md:h-auto">
               <Image
                 src={HeroAssets}
                 alt="Hero Assets"
@@ -115,9 +115,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+
         {/* Infografis */}
         <div className="bg-[#53389E] lg:h-fit mt-16 mb-10 flex lg:flex-row flex-col relative overflow-hidden pb-5 lg:pb-0">
-          <div className="lg:w-1/3 lg:p-12 p-5">
+          <div className="p-5 lg:w-1/3 lg:p-12">
             <p className="font-inter lg:text-6xl text-xl font-bold text-[#F4EBFF] leading-normal md:text-3xl">
               The Mindful Mind: An Infographic
             </p>
@@ -125,7 +126,7 @@ export default function Home() {
               Infografis ini mengeksplorasi bagaimana kamu dapat membantu
               meningkatkan kesehatan mentalmu.
             </p>
-            <div className="w-full flex justify-end gap-10 lg:mt-20 mt-5 z-10">
+            <div className="z-10 flex justify-end w-full gap-10 mt-5 lg:mt-20">
               <button
                 className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
                 onClick={() => {
@@ -146,12 +147,12 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="lg:w-2/3 w-full flex items-center overflow-hidden max-w-full px-5">
+          <div className="flex items-center w-full max-w-full px-5 overflow-hidden lg:w-2/3">
             <div
-              className="relative overflow-x-auto scrollbar-hidden scroll-smooth boder border-red-500 lg:ml-10 xl:ml-0"
+              className="relative overflow-x-auto border-red-500 scrollbar-hidden scroll-smooth boder lg:ml-10 xl:ml-0"
               id="infografic"
             >
-              <div className="transition-transform -translate-x-0 flex">
+              <div className="flex transition-transform -translate-x-0">
                 {listInfografic &&
                   listInfografic.map((infographic) => (
                     <InfographicCardLanding
@@ -163,8 +164,17 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* Image 1 */}
+        <div className="relative w-[calc(100%-80px)] aspect-[21/9] m-10">
+          <Image
+            src="/why.svg"
+            alt="Mengapa EmpowerUni"
+            fill
+            className="object-cover rounded-2xl"
+          />
+        </div>
         {/* Article */}
-        <div className="flex flex-col w-full md:mt-32 mt-10  mb-10">
+        <div className="flex flex-col w-full mt-10 mb-10 md:mt-32">
           {/* Panel Title */}
           <div className="flex flex-col items-center justify-center">
             <div className="relative">
@@ -194,17 +204,17 @@ export default function Home() {
           {/* Card */}
           <div className="relative">
             <div className="h-48 bg- w-full absolute -bottom-10 bg-gradient-to-br from-[#0085FF] to-[#6600CC]"></div>
-            <div className="md:px-10 px-2">
+            <div className="px-2 md:px-10">
               <div
-                className="mb-5 mt-5 relative overflow-x-auto scrollbar-hidden scroll-smooth"
+                className="relative mt-5 mb-5 overflow-x-auto scrollbar-hidden scroll-smooth"
                 id="article"
               >
-                <div className="transition-transform -translate-x-0 flex">
+                <div className="flex transition-transform -translate-x-0">
                   {listArticle &&
                     listArticle.map((article) => (
                       <ArticleLandingCard
                         {...article}
-                        className="mx-2 flex-none"
+                        className="flex-none mx-2"
                         key={article.id}
                       />
                     ))}
@@ -212,7 +222,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="w-full flex items-center justify-center gap-10 mt-3 z-20">
+          <div className="z-20 flex items-center justify-center w-full gap-10 mt-3">
             <button
               className="w-14 h-14 rounded-full bg-[#42307D] flex items-center justify-center drop-shadow-lg active:drop-shadow-none"
               onClick={() => {
@@ -232,6 +242,15 @@ export default function Home() {
               <ChevronRight />
             </button>
           </div>
+        </div>
+        {/* Image 2 */}
+        <div className="relative w-[calc(100%-80px)] mx-auto aspect-[2/1] mb-10">
+          <Image
+            src="/peer.svg"
+            alt="Mengapa EmpowerUni"
+            fill
+            className="object-cover rounded-2xl"
+          />
         </div>
       </main>
     </>
