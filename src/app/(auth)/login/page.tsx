@@ -78,9 +78,11 @@ export default function LoginPage() {
                   {...form.getInputProps('password')}
                 />
               </div>
-              <p className="text-red-500">
-                *Informasi yang akan diambil dari akun SIAK hanya username,
-                fakultas, dan jurusan
+              <p className="text-red-500 text-xs md:text-sm lg:text-base">
+                *Informasi yang akan diambil dari akun SSO adalah username,
+                fakultas, dan jurusan dari pemilik akun. Namun, kamu tidak perlu
+                khawatir karena anonimitas dalam menggunakan layanan konseling
+                akan tetap terjaga.
               </p>
               <Button
                 loading={loading}

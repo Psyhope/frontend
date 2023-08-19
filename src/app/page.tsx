@@ -80,13 +80,14 @@ export default function Home() {
           <div className="md:h-[419px] w-full bg-[#53389E] rounded-3xl md:p-10 p-5 flex flex-col-reverse md:flex-row">
             <div className="flex flex-col justify-center w-full h-full md:w-3/5">
               <p className="text-[#E9D7FE99] font-inter font-bold lg:text-4xl md:text-2xl text-xl">
-                Layanan Konseling UI
+                Layanan Konseling Sebaya UI
               </p>
               <p className="text-[#F2F4F7] lg:text-sm text-xs mt-3 mb-10 leading-relaxed">
-                Aliansi Departemen Adkesma BEM se-UI menyediakan layanan
-                konseling sebaya yang diperuntukkan bagi mahasiswa program
-                sarjana atau vokasi. Bersama teman sebaya, kamu dapat bercerita
-                dengan aman dan nyaman.
+                Aliansi Departemen Advokasi dan Kesejahteraan Mahasiswa BEM
+                Se-UI menyediakan layanan konseling sebaya yang diperuntukkan
+                bagi Mahasiswa Universitas Indonesia Program Sarjana dan Vokasi.
+                Bersama teman sebaya yang terlatih, kamu dapat bercerita dengan
+                aman dan nyaman.
               </p>
               <div className="bg-[#D6BBFB] w-fit px-4 py-3 rounded-t-xl rounded-r-xl text-[#53389E] font-inter font-semibold text-xs lg:text-base">
                 <TypeAnimation
@@ -123,8 +124,8 @@ export default function Home() {
               The Mindful Mind: An Infographic
             </p>
             <p className="font-inter font-medium lg:text-lg text-sm md:text-base text-[#B692F6] leading-relaxed lg:mt-5 md:mt-3">
-              Infografis ini mengeksplorasi bagaimana kamu dapat membantu
-              meningkatkan kesehatan mentalmu.
+              Lihat infografis ini untuk tips sehat mental yang dapat kamu
+              terapkan dalam keseharianmu.
             </p>
             <div className="z-10 flex justify-end w-full gap-10 mt-5 lg:mt-20">
               <button
@@ -165,13 +166,15 @@ export default function Home() {
           </div>
         </div>
         {/* Image 1 */}
-        <div className="relative w-[calc(100%-80px)] aspect-[21/9] m-10">
-          <Image
-            src="/why.svg"
-            alt="Mengapa EmpowerUni"
-            fill
-            className="object-cover rounded-2xl"
-          />
+        <div className="w-full px-1 md:px-10">
+          <div className="relative w-full aspect-[21/9]">
+            <Image
+              src="/why.svg"
+              alt="Mengapa EmpowerUni"
+              fill
+              className="relative object-cover rounded-2xl"
+            />
+          </div>
         </div>
         {/* Article */}
         <div className="flex flex-col w-full mt-10 mb-10 md:mt-32">
@@ -181,18 +184,11 @@ export default function Home() {
               <p className="font-bold font-inter lg:text-6xl md:text-4xl text-2xl text-center text-[#53389E]">
                 Your Mind Matters: An Article
               </p>
-              <Image
-                src={ArticleBubble}
-                alt="Article Bubble"
-                className="absolute -top-16 -left-24"
-                width={215.03}
-                height={88.76}
-              />
             </div>
             <p className="md:w-3/5 w-4/5 text-center text-[#7F56D9] font-inter font-medium mt-5 text-xs md:text-sm lg:text-base">
-              Artikel ini akan mengajari Anda tentang dasar-dasar psikologi dan
-              kesehatan mental, serta cara mengatasi tantangan umum kesehatan
-              mental.
+              Artikel ini akan membawamu pada pengetahuan baru mengenai Isu
+              Kesehatan Mental serta panduan praktis untuk menjaga kesehatan
+              mental kita.
             </p>
             <Link
               className="text-white font-inter font-semibold px-5 py-2 bg-[#7F56D9] md:text-sm text-xs rounded-lg drop-shadow-lg active:drop-shadow-none mt-5"
@@ -244,13 +240,15 @@ export default function Home() {
           </div>
         </div>
         {/* Image 2 */}
-        <div className="relative w-[calc(100%-80px)] mx-auto aspect-[2/1] mb-10">
-          <Image
-            src="/peer.svg"
-            alt="Mengapa EmpowerUni"
-            fill
-            className="object-cover rounded-2xl"
-          />
+        <div className="w-full px-1 md:px-10">
+          <div className="relative w-full mx-auto aspect-[2/1] mb-10">
+            <Image
+              src="/peer.svg"
+              alt="Mengapa EmpowerUni"
+              fill
+              className="object-cover rounded-2xl"
+            />
+          </div>
         </div>
       </main>
     </>

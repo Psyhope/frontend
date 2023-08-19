@@ -252,12 +252,11 @@ const EventPage = () => {
         <div className="bg-[#D9D6FE] rounded-md flex flex-col-reverse md:flex-row">
           <div className="p-5 lg:p-20">
             <p className="font-inter font-bold text-[#53389E] text-xl md:text-2xl lg:text-6xl">
-              Event Mendatang
+              Upcoming Events
             </p>
             <p className="font-inter text-xs text-[#1D2939] md:text-base lg:text-lg lg:leading-loose lg:mt-5 mt-2">
-              Kami selalu mengadakan acara untuk membantu Anda mempelajari lebih
-              lanjut tentang psikologi dan kesehatan mental. Lihat acara
-              mendatang kami di bawah ini:
+              Gabunglah bersama dalam acara kesehatan mental kami dan jadikan
+              langkah ini menuju versi dirimu yang lebih sehat dan bahagia.
             </p>
             {isAdmin && (
               <button
