@@ -157,7 +157,7 @@ export const EventCard: React.FC<Props> = ({
           updateEventInput: {
             id,
             date: form.values.date,
-            description: editor ? editor.getHTML() : '',
+            description: editor2 ? editor2.getHTML() : '',
             location: form.values.location,
             posterUrl: posterUrl2,
             time: form.values.time,
