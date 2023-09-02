@@ -12,7 +12,7 @@ const ClientsLayout = ({ children }: { children: ReactNode }) => {
       <head>
         <title>Clients | Empower U&I</title>
       </head>
-      <main className="flex flex-col min-h-screen gap-5 p-5 sm:gap-10 md:px-10 lg:px-20">
+      <main className="flex flex-col gap-5 p-5 sm:gap-10 md:px-10 lg:px-20">
         <section>
           <Link
             href={
