@@ -11,7 +11,7 @@ import { Badge } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
@@ -26,7 +26,10 @@ const DashboardPage = () => {
 
   const router = useRouter()
 
-  const { loading } = useQuery(GET_COUNSELOR_BY_ID, {
+  const [stateAcc, setAcc] = useState(false)
+  const [stateReject, setReject] = useState(false)
+
+  const { loading, refetch:getCounselor } = useQuery(GET_COUNSELOR_BY_ID, {
     variables: {
       getCounselor: {
         username: user.username,
@@ -44,14 +47,20 @@ const DashboardPage = () => {
   const [acceptBooking] = useMutation(ACCEPT_BOOKING, {
     onCompleted(data) {
       counselor?.Booking?.filter((val) => val.id !== data.acceptBooking?.id)
+      setReject(false)
     },
   })
 
   const [rejectBooking] = useMutation(REJECT_BOOKING, {
     onCompleted(data) {
       counselor?.Booking?.filter((val) => val.id !== data.rejectBooking?.id)
+      setReject(false)
     },
   })
+
+  useEffect(() => {
+    getCounselor()
+  }, [stateAcc, stateReject])
 
   return (
     <main className="min-h-screen">
@@ -141,7 +150,9 @@ const DashboardPage = () => {
               <td className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() =>
+                  disabled={stateReject}
+                    onClick={() =>{
+                      setReject(true)
                       rejectBooking({
                         variables: {
                           rejectBookingInput: {
@@ -149,13 +160,15 @@ const DashboardPage = () => {
                           },
                         },
                       })
-                    }
-                    className="px-3 py-2 text-red-700 bg-red-100 rounded-md shadow"
+                    }}
+                    className={`${stateReject || stateAcc ? 'hidden' : 'block'} px-3 py-2 text-red-700 bg-red-100 rounded-md shadow`}
                   >
                     Tolak
                   </button>
                   <button
-                    onClick={() =>
+                  disabled={stateAcc}
+                    onClick={() =>{
+                      setAcc(true)
                       acceptBooking({
                         variables: {
                           accBookingInput: {
@@ -163,8 +176,8 @@ const DashboardPage = () => {
                           },
                         },
                       })
-                    }
-                    className="px-3 py-2 rounded-md shadow bg-primary-50 text-primary-500"
+                    }}
+                    className={`${stateReject || stateAcc ? 'hidden' : 'block'} px-3 py-2 rounded-md shadow bg-primary-50 text-primary-500`}
                   >
                     Setujui
                   </button>
