@@ -29,7 +29,7 @@ const DashboardPage = () => {
   const [stateAcc, setAcc] = useState(false)
   const [stateReject, setReject] = useState(false)
 
-  const { loading, refetch:getCounselor } = useQuery(GET_COUNSELOR_BY_ID, {
+  const { loading, refetch: getCounselor } = useQuery(GET_COUNSELOR_BY_ID, {
     variables: {
       getCounselor: {
         username: user.username,
@@ -150,8 +150,8 @@ const DashboardPage = () => {
               <td className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <button
-                  disabled={stateReject}
-                    onClick={() =>{
+                    disabled={stateReject}
+                    onClick={() => {
                       setReject(true)
                       rejectBooking({
                         variables: {
@@ -161,13 +161,15 @@ const DashboardPage = () => {
                         },
                       })
                     }}
-                    className={`${stateReject || stateAcc ? 'hidden' : 'block'} px-3 py-2 text-red-700 bg-red-100 rounded-md shadow`}
+                    className={`${
+                      stateReject || stateAcc ? 'hidden' : 'block'
+                    } px-3 py-2 text-red-700 bg-red-100 rounded-md shadow`}
                   >
                     Tolak
                   </button>
                   <button
-                  disabled={stateAcc}
-                    onClick={() =>{
+                    disabled={stateAcc}
+                    onClick={() => {
                       setAcc(true)
                       acceptBooking({
                         variables: {
@@ -177,7 +179,9 @@ const DashboardPage = () => {
                         },
                       })
                     }}
-                    className={`${stateReject || stateAcc ? 'hidden' : 'block'} px-3 py-2 rounded-md shadow bg-primary-50 text-primary-500`}
+                    className={`${
+                      stateReject || stateAcc ? 'hidden' : 'block'
+                    } px-3 py-2 rounded-md shadow bg-primary-50 text-primary-500`}
                   >
                     Setujui
                   </button>
