@@ -107,7 +107,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         method: 'POST',
         // credentials: "include",
       })
-      if (res.status !== 200) throw new Error(await res.json())
+      if (res.status !== 200) {
+        const json = await res.json()
+        if (res.status === 403) {
+          notifications.show({
+            title: 'Login failed',
+            message: json.message,
+            color: 'red',
+            autoClose: 3000,
+            icon: <FaTimes />,
+          })
+        }
+        throw new Error(json)
+      }
       // router.replace("/dashboard")
       const data: TokenResponse = await res.json()
       const user = jwt_decode<{

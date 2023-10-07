@@ -1,7 +1,5 @@
 'use client'
 import Image from 'next/image'
-import HeroAssets from '../../public/assets/Hero Asset.svg'
-import ArticleBubble from '../../public/assets/Article Bubble.svg'
 import { TypeAnimation } from 'react-type-animation'
 import { ArticleLandingCard, InfographicCardLanding } from '@elements'
 import { ChevronLeft, ChevronRight } from '@icons'
@@ -108,7 +106,7 @@ export default function Home() {
             </div>
             <div className="relative w-full h-32 md:w-2/5 md:h-auto">
               <Image
-                src={HeroAssets}
+                src={'/assets/Hero Asset.svg'}
                 alt="Hero Assets"
                 fill
                 className="relative z-0"
